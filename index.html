@@ -707,48 +707,48 @@
             <div class="md:hidden space-y-8 relative pl-8" id="mobile-roadmap">
                 <!-- Static Track Line -->
                 <div class="absolute left-3 top-0 bottom-0 w-1 bg-gray-800"></div>
-                <!-- Animated Progress Line with GLOW -->
+                <!-- Animated Progress Line with INTENSE GLOW -->
                 <div id="mobile-progress-line"
-                    class="absolute left-3 top-0 w-1 bg-pink-500 shadow-[0_0_15px_rgba(236,72,153,0.9)] transition-all duration-500 ease-out"
+                    class="absolute left-3 top-0 w-1 bg-pink-500 shadow-[0_0_25px_5px_rgba(236,72,153,0.9)] transition-all duration-500 ease-out"
                     style="height: 0%;"></div>
 
-                <div class="relative pl-6" data-aos="fade-left" data-step="1">
+                <div class="relative pl-6" data-step="1">
                     <div
                         class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black wave-item">
                         1</div>
                     <h4 class="font-bold text-lg text-white wave-item">You've Seen The Deck</h4>
                 </div>
-                <div class="relative pl-6" data-aos="fade-left" data-aos-delay="100" data-step="2">
+                <div class="relative pl-6" data-step="2">
                     <div
                         class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black wave-item">
                         2</div>
                     <h4 class="font-bold text-lg text-white wave-item">You Felt The Fit</h4>
                 </div>
-                <div class="relative pl-6" data-aos="fade-left" data-aos-delay="200" data-step="3">
+                <div class="relative pl-6" data-step="3">
                     <div
                         class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black wave-item">
                         3</div>
                     <h4 class="font-bold text-lg text-white wave-item">You Know What's Coming</h4>
                 </div>
-                <div class="relative pl-6" data-aos="fade-left" data-aos-delay="300" data-step="4">
+                <div class="relative pl-6" data-step="4">
                     <div
                         class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-white border-2 border-black flex items-center justify-center font-bold text-black wave-item">
                         4</div>
                     <h4 class="font-bold text-lg text-white wave-item">THE DECISION</h4>
                 </div>
-                <div class="relative pl-6" data-aos="fade-left" data-aos-delay="400" data-step="5">
+                <div class="relative pl-6" data-step="5">
                     <div
                         class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black wave-item">
                         5</div>
                     <h4 class="font-bold text-lg text-white wave-item">We Map It Out</h4>
                 </div>
-                <div class="relative pl-6" data-aos="fade-left" data-aos-delay="500" data-step="6">
+                <div class="relative pl-6" data-step="6">
                     <div
                         class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black wave-item">
                         6</div>
                     <h4 class="font-bold text-lg text-white wave-item">We Kick Off</h4>
                 </div>
-                <div class="relative pl-6" data-aos="fade-left" data-aos-delay="600" data-step="7">
+                <div class="relative pl-6" data-step="7">
                     <div
                         class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black wave-item">
                         7</div>
@@ -818,7 +818,8 @@
         }
 
         // Hover Effects for Cursor
-        document.querySelectorAll('a, button, .group, i, .marquee-content span').forEach(el => {
+        // Hover Effects for Cursor
+        document.querySelectorAll('a, button, .group, i, .marquee-content span, .founder-card, .float-anim').forEach(el => {
             el.addEventListener('mouseenter', () => {
                 cursorIcon.style.transform += ' scale(1.5)';
                 cursorGlow.style.width = '500px';
