@@ -133,6 +133,30 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #ec4899;
         }
+
+        /* Heart Particle Animation */
+        .heart-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            animation: floatUp 1s ease-out forwards;
+            font-size: 20px;
+            color: #ec4899;
+            /* Pink */
+            text-shadow: 0 0 5px rgba(236, 72, 153, 0.5);
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(-50%, -150%) scale(1.2) rotate(20deg);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 
@@ -176,7 +200,7 @@
         <div class="container mx-auto px-6">
             <h2 class="text-4xl font-bold mb-16 text-center uppercase tracking-widest text-pink-400 font-display"
                 data-aos="fade-up">Meet The Founders</h2>
-            <div class="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto place-items-center">
 
                 <div class="bg-black border-2 border-pink-300 p-6 rounded-lg relative transform hover:scale-[1.02] transition duration-300 group"
                     data-aos="fade-right">
@@ -231,7 +255,7 @@
             <h2 class="text-3xl md:text-5xl font-black uppercase font-display" data-aos="fade-up">Our Team's <span
                     class="text-pink-400">Track Record</span></h2>
         </div>
-        <div class="marquee-container py-8 bg-gray-900/50 transform -rotate-1 scale-105">
+        <div class="marquee-container py-8 bg-gray-900/50 transform -rotate-1 scale-105 hidden md:block">
             <div class="marquee-content flex items-center">
                 <span class="mx-8 font-bold text-3xl text-gray-500 hover:text-white transition uppercase">SVAMAAN</span>
                 <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
@@ -286,6 +310,39 @@
                 <span class="mx-8 font-bold text-3xl text-gray-500 hover:text-blue-600 transition uppercase">BSE</span>
                 <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
             </div>
+        </div>
+
+        <!-- Mobile Static Track Record List -->
+        <div class="md:hidden space-y-6 px-8 mb-12">
+            <div
+                class="text-2xl font-bold text-gray-500 hover:text-white transition uppercase border-b border-gray-800 pb-2">
+                SVAMAAN</div>
+            <div
+                class="text-2xl font-bold text-gray-500 hover:text-white transition uppercase border-b border-gray-800 pb-2">
+                FIMCA</div>
+            <div
+                class="text-2xl font-bold text-gray-500 hover:text-white transition uppercase border-b border-gray-800 pb-2">
+                The Happy Plate</div>
+            <div
+                class="text-2xl font-bold text-gray-500 hover:text-pink-500 transition uppercase border-b border-gray-800 pb-2">
+                NEO STRETCH</div>
+            <div
+                class="text-2xl font-bold text-gray-500 hover:text-blue-400 transition uppercase border-b border-gray-800 pb-2">
+                <i class="fab fa-amazon"></i> amazon music
+            </div>
+            <div class="border-b border-gray-800 pb-2 group">
+                <span
+                    class="font-bold text-2xl text-gray-500 group-hover:text-white transition tracking-widest uppercase block">NORTHWEST</span>
+                <span
+                    class="text-xs font-bold text-gray-600 group-hover:text-pink-400 transition uppercase tracking-widest">Executive
+                    Education</span>
+            </div>
+            <div
+                class="text-2xl font-bold text-gray-500 hover:text-yellow-500 transition uppercase border-b border-gray-800 pb-2">
+                BENZER</div>
+            <div
+                class="text-2xl font-bold text-gray-500 hover:text-blue-600 transition uppercase border-b border-gray-800 pb-2">
+                BSE</div>
         </div>
         <div class="text-center mt-8 text-8xl font-black text-gray-900 select-none animate-pulse font-display">XO</div>
     </section>
@@ -568,11 +625,29 @@
                 </div>
                 <div class="relative pl-6" data-aos="fade-left" data-aos-delay="200">
                     <div
+                        class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black">
+                        3</div>
+                    <h4 class="font-bold text-lg text-white">You Know What's Coming</h4>
+                </div>
+                <div class="relative pl-6" data-aos="fade-left" data-aos-delay="300">
+                    <div
                         class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-white border-2 border-black flex items-center justify-center font-bold text-black">
                         4</div>
                     <h4 class="font-bold text-lg text-white">THE DECISION</h4>
                 </div>
-                <div class="relative pl-6" data-aos="fade-left" data-aos-delay="300">
+                <div class="relative pl-6" data-aos="fade-left" data-aos-delay="400">
+                    <div
+                        class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black">
+                        5</div>
+                    <h4 class="font-bold text-lg text-white">We Map It Out</h4>
+                </div>
+                <div class="relative pl-6" data-aos="fade-left" data-aos-delay="500">
+                    <div
+                        class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black">
+                        6</div>
+                    <h4 class="font-bold text-lg text-white">We Kick Off</h4>
+                </div>
+                <div class="relative pl-6" data-aos="fade-left" data-aos-delay="600">
                     <div
                         class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black">
                         7</div>
@@ -635,6 +710,30 @@
                 cursorGlow.style.height = '400px';
             });
         });
+
+        // Mobile Heart Particle Effect
+        document.addEventListener('touchmove', (e) => {
+            const touch = e.touches[0];
+            createHeart(touch.clientX, touch.clientY);
+        }, { passive: true });
+
+        function createHeart(x, y) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-particle');
+            heart.innerHTML = '<i class="fas fa-heart"></i>';
+            heart.style.left = x + 'px';
+            heart.style.top = y + 'px';
+
+            // Randomize slightly
+            const randomX = (Math.random() - 0.5) * 20;
+            heart.style.transform += ` translateX(${randomX}px)`;
+
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 1000);
+        }
     </script>
 </body>
 
