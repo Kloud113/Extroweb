@@ -171,9 +171,34 @@
             box-shadow: 0 20px 25px -5px rgba(236, 72, 153, 0.3), 0 10px 10px -5px rgba(236, 72, 153, 0.2);
         }
 
-        /* Specific White Glow for Pink Background Sections (Our Perks) */
+        /* Specific White Glow for Pink Background Sections (Our Perks) & Increase Intensity */
         section.bg-pink-600 .active-focus {
-            box-shadow: 0 20px 25px -5px rgba(255, 255, 255, 0.6), 0 10px 10px -5px rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 40px 10px rgba(255, 255, 255, 0.9);
+            transform: scale(1.03);
+            filter: brightness(1.1);
+        }
+
+        /* Fix for Clipped Italic Text */
+        .text-clip-fix {
+            padding-right: 0.2em;
+            display: inline-block;
+        }
+
+        /* Wave Animation for What's Next on Mobile */
+        @keyframes floatWave {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .wave-active {
+            animation: floatWave 2.5s ease-in-out infinite;
         }
 
         .active-focus img {
@@ -235,7 +260,8 @@
         <div class="container mx-auto px-6">
             <h2 class="text-4xl font-bold mb-16 text-center uppercase tracking-widest text-pink-400 font-display"
                 data-aos="fade-up">Meet The Founders</h2>
-            <div class="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto place-items-center">
+            <!-- Force Flex Column on Mobile to kill Grid Alignment Issues -->
+            <div class="flex flex-col md:grid md:grid-cols-2 gap-12 max-w-5xl mx-auto items-center">
 
                 <div class="founder-card bg-black border-2 border-pink-300 p-6 rounded-lg relative transform transition duration-300 group w-full max-w-md mx-auto"
                     data-aos="fade-right">
@@ -399,6 +425,7 @@
                         class="absolute top-4 left-4 z-10 bg-green-600 text-white text-xs px-2 py-1 uppercase font-bold shadow-lg">
                         Watch Now</div>
                     <img src="https://placehold.co/400x600/1a1a1a/FFF?text=Tailoring+To+Cosmetics"
+                        alt="Tailoring To Cosmetics Case Study"
                         class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition duration-700">
                     <div class="absolute bottom-0 p-6 bg-gradient-to-t from-black via-black/80 to-transparent w-full">
                         <h4 class="font-bold text-lg leading-tight group-hover:text-pink-300 transition">From
@@ -421,7 +448,8 @@
                     <div class="bg-gray-900 p-4 rounded-lg space-y-3 border border-gray-800">
                         <div class="flex items-center justify-between border-b border-gray-800 pb-2">
                             <div class="flex items-center gap-3">
-                                <img src="https://placehold.co/40/pink/white?text=S" class="rounded">
+                                <img src="https://placehold.co/40/pink/white?text=S" alt="Espresso Album Art"
+                                    class="rounded">
                                 <div>
                                     <p class="font-bold text-sm text-white">Espresso</p>
                                     <p class="text-xs text-gray-500">Sabrina Carpenter</p>
@@ -431,7 +459,8 @@
                         </div>
                         <div class="flex items-center justify-between border-b border-gray-800 pb-2">
                             <div class="flex items-center gap-3">
-                                <img src="https://placehold.co/40/brown/white?text=T" class="rounded">
+                                <img src="https://placehold.co/40/brown/white?text=T" alt="Travis Scott Album Art"
+                                    class="rounded">
                                 <div>
                                     <p class="font-bold text-sm text-white">COFFEE BEAN</p>
                                     <p class="text-xs text-gray-500">Travis Scott</p>
@@ -441,7 +470,8 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-3">
-                                <img src="https://placehold.co/40/gray/white?text=B" class="rounded">
+                                <img src="https://placehold.co/40/gray/white?text=B" alt="BTS Album Art"
+                                    class="rounded">
                                 <div>
                                     <p class="font-bold text-sm text-white">Coffee</p>
                                     <p class="text-xs text-gray-500">BTS</p>
@@ -455,6 +485,7 @@
                 <div class="group relative bg-black border border-gray-700 overflow-hidden rounded-xl"
                     data-aos="flip-left" data-aos-delay="200">
                     <img src="https://placehold.co/400x600/333/FFF?text=Chefs+%26+Hospitality"
+                        alt="Chefs & Hospitality Case Study"
                         class="w-full h-full object-cover opacity-80 group-hover:opacity-40 transition duration-500">
                     <div
                         class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 bg-black/40 group-hover:bg-black/10 transition">
@@ -475,7 +506,7 @@
 
     <section class="py-20 bg-black text-white relative z-20">
         <div class="container mx-auto px-6">
-            <h2 class="text-5xl font-black mb-20 text-center uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white to-pink-500 font-display pb-2 pr-2"
+            <h2 class="text-5xl font-black mb-20 text-center uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white to-pink-500 font-display text-clip-fix"
                 data-aos="zoom-in">Our Services</h2>
 
             <div class="grid md:grid-cols-3 gap-8 mb-16">
@@ -661,45 +692,45 @@
                 <div class="absolute left-3 top-0 bottom-0 w-1 bg-gradient-to-b from-pink-500 to-black"></div>
                 <div class="relative pl-6" data-aos="fade-left">
                     <div
-                        class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black">
+                        class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black wave-item">
                         1</div>
-                    <h4 class="font-bold text-lg text-white">You've Seen The Deck</h4>
+                    <h4 class="font-bold text-lg text-white wave-item">You've Seen The Deck</h4>
                 </div>
                 <div class="relative pl-6" data-aos="fade-left" data-aos-delay="100">
                     <div
-                        class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black">
+                        class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black wave-item">
                         2</div>
-                    <h4 class="font-bold text-lg text-white">You Felt The Fit</h4>
+                    <h4 class="font-bold text-lg text-white wave-item">You Felt The Fit</h4>
                 </div>
                 <div class="relative pl-6" data-aos="fade-left" data-aos-delay="200">
                     <div
-                        class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black">
+                        class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black wave-item">
                         3</div>
-                    <h4 class="font-bold text-lg text-white">You Know What's Coming</h4>
+                    <h4 class="font-bold text-lg text-white wave-item">You Know What's Coming</h4>
                 </div>
                 <div class="relative pl-6" data-aos="fade-left" data-aos-delay="300">
                     <div
-                        class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-white border-2 border-black flex items-center justify-center font-bold text-black">
+                        class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-white border-2 border-black flex items-center justify-center font-bold text-black wave-item">
                         4</div>
-                    <h4 class="font-bold text-lg text-white">THE DECISION</h4>
+                    <h4 class="font-bold text-lg text-white wave-item">THE DECISION</h4>
                 </div>
                 <div class="relative pl-6" data-aos="fade-left" data-aos-delay="400">
                     <div
-                        class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black">
+                        class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black wave-item">
                         5</div>
-                    <h4 class="font-bold text-lg text-white">We Map It Out</h4>
+                    <h4 class="font-bold text-lg text-white wave-item">We Map It Out</h4>
                 </div>
                 <div class="relative pl-6" data-aos="fade-left" data-aos-delay="500">
                     <div
-                        class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black">
+                        class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black wave-item">
                         6</div>
-                    <h4 class="font-bold text-lg text-white">We Kick Off</h4>
+                    <h4 class="font-bold text-lg text-white wave-item">We Kick Off</h4>
                 </div>
                 <div class="relative pl-6" data-aos="fade-left" data-aos-delay="600">
                     <div
-                        class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black">
+                        class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black wave-item">
                         7</div>
-                    <h4 class="font-bold text-lg text-white">We Scale Together</h4>
+                    <h4 class="font-bold text-lg text-white wave-item">We Scale Together</h4>
                 </div>
             </div>
         </div>
@@ -738,7 +769,7 @@
         // Init AOS
         AOS.init({ once: true, offset: 50, duration: 800 });
 
-        // Custom Cursor Logic - Optimized with requestAnimationFrame
+        // --- CUSTOM CURSOR LOGIC ---
         const cursorIcon = document.getElementById('cursor-icon');
         const cursorGlow = document.getElementById('cursor-glow');
         let mouseX = 0;
@@ -756,8 +787,11 @@
         });
 
         function updateCursor() {
-            cursorIcon.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
-            cursorGlow.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+            if (cursorIcon && cursorGlow) {
+                const transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+                cursorIcon.style.transform = transform;
+                cursorGlow.style.transform = transform;
+            }
             isCursorMoving = false;
         }
 
@@ -775,19 +809,10 @@
             });
         });
 
-        // Mobile Heart Particle Effect - Optimized & Multi-directional
+        // --- HEART PARTICLE EFFECT ---
         let lastHeartTime = 0;
 
-        document.addEventListener('touchmove', (e) => {
-            const now = Date.now();
-            // Throttling: Prevent "stuck" elements by limiting creation rate (40ms approx 25fps cap)
-            if (now - lastHeartTime < 40) return;
-            lastHeartTime = now;
-
-            const touch = e.touches[0];
-            createHeart(touch.clientX, touch.clientY);
-        }, { passive: true });
-
+        // Shared Create Heart Function
         function createHeart(x, y) {
             const heart = document.createElement('div');
             heart.classList.add('heart-particle');
@@ -795,60 +820,61 @@
             heart.style.left = x + 'px';
             heart.style.top = y + 'px';
 
-            // Calculate random "explosion" direction
+            // Random "explosion" physics
             const angle = Math.random() * Math.PI * 2;
-            const velocity = 50 + Math.random() * 60; // 50-110px travel distance
+            const velocity = 50 + Math.random() * 60;
             const tx = Math.cos(angle) * velocity;
             const ty = Math.sin(angle) * velocity;
             const rotation = (Math.random() - 0.5) * 90;
 
-            // Set CSS variables for the animation
             heart.style.setProperty('--tx', `${tx}px`);
             heart.style.setProperty('--ty', `${ty}px`);
             heart.style.setProperty('--r', `${rotation}deg`);
 
             document.body.appendChild(heart);
 
-            // Strict cleanup
-            setTimeout(() => {
-                heart.remove();
-            }, 800);
+            setTimeout(() => heart.remove(), 800);
         }
-    </script>
 
-    <script>
-        // --- MOBILE FEATURES: Auto-Focus Only (Haptics Removed) ---
+        // Touch Move (Throttled)
+        document.addEventListener('touchmove', (e) => {
+            const now = Date.now();
+            if (now - lastHeartTime < 40) return; // ~25fps cap
+            lastHeartTime = now;
+            const touch = e.touches[0];
+            createHeart(touch.clientX, touch.clientY);
+        }, { passive: true });
 
-        // Auto-Focus Scroll (Intersection Observer)
+        // Touch Start (Immediate Feedback)
+        document.addEventListener('touchstart', (e) => {
+            if (e.touches[0]) createHeart(e.touches[0].clientX, e.touches[0].clientY);
+        }, { capture: true });
+
+        // --- INTERSECTION OBSERVER (Auto-Focus & Wave) ---
         const focusObserverCallback = (entries, observer) => {
             entries.forEach(entry => {
+                const target = entry.target;
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('active-focus');
+                    target.classList.add('active-focus');
+                    if (target.classList.contains('wave-item')) {
+                        target.classList.add('wave-active');
+                    }
                 } else {
-                    entry.target.classList.remove('active-focus');
+                    target.classList.remove('active-focus');
+                    target.classList.remove('wave-active');
                 }
             });
         };
 
-        const focusObserverOptions = {
+        const focusObserver = new IntersectionObserver(focusObserverCallback, {
             root: null,
-            rootMargin: '-50% 0px -50% 0px', // Trigger line in the very center (1px height)
+            rootMargin: '-45% 0px -45% 0px', // Trigger center screen
             threshold: 0
-        };
-
-        const focusObserver = new IntersectionObserver(focusObserverCallback, focusObserverOptions);
-
-        // Target all cards that should "pop" (Header REMOVED)
-        const targets = document.querySelectorAll('.founder-card, .group');
-        targets.forEach(target => {
-            focusObserver.observe(target);
         });
 
-        // Standard Heart Effect (No Haptics) - Enhanced for Touch Consistency
-        const heartFn = createHeart;
-        // Bind to touchstart for immediate feedback
-        document.addEventListener('touchstart', (e) => {
-            if (e.touches[0]) createHeart(e.touches[0].clientX, e.touches[0].clientY);
+        // Observe elements
+        document.querySelectorAll('.founder-card, .group, .wave-item').forEach(target => {
+            focusObserver.observe(target);
         });
     </script>
 
