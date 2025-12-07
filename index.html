@@ -263,7 +263,7 @@
             <!-- Force Flex Column on Mobile to kill Grid Alignment Issues -->
             <div class="flex flex-col md:grid md:grid-cols-2 gap-12 max-w-5xl mx-auto items-center">
 
-                <div class="founder-card bg-black border-2 border-pink-300 p-6 rounded-lg relative transform transition duration-300 group w-full max-w-md mx-auto"
+                <div class="founder-card bg-black border-2 border-pink-300 p-6 rounded-lg relative transform transition duration-300 group w-full max-w-md mx-auto hover:scale-105 hover:shadow-2xl"
                     data-aos="fade-right">
                     <div class="w-full h-64 bg-gray-800 mb-6 overflow-hidden rounded border border-gray-700">
                         <img src="https://placehold.co/600x400/333/pink?text=Maanavi+Singh" alt="Maanavi Singh"
@@ -287,7 +287,7 @@
                     </div>
                 </div>
 
-                <div class="founder-card bg-black border-2 border-pink-300 p-6 rounded-lg relative transform transition duration-300 group w-full max-w-md mx-auto"
+                <div class="founder-card bg-black border-2 border-pink-300 p-6 rounded-lg relative transform transition duration-300 group w-full max-w-md mx-auto hover:scale-105 hover:shadow-2xl"
                     data-aos="fade-left">
                     <div class="w-full h-64 bg-gray-800 mb-6 overflow-hidden rounded border border-gray-700">
                         <img src="https://placehold.co/600x400/333/pink?text=Kabir+Chaturvedy" alt="Kabir Chaturvedy"
@@ -586,23 +586,23 @@
 
             <div class="flex flex-wrap justify-center gap-8 max-w-5xl mx-auto">
                 <div
-                    class="bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform rotate-2 hover:rotate-0 transition text-center shadow-[8px_8px_0px_rgba(255,255,255,0.5)] float-anim w-full md:w-auto group">
+                    class="bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform rotate-2 hover:rotate-0 hover:scale-105 transition duration-300 text-center shadow-[8px_8px_0px_rgba(255,255,255,0.5)] float-anim w-full md:w-auto group">
                     We Build Your Personal Brand
                 </div>
                 <div
-                    class="bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform -rotate-2 hover:rotate-0 transition text-center shadow-[-8px_8px_0px_rgba(255,255,255,0.5)] float-anim-reverse w-full md:w-auto group">
+                    class="bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform -rotate-2 hover:rotate-0 hover:scale-105 transition duration-300 text-center shadow-[-8px_8px_0px_rgba(255,255,255,0.5)] float-anim-reverse w-full md:w-auto group">
                     Led by the Internet Generation
                 </div>
                 <div
-                    class="bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform rotate-1 hover:rotate-0 transition text-center shadow-[8px_8px_0px_rgba(255,255,255,0.5)] float-anim w-full md:w-auto group">
+                    class="bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform rotate-1 hover:rotate-0 hover:scale-105 transition duration-300 text-center shadow-[8px_8px_0px_rgba(255,255,255,0.5)] float-anim w-full md:w-auto group">
                     Community First Approach
                 </div>
                 <div
-                    class="bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform -rotate-1 hover:rotate-0 transition text-center shadow-[-8px_8px_0px_rgba(255,255,255,0.5)] float-anim-reverse w-full md:w-auto group">
+                    class="bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform -rotate-1 hover:rotate-0 hover:scale-105 transition duration-300 text-center shadow-[-8px_8px_0px_rgba(255,255,255,0.5)] float-anim-reverse w-full md:w-auto group">
                     Cinematic Brand Campaigns
                 </div>
                 <div
-                    class="bg-black text-white p-6 font-bold text-2xl uppercase transform rotate-2 hover:rotate-0 transition text-center border-2 border-white hover:bg-white hover:text-black float-anim w-full md:w-auto group">
+                    class="bg-black text-white p-6 font-bold text-2xl uppercase transform rotate-2 hover:rotate-0 hover:scale-105 transition duration-300 text-center border-2 border-white hover:bg-white hover:text-black float-anim w-full md:w-auto group">
                     Creative Not Costly
                 </div>
             </div>
@@ -707,9 +707,9 @@
             <div class="md:hidden space-y-8 relative pl-8" id="mobile-roadmap">
                 <!-- Static Track Line -->
                 <div class="absolute left-3 top-0 bottom-0 w-1 bg-gray-800"></div>
-                <!-- Animated Progress Line -->
+                <!-- Animated Progress Line with GLOW -->
                 <div id="mobile-progress-line"
-                    class="absolute left-3 top-0 w-1 bg-pink-500 transition-all duration-500 ease-out"
+                    class="absolute left-3 top-0 w-1 bg-pink-500 shadow-[0_0_15px_rgba(236,72,153,0.9)] transition-all duration-500 ease-out"
                     style="height: 0%;"></div>
 
                 <div class="relative pl-6" data-aos="fade-left" data-step="1">
@@ -880,7 +880,11 @@
             entries.forEach(entry => {
                 const target = entry.target;
                 if (entry.isIntersecting) {
-                    target.classList.add('active-focus');
+                    // Do NOT add active-focus to wave-items (roadmap text) to avoid glow
+                    if (!target.classList.contains('wave-item')) {
+                        target.classList.add('active-focus');
+                    }
+
                     if (target.classList.contains('wave-item')) {
                         target.classList.add('wave-active');
                     }
