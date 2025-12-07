@@ -165,6 +165,16 @@
             will-change: transform, opacity;
         }
 
+        /* Auto-Focus Scroll State */
+        .active-focus {
+            transform: scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(236, 72, 153, 0.3), 0 10px 10px -5px rgba(236, 72, 153, 0.2);
+        }
+
+        .active-focus img {
+            opacity: 1 !important;
+        }
+
         @keyframes explodeFade {
             0% {
                 transform: translate(-50%, -50%) scale(0.4);
@@ -200,7 +210,7 @@
             <div class="w-[500px] h-[500px] bg-pink-900/30 rounded-full blur-[100px] animate-pulse"></div>
         </div>
 
-        <div class="relative z-10">
+        <div class="relative z-10" id="header-focus-trigger">
             <h1
                 class="font-display text-6xl md:text-[11rem] font-bold tracking-tight uppercase leading-none gradient-title select-none">
                 Extrovert
@@ -796,6 +806,61 @@
             setTimeout(() => {
                 heart.remove();
             }, 800);
+        }
+    </script>
+
+    <script>
+        // --- MOBILE FEATURES: Auto-Focus & Haptics ---
+
+        // 1. Robust Haptic Feedback
+        const triggerHaptic = (duration = 10) => {
+            if (navigator.vibrate) {
+                console.log('Triggering haptics');
+                navigator.vibrate(duration);
+            }
+        };
+
+        // Bind haptics to all interactive elements
+        const interactiveElements = document.querySelectorAll('a, button, .group, .founder-card, i, .marquee-content span');
+        interactiveElements.forEach(el => {
+            el.addEventListener('click', () => triggerHaptic(15)); // Short tick on click
+        });
+
+        // 2. Auto-Focus Scroll (Intersection Observer)
+        // Detects when elements hit the EXACT center of the screen
+        const focusObserverCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Add Active Class
+                    entry.target.classList.add('active-focus');
+                    // Trigger "Pop" Haptic
+                    triggerHaptic(20);
+                } else {
+                    // Remove Active Class
+                    entry.target.classList.remove('active-focus');
+                }
+            });
+        };
+
+        const focusObserverOptions = {
+            root: null,
+            rootMargin: '-50% 0px -50% 0px', // Trigger line in the very center (1px height)
+            threshold: 0
+        };
+
+        const focusObserver = new IntersectionObserver(focusObserverCallback, focusObserverOptions);
+
+        // Target all cards that should "pop"
+        const targets = document.querySelectorAll('.founder-card, .group, #header-focus-trigger');
+        targets.forEach(target => {
+            focusObserver.observe(target);
+        });
+
+        // Enhance Heart Effect with Haptics (again)
+        const heartFn = createHeart;
+        createHeart = function (x, y) {
+            triggerHaptic(5);
+            heartFn(x, y);
         }
     </script>
 
