@@ -87,7 +87,7 @@
             filter: drop-shadow(0 0 30px rgba(236, 72, 153, 0.3));
         }
 
-        /* Marquee Animation */
+        /* Marquee Animation - Adjusted for seamless loop */
         .marquee-container {
             overflow: hidden;
             white-space: nowrap;
@@ -96,16 +96,18 @@
 
         .marquee-content {
             display: inline-block;
-            animation: scroll 20s linear infinite;
+            /* Doubled duration for smoother visual, ensures 2 sets of items scroll fully */
+            animation: scroll 40s linear infinite;
         }
 
         @keyframes scroll {
             0% {
-                transform: translateX(-50%);
+                transform: translateX(0);
             }
 
             100% {
-                transform: translateX(0);
+                /* Moves exactly 50% if there are 2 identical sets */
+                transform: translateX(-50%);
             }
         }
 
@@ -161,7 +163,7 @@
             animation: explodeFade 0.8s ease-out forwards;
             font-size: 20px;
             color: #ec4899;
-            text-shadow: 0 0 8px rgba(236, 72, 153, 0.6);
+            /* Removed text-shadow for performance */
             will-change: transform, opacity;
         }
 
@@ -267,7 +269,7 @@
                     data-aos="fade-right">
                     <div class="w-full h-64 bg-gray-800 mb-6 overflow-hidden rounded border border-gray-700">
                         <img src="images/Mnvi.png" alt="Maanavi Singh"
-                            class="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition duration-500">
+                            class="w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 transition duration-500">
                     </div>
                     <h3 class="text-3xl font-black uppercase mb-1 font-display text-white">Maanavi Singh</h3>
                     <p class="text-pink-400 font-bold text-sm tracking-wide mb-4">CO-FOUNDER</p>
@@ -291,7 +293,7 @@
                     data-aos="fade-left">
                     <div class="w-full h-64 bg-gray-800 mb-6 overflow-hidden rounded border border-gray-700">
                         <img src="images/Kabir.png" alt="Kabir Chaturvedy"
-                            class="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition duration-500">
+                            class="w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 transition duration-500">
                     </div>
                     <h3 class="text-3xl font-black uppercase mb-1 font-display text-white">Kabir Chaturvedy</h3>
                     <p class="text-pink-400 font-bold text-sm tracking-wide mb-4">CO-FOUNDER</p>
@@ -315,93 +317,57 @@
     <section class="py-20 bg-black overflow-hidden border-y border-gray-800 relative z-20">
         <div class="container mx-auto px-6 text-center mb-12">
             <h2 class="text-3xl md:text-5xl font-black uppercase font-display" data-aos="fade-up">Our Team's <span
-                    class="text-pink-400">Track Record</span></h2>
-        </div>
-        <div class="marquee-container py-8 bg-gray-900/50 transform -rotate-1 scale-105 hidden md:block">
-            <div class="marquee-content flex items-center">
-                <!-- Data Set 1 -->
-                <img src="images/svamaan-removebg-preview.png" alt="SVAMAAN"
-                    class="h-16 w-32 md:w-40 mx-4 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100">
-                <span class="text-pink-500 text-4xl mx-2 leading-none">•</span>
-                <img src="images/FIMCA%20Logo.png" alt="FIMCA"
-                    class="h-16 w-32 md:w-40 mx-4 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100">
-                <span class="text-pink-500 text-4xl mx-2 leading-none">•</span>
-                <img src="images/Happy%20plate%20logo.png" alt="The Happy Plate"
-                    class="h-16 w-32 md:w-40 mx-4 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100">
-                <span class="text-pink-500 text-4xl mx-2 leading-none">•</span>
-                <img src="images/Amazon%20music%20logo.png" alt="Amazon Music"
-                    class="h-16 w-32 md:w-40 mx-4 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100">
-                <span class="text-pink-500 text-4xl mx-2 leading-none">•</span>
-                <img src="images/northwest%20logo.png" alt="NORTHWEST Executive Education"
-                    class="h-16 w-32 md:w-40 mx-4 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100">
-                <span class="text-pink-500 text-4xl mx-2 leading-none">•</span>
-                <img src="images/Benzer-removebg-preview.png" alt="BENZER"
-                    class="h-16 w-32 md:w-40 mx-4 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100">
-                <span class="text-pink-500 text-4xl mx-2 leading-none">•</span>
-                <img src="images/BSE.png" alt="BSE"
-                    class="h-16 w-32 md:w-40 mx-4 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100">
-                <span class="text-pink-500 text-4xl mx-2 leading-none">•</span>
+                    class="italic text-pink-500">Track Record</span></h2>
 
-                <!-- Data Set 2 (Identical Copy for Seamless Loop) -->
-                <img src="images/svamaan-removebg-preview.png" alt="SVAMAAN"
-                    class="h-16 w-32 md:w-40 mx-4 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100">
-                <span class="text-pink-500 text-4xl mx-2 leading-none">•</span>
-                <img src="images/FIMCA%20Logo.png" alt="FIMCA"
-                    class="h-16 w-32 md:w-40 mx-4 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100">
-                <span class="text-pink-500 text-4xl mx-2 leading-none">•</span>
-                <img src="images/Happy%20plate%20logo.png" alt="The Happy Plate"
-                    class="h-16 w-32 md:w-40 mx-4 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100">
-                <span class="text-pink-500 text-4xl mx-2 leading-none">•</span>
-                <img src="images/Amazon%20music%20logo.png" alt="Amazon Music"
-                    class="h-16 w-32 md:w-40 mx-4 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100">
-                <span class="text-pink-500 text-4xl mx-2 leading-none">•</span>
-                <img src="images/northwest%20logo.png" alt="NORTHWEST Executive Education"
-                    class="h-16 w-32 md:w-40 mx-4 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100">
-                <span class="text-pink-500 text-4xl mx-2 leading-none">•</span>
-                <img src="images/Benzer-removebg-preview.png" alt="BENZER"
-                    class="h-16 w-32 md:w-40 mx-4 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100">
-                <span class="text-pink-500 text-4xl mx-2 leading-none">•</span>
-                <img src="images/BSE.png" alt="BSE"
-                    class="h-16 w-32 md:w-40 mx-4 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100">
-                <span class="text-pink-500 text-4xl mx-2 leading-none">•</span>
-            </div>
-        </div>
+            <div class="marquee-container mt-12 overflow-hidden whitespace-nowrap relative group">
+                <div class="marquee-content flex items-center inline-block">
+                    <!-- Data Set 1 -->
+                    <img src="images/svamaan.png" alt="SVAMAAN"
+                        class="h-16 w-32 md:w-40 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100 mx-4">
+                    <span class="text-pink-500 text-4xl mx-4 leading-none">•</span>
+                    <img src="images/fimca.png" alt="FIMCA"
+                        class="h-16 w-32 md:w-40 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100 mx-4">
+                    <span class="text-pink-500 text-4xl mx-4 leading-none">•</span>
+                    <img src="images/happy_plate.png" alt="The Happy Plate"
+                        class="h-16 w-32 md:w-40 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100 mx-4">
+                    <span class="text-pink-500 text-4xl mx-4 leading-none">•</span>
+                    <img src="images/amazon_music.png" alt="Amazon Music"
+                        class="h-16 w-32 md:w-40 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100 mx-4">
+                    <span class="text-pink-500 text-4xl mx-4 leading-none">•</span>
+                    <img src="images/northwest.png" alt="NORTHWEST Executive Education"
+                        class="h-16 w-32 md:w-40 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100 mx-4">
+                    <span class="text-pink-500 text-4xl mx-4 leading-none">•</span>
+                    <img src="images/benzer.png" alt="BENZER"
+                        class="h-16 w-32 md:w-40 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100 mx-4">
+                    <span class="text-pink-500 text-4xl mx-4 leading-none">•</span>
+                    <img src="images/bse.png" alt="BSE"
+                        class="h-16 w-32 md:w-40 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100 mx-4">
+                    <span class="text-pink-500 text-4xl mx-4 leading-none">•</span>
 
-        <!-- Mobile Static Track Record List -->
-        <div class="md:hidden space-y-6 px-8 mb-12">
-            <div
-                class="text-2xl font-bold text-gray-500 hover:text-white transition uppercase border-b border-gray-800 pb-2 group">
-                SVAMAAN</div>
-            <div
-                class="text-2xl font-bold text-gray-500 hover:text-white transition uppercase border-b border-gray-800 pb-2 group">
-                FIMCA</div>
-            <div
-                class="text-2xl font-bold text-gray-500 hover:text-white transition uppercase border-b border-gray-800 pb-2 group">
-                The Happy Plate</div>
-            <div
-                class="text-2xl font-bold text-gray-500 hover:text-pink-500 transition uppercase border-b border-gray-800 pb-2 group">
-                NEO STRETCH</div>
-            <div
-                class="text-2xl font-bold text-gray-500 hover:text-blue-400 transition uppercase border-b border-gray-800 pb-2 group">
-                <i class="fab fa-amazon"></i> amazon music
+                    <!-- Data Set 2 (Exact Duplicate) -->
+                    <img src="images/svamaan.png" alt="SVAMAAN"
+                        class="h-16 w-32 md:w-40 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100 mx-4">
+                    <span class="text-pink-500 text-4xl mx-4 leading-none">•</span>
+                    <img src="images/fimca.png" alt="FIMCA"
+                        class="h-16 w-32 md:w-40 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100 mx-4">
+                    <span class="text-pink-500 text-4xl mx-4 leading-none">•</span>
+                    <img src="images/happy_plate.png" alt="The Happy Plate"
+                        class="h-16 w-32 md:w-40 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100 mx-4">
+                    <span class="text-pink-500 text-4xl mx-4 leading-none">•</span>
+                    <img src="images/amazon_music.png" alt="Amazon Music"
+                        class="h-16 w-32 md:w-40 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100 mx-4">
+                    <span class="text-pink-500 text-4xl mx-4 leading-none">•</span>
+                    <img src="images/northwest.png" alt="NORTHWEST Executive Education"
+                        class="h-16 w-32 md:w-40 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100 mx-4">
+                    <span class="text-pink-500 text-4xl mx-4 leading-none">•</span>
+                    <img src="images/benzer.png" alt="BENZER"
+                        class="h-16 w-32 md:w-40 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100 mx-4">
+                    <span class="text-pink-500 text-4xl mx-4 leading-none">•</span>
+                    <img src="images/bse.png" alt="BSE"
+                        class="h-16 w-32 md:w-40 object-contain hover:scale-110 transition duration-300 opacity-70 hover:opacity-100 mx-4">
+                    <span class="text-pink-500 text-4xl mx-4 leading-none">•</span>
+                </div>
             </div>
-            <div class="border-b border-gray-800 pb-2 group">
-                <span
-                    class="font-bold text-2xl text-gray-500 group-hover:text-white transition tracking-widest uppercase block">NORTHWEST</span>
-                <span
-                    class="text-xs font-bold text-gray-600 group-hover:text-pink-400 transition uppercase tracking-widest">Executive
-                    Education</span>
-            </div>
-            <div
-                class="text-2xl font-bold text-gray-500 hover:text-yellow-500 transition uppercase border-b border-gray-800 pb-2 group">
-                BENZER</div>
-            <div
-                class="text-2xl font-bold text-gray-500 hover:text-blue-600 transition uppercase border-b border-gray-800 pb-2 group">
-                BSE</div>
-        </div>
-        <div
-            class="text-center mt-8 text-8xl font-black text-gray-900 select-none animate-pulse font-display overflow-hidden">
-            XO
         </div>
     </section>
 
@@ -477,8 +443,7 @@
 
                 <div class="group relative bg-black border border-gray-700 overflow-hidden rounded-xl"
                     data-aos="flip-left" data-aos-delay="200">
-                    <img src="https://placehold.co/400x600/333/FFF?text=Chefs+%26+Hospitality"
-                        alt="Chefs & Hospitality Case Study"
+                    <img src="images/vira.png" alt="Vira - Culinary & Hospitality Staffing"
                         class="w-full h-full object-cover opacity-80 group-hover:opacity-40 transition duration-500">
                     <div
                         class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 bg-black/40 group-hover:bg-black/10 transition">
@@ -643,36 +608,35 @@
                         data-aos="fade-up" data-aos-delay="400">
                         <div
                             class="mb-4 text-center font-bold uppercase w-32 text-sm opacity-70 group-hover:opacity-100 transition">
-                            You Know What's
-                            Coming
-                        </div>
+                            You Know What's Coming</div>
                         <div
                             class="w-12 h-12 rounded-full bg-pink-400 border-4 border-black flex items-center justify-center font-bold text-black text-xl mb-4 shadow-[0_0_20px_rgba(236,72,153,0.5)] transform group-hover:scale-125 transition duration-300">
                             3</div>
                         <div class="h-16 w-1 bg-pink-400 group-hover:h-20 transition-all duration-300"></div>
                     </div>
+
                     <div class="flex flex-col items-center transform translate-y-16 group pt-32 cursor-pointer"
-                        data-aos="zoom-in" data-aos-delay="600">
-                        <div class="h-16 w-1 bg-white animate-pulse group-hover:h-20 transition-all duration-300"></div>
+                        data-aos="fade-down" data-aos-delay="600">
+                        <div class="h-16 w-1 bg-white group-hover:h-20 transition-all duration-300"></div>
                         <div
-                            class="w-16 h-16 rounded-full bg-white border-4 border-pink-500 flex items-center justify-center font-bold text-black text-2xl mt-4 shadow-[0_0_30px_rgba(255,255,255,0.8)] transform group-hover:scale-125 transition duration-300">
+                            class="w-12 h-12 rounded-full bg-white border-4 border-black flex items-center justify-center font-bold text-black text-xl mt-4 shadow-[0_0_20px_rgba(255,255,255,0.5)] transform group-hover:scale-125 transition duration-300">
                             4</div>
                         <div
-                            class="mt-4 text-center font-black text-white uppercase w-32 text-base group-hover:scale-110 transition">
-                            THE DECISION
-                        </div>
+                            class="mt-4 text-center font-bold uppercase w-32 text-sm opacity-70 group-hover:opacity-100 transition text-white">
+                            THE DECISION</div>
                     </div>
+
                     <div class="flex flex-col items-center transform -translate-y-16 group cursor-pointer"
                         data-aos="fade-up" data-aos-delay="800">
                         <div
                             class="mb-4 text-center font-bold uppercase w-32 text-sm opacity-70 group-hover:opacity-100 transition">
-                            We Map It Out
-                        </div>
+                            We Map It Out</div>
                         <div
                             class="w-12 h-12 rounded-full bg-pink-400 border-4 border-black flex items-center justify-center font-bold text-black text-xl mb-4 shadow-[0_0_20px_rgba(236,72,153,0.5)] transform group-hover:scale-125 transition duration-300">
                             5</div>
                         <div class="h-16 w-1 bg-pink-400 group-hover:h-20 transition-all duration-300"></div>
                     </div>
+
                     <div class="flex flex-col items-center transform translate-y-16 group pt-32 cursor-pointer"
                         data-aos="fade-down" data-aos-delay="1000">
                         <div class="h-16 w-1 bg-pink-400 group-hover:h-20 transition-all duration-300"></div>
@@ -683,72 +647,72 @@
                             class="mt-4 text-center font-bold uppercase w-32 text-sm opacity-70 group-hover:opacity-100 transition">
                             We Kick Off</div>
                     </div>
+
                     <div class="flex flex-col items-center transform -translate-y-16 group cursor-pointer"
                         data-aos="fade-up" data-aos-delay="1200">
                         <div
                             class="mb-4 text-center font-bold uppercase w-32 text-sm opacity-70 group-hover:opacity-100 transition">
-                            We Scale</div>
+                            We Scale Together</div>
                         <div
                             class="w-12 h-12 rounded-full bg-pink-400 border-4 border-black flex items-center justify-center font-bold text-black text-xl mb-4 shadow-[0_0_20px_rgba(236,72,153,0.5)] transform group-hover:scale-125 transition duration-300">
                             7</div>
                         <div class="h-16 w-1 bg-pink-400 group-hover:h-20 transition-all duration-300"></div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Mobile: Vertical Connector Layout -->
-            <div class="md:hidden space-y-8 relative pl-8" id="mobile-roadmap">
-                <!-- Static Track Line -->
-                <div class="absolute left-3 top-0 bottom-0 w-1 bg-gray-800"></div>
-                <!-- Animated Progress Line with INTENSE GLOW -->
-                <div id="mobile-progress-line"
-                    class="absolute left-3 top-0 w-1 bg-pink-500 shadow-[0_0_25px_5px_rgba(236,72,153,0.9)] transition-all duration-500 ease-out"
-                    style="height: 0%;"></div>
+                <!-- Mobile: Vertical Connector Layout -->
+                <div class="md:hidden space-y-8 relative pl-8" id="mobile-roadmap">
+                    <!-- Static Track Line -->
+                    <div class="absolute left-3 top-0 bottom-0 w-1 bg-gray-800"></div>
+                    <!-- Animated Progress Line with INTENSE GLOW -->
+                    <div id="mobile-progress-line"
+                        class="absolute left-3 top-0 w-1 bg-pink-500 shadow-[0_0_25px_5px_rgba(236,72,153,0.9)] transition-all duration-500 ease-out"
+                        style="height: 0%;"></div>
 
-                <div class="relative pl-6" data-step="1">
-                    <div
-                        class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black wave-item">
-                        1</div>
-                    <h4 class="font-bold text-lg text-white wave-item">You've Seen The Deck</h4>
-                </div>
-                <div class="relative pl-6" data-step="2">
-                    <div
-                        class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black wave-item">
-                        2</div>
-                    <h4 class="font-bold text-lg text-white wave-item">You Felt The Fit</h4>
-                </div>
-                <div class="relative pl-6" data-step="3">
-                    <div
-                        class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black wave-item">
-                        3</div>
-                    <h4 class="font-bold text-lg text-white wave-item">You Know What's Coming</h4>
-                </div>
-                <div class="relative pl-6" data-step="4">
-                    <div
-                        class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-white border-2 border-black flex items-center justify-center font-bold text-black wave-item">
-                        4</div>
-                    <h4 class="font-bold text-lg text-white wave-item">THE DECISION</h4>
-                </div>
-                <div class="relative pl-6" data-step="5">
-                    <div
-                        class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black wave-item">
-                        5</div>
-                    <h4 class="font-bold text-lg text-white wave-item">We Map It Out</h4>
-                </div>
-                <div class="relative pl-6" data-step="6">
-                    <div
-                        class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black wave-item">
-                        6</div>
-                    <h4 class="font-bold text-lg text-white wave-item">We Kick Off</h4>
-                </div>
-                <div class="relative pl-6" data-step="7">
-                    <div
-                        class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black wave-item">
-                        7</div>
-                    <h4 class="font-bold text-lg text-white wave-item">We Scale Together</h4>
+                    <div class="relative pl-6" data-step="1">
+                        <div
+                            class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black wave-item">
+                            1</div>
+                        <h4 class="font-bold text-lg text-white wave-item">You've Seen The Deck</h4>
+                    </div>
+                    <div class="relative pl-6" data-step="2">
+                        <div
+                            class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black wave-item">
+                            2</div>
+                        <h4 class="font-bold text-lg text-white wave-item">You Felt The Fit</h4>
+                    </div>
+                    <div class="relative pl-6" data-step="3">
+                        <div
+                            class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black wave-item">
+                            3</div>
+                        <h4 class="font-bold text-lg text-white wave-item">You Know What's Coming</h4>
+                    </div>
+                    <div class="relative pl-6" data-step="4">
+                        <div
+                            class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-white border-2 border-black flex items-center justify-center font-bold text-black wave-item">
+                            4</div>
+                        <h4 class="font-bold text-lg text-white wave-item">THE DECISION</h4>
+                    </div>
+                    <div class="relative pl-6" data-step="5">
+                        <div
+                            class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black wave-item">
+                            5</div>
+                        <h4 class="font-bold text-lg text-white wave-item">We Map It Out</h4>
+                    </div>
+                    <div class="relative pl-6" data-step="6">
+                        <div
+                            class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black wave-item">
+                            6</div>
+                        <h4 class="font-bold text-lg text-white wave-item">We Kick Off</h4>
+                    </div>
+                    <div class="relative pl-6" data-step="7">
+                        <div
+                            class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black wave-item">
+                            7</div>
+                        <h4 class="font-bold text-lg text-white wave-item">We Scale Together</h4>
+                    </div>
                 </div>
             </div>
-        </div>
     </section>
 
     <footer id="contact" class="py-24 bg-black text-center relative overflow-hidden z-20">
@@ -941,29 +905,6 @@
             }
         }
     </style>
-
-</body>
-
-</html>
-
-50% {
-transform: translateY(0) rotate(10deg) scale(1.1);
-}
-
-75% {
-transform: translateY(-10px) rotate(-5deg) scale(1.1);
-}
-}
-
-.animate-xo-dance {
-animation: xoDance 1s ease-in-out infinite;
-}
-
-.active-focus * {
-box-shadow: none !important;
-}
-}
-</style>
 
 </body>
 
