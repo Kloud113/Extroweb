@@ -5,28 +5,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EXTROVERT | Full Spectrum Digital Marketing</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Syne:wght@500;700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
-        /* FORCE CUSTOM CURSOR */
+        /* --- CORE LAYOUT & RESETS --- */
         body, a, button, input { cursor: none !important; }
-
-        body {
+        
+        html, body {
             font-family: 'Inter', sans-serif;
             background-color: black;
             color: white;
-            overflow-x: hidden;
+            width: 100%;
+            overflow-x: hidden; /* Critical for Android stability */
+            position: relative;
         }
 
-        /* Main Display Font */
         .font-display { font-family: 'Syne', sans-serif; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ec4899; }
 
-        /* Heart Cursor */
+        /* --- CURSOR EFFECTS --- */
         #cursor-icon {
             position: fixed; top: 0; left: 0; pointer-events: none; z-index: 10000;
             font-size: 24px; color: #ec4899;
@@ -34,7 +40,6 @@
             text-shadow: 0 0 10px rgba(236, 72, 153, 0.8);
         }
 
-        /* Pink Glow behind heart */
         #cursor-glow {
             position: fixed; top: 0; left: 0; width: 400px; height: 400px;
             background: radial-gradient(circle, rgba(236, 72, 153, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
@@ -42,44 +47,13 @@
             transition: width 0.3s, height 0.3s;
         }
 
-        /* Hide Custom Cursor on Touch Devices/Mobile */
+        /* Disable Custom Cursor on Touch Devices */
         @media (hover: none) and (pointer: coarse) {
             #cursor-icon, #cursor-glow { display: none !important; }
             body, a, button, input { cursor: auto !important; }
         }
 
-        /* Clean Gradient Text for Title */
-        .gradient-title {
-            background: linear-gradient(to bottom, #ffffff, #f472b6);
-            -webkit-background-clip: text; background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 30px rgba(236, 72, 153, 0.3));
-        }
-
-        /* Marquee Animation */
-        .marquee-container { overflow: hidden; white-space: nowrap; position: relative; }
-        .marquee-content { display: inline-block; animation: scroll 20s linear infinite; }
-        @keyframes scroll {
-            0% { transform: translateX(-50%); }
-            100% { transform: translateX(0); }
-        }
-
-        /* Floating Cards Animation */
-        @keyframes float {
-            0% { transform: translateY(0px) rotate(1deg); }
-            50% { transform: translateY(-10px) rotate(-1deg); }
-            100% { transform: translateY(0px) rotate(1deg); }
-        }
-        .float-anim { animation: float 5s ease-in-out infinite; }
-        .float-anim-reverse { animation: float 6s ease-in-out infinite reverse; }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #ec4899; }
-
-        /* Heart Particle Animation */
+        /* Heart Particles */
         .heart-particle {
             position: fixed; pointer-events: none; z-index: 9999;
             --tx: 0px; --ty: 0px; --r: 0deg;
@@ -89,7 +63,26 @@
             will-change: transform, opacity;
         }
 
-        /* Auto-Focus Scroll State */
+        /* --- ANIMATIONS & UTILITIES --- */
+        .gradient-title {
+            background: linear-gradient(to bottom, #ffffff, #f472b6);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 30px rgba(236, 72, 153, 0.3));
+        }
+
+        /* Marquee */
+        .marquee-container { overflow: hidden; white-space: nowrap; position: relative; }
+        .marquee-content { display: inline-block; animation: scroll 20s linear infinite; }
+        
+        /* Floating Cards */
+        .float-anim { animation: float 5s ease-in-out infinite; }
+        .float-anim-reverse { animation: float 6s ease-in-out infinite reverse; }
+
+        /* Mobile Roadmap Wave */
+        .wave-active { animation: floatWave 2.5s ease-in-out infinite; }
+        
+        /* Auto-Focus Logic (Mobile Only) */
         .active-focus {
             transform: scale(1.02);
             box-shadow: 0 20px 25px -5px rgba(236, 72, 153, 0.3), 0 10px 10px -5px rgba(236, 72, 153, 0.2);
@@ -98,23 +91,16 @@
             box-shadow: 0 0 40px 10px rgba(255, 255, 255, 0.9);
             transform: scale(1.03); filter: brightness(1.1);
         }
-
+        .active-focus img { opacity: 1 !important; }
         .text-clip-fix { padding-right: 0.2em; display: inline-block; }
 
-        /* Wave Animation for What's Next on Mobile */
-        @keyframes floatWave {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-        .wave-active { animation: floatWave 2.5s ease-in-out infinite; }
-        .active-focus img { opacity: 1 !important; }
+        /* Keyframes */
+        @keyframes scroll { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
+        @keyframes float { 0%, 100% { transform: translateY(0px) rotate(1deg); } 50% { transform: translateY(-10px) rotate(-1deg); } }
+        @keyframes floatWave { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes explodeFade { 0% { transform: translate(-50%, -50%) scale(0.4); opacity: 1; } 100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.2) rotate(var(--r)); opacity: 0; } }
 
-        @keyframes explodeFade {
-            0% { transform: translate(-50%, -50%) scale(0.4); opacity: 1; }
-            100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.2) rotate(var(--r)); opacity: 0; }
-        }
-
-        /* FINAL SAFEGUARD: Force disable all glow/focus effects on Desktop */
+        /* Desktop Safeguard for Focus Styles */
         @media (min-width: 769px) {
             .active-focus { box-shadow: none !important; transform: none !important; filter: none !important; }
             .active-focus * { box-shadow: none !important; }
@@ -122,32 +108,29 @@
     </style>
 </head>
 
-<body>
+<body class="antialiased">
 
     <div id="cursor-glow"></div>
     <div id="cursor-icon"><i class="fas fa-heart"></i></div>
 
     <nav class="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-md border-b border-gray-800">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-black font-display tracking-tighter text-pink-500 hover:scale-110 transition duration-300">
+            <div class="text-2xl font-black font-display tracking-tighter text-pink-500 hover:scale-110 transition duration-300 cursor-none">
                 XO
             </div>
-            
-            <a href="#contact"
-                class="px-6 py-2 border border-pink-400 rounded-full hover:bg-pink-400 hover:text-black transition uppercase text-xs font-bold tracking-widest">
+            <a href="#contact" class="px-6 py-2 border border-pink-400 rounded-full hover:bg-pink-400 hover:text-black transition uppercase text-xs font-bold tracking-widest cursor-none">
                 Get In Touch
             </a>
         </div>
     </nav>
 
-
-    <header class="h-screen flex flex-col justify-center items-center text-center px-4 relative overflow-hidden">
+    <header class="h-[100svh] md:h-screen flex flex-col justify-center items-center text-center px-4 relative overflow-hidden">
         <div class="absolute inset-0 flex items-center justify-center">
             <div class="w-[500px] h-[500px] bg-pink-900/30 rounded-full blur-[100px] animate-pulse"></div>
         </div>
 
         <div class="relative z-10" id="header-focus-trigger">
-            <h1 class="font-display text-6xl md:text-[11rem] font-bold tracking-tight uppercase leading-none gradient-title select-none">
+            <h1 class="font-display text-[13vw] md:text-[11rem] font-bold tracking-tight uppercase leading-none gradient-title select-none">
                 Extrovert
             </h1>
         </div>
@@ -163,25 +146,19 @@
 
     <section class="py-20 bg-gray-900 relative z-20">
         <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold mb-16 text-center uppercase tracking-widest text-pink-400 font-display"
-                data-aos="fade-up">Meet The Founders</h2>
+            <h2 class="text-4xl font-bold mb-16 text-center uppercase tracking-widest text-pink-400 font-display" data-aos="fade-up">Meet The Founders</h2>
             <div class="flex flex-col md:grid md:grid-cols-2 gap-12 max-w-5xl mx-auto items-center">
 
-                <div class="founder-card bg-black border-2 border-pink-300 p-6 rounded-lg relative transform transition duration-300 group w-full max-w-md mx-auto hover:scale-105 hover:shadow-2xl"
-                    data-aos="fade-right">
+                <div class="founder-card bg-black border-2 border-pink-300 p-6 rounded-lg relative transform transition duration-300 group w-full max-w-md mx-auto hover:scale-105 hover:shadow-2xl" data-aos="fade-right">
                     <div class="w-full h-64 bg-gray-800 mb-6 overflow-hidden rounded border border-gray-700">
-                        <img src="images/Mnvi.png" alt="Maanavi Singh"
-                            class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500">
+                        <img src="images/Mnvi.png" alt="Maanavi Singh" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500">
                     </div>
-                    <h3 class="text-3xl font-black uppercase mb-1 font-display text-white">Maanavi Singh</h3>
+                    <h3 class="text-2xl md:text-3xl font-black uppercase mb-1 font-display text-white break-words">Maanavi Singh</h3>
                     <p class="text-pink-400 font-bold text-sm tracking-wide mb-4">CO-FOUNDER</p>
                     <ul class="text-gray-300 text-sm space-y-4 mb-6">
-                        <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i>
-                            Graduated with a Bachelor's in Management (Specialization in Marketing)</li>
-                        <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i>
-                            Founded 'For Goodness Sake' (NGO) and previously built 'The Well Worded', a content writing company</li>
-                        <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i>
-                            Previously worked at Howl Digital Agency</li>
+                        <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i> Graduated with a Bachelor's in Management (Specialization in Marketing)</li>
+                        <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i> Founded 'For Goodness Sake' (NGO) and previously built 'The Well Worded'</li>
+                        <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i> Previously worked at Howl Digital Agency</li>
                     </ul>
                     <div class="flex gap-4">
                         <i class="fab fa-instagram text-2xl hover:text-pink-500 transition"></i>
@@ -189,21 +166,16 @@
                     </div>
                 </div>
 
-                <div class="founder-card bg-black border-2 border-pink-300 p-6 rounded-lg relative transform transition duration-300 group w-full max-w-md mx-auto hover:scale-105 hover:shadow-2xl"
-                    data-aos="fade-left">
+                <div class="founder-card bg-black border-2 border-pink-300 p-6 rounded-lg relative transform transition duration-300 group w-full max-w-md mx-auto hover:scale-105 hover:shadow-2xl" data-aos="fade-left">
                     <div class="w-full h-64 bg-gray-800 mb-6 overflow-hidden rounded border border-gray-700">
-                        <img src="images/Kabir.png" alt="Kabir Chaturvedy"
-                            class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500">
+                        <img src="images/Kabir.png" alt="Kabir Chaturvedy" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500">
                     </div>
-                    <h3 class="text-3xl font-black uppercase mb-1 font-display text-white">Kabir Chaturvedy</h3>
+                    <h3 class="text-2xl md:text-3xl font-black uppercase mb-1 font-display text-white break-words">Kabir Chaturvedy</h3>
                     <p class="text-pink-400 font-bold text-sm tracking-wide mb-4">CO-FOUNDER</p>
                     <ul class="text-gray-300 text-sm space-y-4 mb-6">
-                        <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i>
-                            Graduated with a Bachelor's in Financial Markets</li>
-                        <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i>
-                            Former Equity Derivative Analyst at KH Consulting and Editor at Northwest</li>
-                        <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i>
-                            Previously founded Apollo, a content writing company</li>
+                        <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i> Graduated with a Bachelor's in Financial Markets</li>
+                        <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i> Former Equity Derivative Analyst at KH Consulting</li>
+                        <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i> Previously founded Apollo, a content writing company</li>
                     </ul>
                     <div class="flex gap-4">
                         <i class="fab fa-instagram text-2xl hover:text-pink-500 transition"></i>
@@ -216,106 +188,71 @@
 
     <section class="py-20 bg-black overflow-hidden border-y border-gray-800 relative z-20">
         <div class="container mx-auto px-6 text-center mb-12">
-            <h2 class="text-3xl md:text-5xl font-black uppercase font-display" data-aos="fade-up">Our Team's <span
-                    class="text-pink-400">Track Record</span></h2>
+            <h2 class="text-3xl md:text-5xl font-black uppercase font-display" data-aos="fade-up">Our Team's <span class="text-pink-400">Track Record</span></h2>
         </div>
         
         <div class="marquee-container py-8 bg-gray-900/50 transform -rotate-1 scale-105 hidden md:block">
             <div class="marquee-content flex items-center">
+                <img src="images/svamaan-removebg-preview.png" alt="Svamaan" class="mx-8 h-20 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
+                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
                 
-                <img src="images/svamaan-removebg-preview.png" alt="Svamaan" 
-                     class="mx-8 h-20 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
-
+                <img src="images/FIMCA logo.png" alt="FIMCA" class="mx-8 h-40 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded-full">
                 <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-
-                <img src="images/FIMCA logo.png" alt="FIMCA" 
-                     class="mx-8 h-40 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded-full">
-
+                
+                <img src="images/Happy plate logo.png" alt="The Happy Plate" class="mx-8 h-40 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded-full">
                 <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-
-                <img src="images/Happy plate logo.png" alt="The Happy Plate" 
-                     class="mx-8 h-40 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded-full">
-
+                
+                <img src="images/Amazon music logo.png" alt="Amazon Music" class="mx-8 h-20 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
                 <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-
-                <img src="images/Amazon music logo.png" alt="Amazon Music" 
-                     class="mx-8 h-20 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
-
+                
+                <img src="images/northwest logo.png" alt="Northwest" class="mx-8 h-14 w-auto object-contain opacity-90 hover:opacity-100 transition duration-300 bg-white rounded px-3 py-2"> 
                 <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-
-                <img src="images/northwest logo.png" alt="Northwest Executive Education" 
-                     class="mx-8 h-14 w-auto object-contain opacity-90 hover:opacity-100 transition duration-300 bg-white rounded px-3 py-2"> 
-
+                
+                <img src="images/Benzer-removebg-preview.png" alt="Benzer" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
                 <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-
-                <img src="images/Benzer-removebg-preview.png" alt="Benzer" 
-                     class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
-
+                
+                <img src="images/BSE.png" alt="BSE" class="mx-8 h-20 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded relative bottom-2">
                 <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-
-                <img src="images/BSE.png" alt="BSE" 
-                     class="mx-8 h-20 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded relative bottom-2">
-
-                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-
-                <img src="images/Vira International Logo.png" alt="Vira International" 
-                     class="mx-8 h-20 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded">
-
+                
+                <img src="images/Vira International Logo.png" alt="Vira" class="mx-8 h-20 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded">
                 <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
                 
                 <img src="images/svamaan-removebg-preview.png" alt="Svamaan" class="mx-8 h-20 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
-
             </div>
         </div>
 
         <div class="md:hidden grid grid-cols-2 gap-10 px-8 mb-16 items-center justify-items-center">
-            
             <img src="images/svamaan-removebg-preview.png" alt="Svamaan" class="h-14 w-auto object-contain opacity-90">
-            
             <img src="images/FIMCA logo.png" alt="FIMCA" class="h-28 w-auto object-contain opacity-90 rounded-full">
-            
             <img src="images/Happy plate logo.png" alt="The Happy Plate" class="h-28 w-auto object-contain opacity-90 rounded-full">
-            
             <img src="images/Amazon music logo.png" alt="Amazon Music" class="h-14 w-auto object-contain opacity-90">
-            
             <img src="images/northwest logo.png" alt="Northwest" class="h-10 w-auto object-contain bg-white rounded px-2 py-1">
-            
             <img src="images/Benzer-removebg-preview.png" alt="Benzer" class="h-16 w-auto object-contain opacity-90">
-            
             <img src="images/BSE.png" alt="BSE" class="h-14 w-auto object-contain opacity-90 rounded relative bottom-1">
-            
             <img src="images/Vira International Logo.png" alt="Vira" class="h-14 w-auto object-contain opacity-90 rounded">
-            
         </div>
         
-        <div class="text-center mt-8 text-8xl font-black text-gray-900 select-none animate-pulse font-display overflow-hidden">
-            XO
-        </div>
+        <div class="text-center mt-8 text-8xl font-black text-gray-900 select-none animate-pulse font-display overflow-hidden">XO</div>
     </section>
 
     <section class="py-20 bg-gray-900 relative z-20">
         <div class="container mx-auto px-6">
             <h2 class="text-4xl font-bold mb-16 text-center uppercase text-white font-display" data-aos="fade-up">
-                Our Past, <span class="italic text-pink-400">Your Future.</span></h2>
+                Our Past, <span class="italic text-pink-400">Your Future.</span>
+            </h2>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="group relative bg-black border border-gray-700 overflow-hidden rounded-xl"
-                    data-aos="flip-left">
-                    <div class="absolute top-4 left-4 z-10 bg-green-600 text-white text-xs px-2 py-1 uppercase font-bold shadow-lg">
-                        Watch Now</div>
-                    <img src="https://placehold.co/400x600/1a1a1a/FFF?text=Tailoring+To+Cosmetics"
-                        alt="Tailoring To Cosmetics Case Study"
-                        class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition duration-700">
+                <div class="group relative bg-black border border-gray-700 overflow-hidden rounded-xl" data-aos="flip-left">
+                    <div class="absolute top-4 left-4 z-10 bg-green-600 text-white text-xs px-2 py-1 uppercase font-bold shadow-lg">Watch Now</div>
+                    <img src="https://placehold.co/400x600/1a1a1a/FFF?text=Tailoring+To+Cosmetics" alt="Tailoring Case Study" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition duration-700">
                     <div class="absolute bottom-0 p-6 bg-gradient-to-t from-black via-black/80 to-transparent w-full">
                         <h4 class="font-bold text-lg leading-tight group-hover:text-pink-300 transition">From Tailoring to Cosmetics, Suman Expands Her Enterprise</h4>
                     </div>
                 </div>
 
-                <div class="group bg-black border border-gray-700 p-4 rounded-xl flex flex-col justify-center transform hover:-translate-y-2 transition duration-300 shadow-xl"
-                    data-aos="flip-left" data-aos-delay="100">
+                <div class="group bg-black border border-gray-700 p-4 rounded-xl flex flex-col justify-center transform hover:-translate-y-2 transition duration-300 shadow-xl" data-aos="flip-left" data-aos-delay="100">
                     <div class="flex items-center gap-2 mb-4">
-                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center"><i
-                                class="fas fa-music text-white text-xs"></i></div>
+                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center"><i class="fas fa-music text-white text-xs"></i></div>
                         <div>
                             <p class="font-bold text-sm">Amazon Music India <i class="fas fa-check-circle text-blue-400 text-xs"></i></p>
                             <p class="text-xs text-gray-400">@amazonmusicin • POV: we are NOT falling asleep</p>
@@ -324,42 +261,30 @@
                     <div class="bg-gray-900 p-4 rounded-lg space-y-3 border border-gray-800">
                         <div class="flex items-center justify-between border-b border-gray-800 pb-2">
                             <div class="flex items-center gap-3">
-                                <img src="https://placehold.co/40/pink/white?text=S" alt="Espresso Album Art" class="rounded">
-                                <div>
-                                    <p class="font-bold text-sm text-white">Espresso</p>
-                                    <p class="text-xs text-gray-500">Sabrina Carpenter</p>
-                                </div>
+                                <img src="https://placehold.co/40/pink/white?text=S" alt="Album Art" class="rounded">
+                                <div><p class="font-bold text-sm text-white">Espresso</p><p class="text-xs text-gray-500">Sabrina Carpenter</p></div>
                             </div>
                             <i class="fas fa-heart text-pink-500"></i>
                         </div>
                         <div class="flex items-center justify-between border-b border-gray-800 pb-2">
                             <div class="flex items-center gap-3">
-                                <img src="https://placehold.co/40/brown/white?text=T" alt="Travis Scott Album Art" class="rounded">
-                                <div>
-                                    <p class="font-bold text-sm text-white">COFFEE BEAN</p>
-                                    <p class="text-xs text-gray-500">Travis Scott</p>
-                                </div>
+                                <img src="https://placehold.co/40/brown/white?text=T" alt="Album Art" class="rounded">
+                                <div><p class="font-bold text-sm text-white">COFFEE BEAN</p><p class="text-xs text-gray-500">Travis Scott</p></div>
                             </div>
                             <i class="far fa-heart text-gray-500"></i>
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-3">
-                                <img src="https://placehold.co/40/gray/white?text=B" alt="BTS Album Art" class="rounded">
-                                <div>
-                                    <p class="font-bold text-sm text-white">Coffee</p>
-                                    <p class="text-xs text-gray-500">BTS</p>
-                                </div>
+                                <img src="https://placehold.co/40/gray/white?text=B" alt="Album Art" class="rounded">
+                                <div><p class="font-bold text-sm text-white">Coffee</p><p class="text-xs text-gray-500">BTS</p></div>
                             </div>
                             <i class="far fa-heart text-gray-500"></i>
                         </div>
                     </div>
                 </div>
 
-                <div class="group relative bg-black border border-gray-700 overflow-hidden rounded-xl"
-                    data-aos="flip-left" data-aos-delay="200">
-                    <img src="https://placehold.co/400x600/333/FFF?text=Chefs+%26+Hospitality"
-                        alt="Chefs & Hospitality Case Study"
-                        class="w-full h-full object-cover opacity-80 group-hover:opacity-40 transition duration-500">
+                <div class="group relative bg-black border border-gray-700 overflow-hidden rounded-xl" data-aos="flip-left" data-aos-delay="200">
+                    <img src="https://placehold.co/400x600/333/FFF?text=Chefs+%26+Hospitality" alt="Vira Case Study" class="w-full h-full object-cover opacity-80 group-hover:opacity-40 transition duration-500">
                     <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 bg-black/40 group-hover:bg-black/10 transition">
                         <h3 class="text-2xl font-serif text-white mb-2 translate-y-4 group-hover:translate-y-0 transition duration-500">Vira</h3>
                         <p class="text-sm uppercase tracking-widest mb-6 opacity-0 group-hover:opacity-100 transition duration-500 delay-100">Culinary & Hospitality Staffing</p>
@@ -372,14 +297,11 @@
 
     <section class="py-20 bg-black text-white relative z-20">
         <div class="container mx-auto px-6">
-            <h2 class="text-5xl font-black mb-20 text-center uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white to-pink-500 font-display text-clip-fix"
-                data-aos="zoom-in">Our Services</h2>
+            <h2 class="text-5xl font-black mb-20 text-center uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white to-pink-500 font-display text-clip-fix" data-aos="zoom-in">Our Services</h2>
 
             <div class="grid md:grid-cols-3 gap-8 mb-16">
-                <div class="group border-l-2 border-pink-500 pl-6 hover:bg-gray-900 transition p-6 rounded-r-lg hover:border-l-8 duration-300"
-                    data-aos="fade-up">
-                    <h3 class="text-2xl font-bold mb-6 text-pink-300 group-hover:text-white transition font-display">
-                        Brand & Strategy</h3>
+                <div class="group border-l-2 border-pink-500 pl-6 hover:bg-gray-900 transition p-6 rounded-r-lg hover:border-l-8 duration-300" data-aos="fade-up">
+                    <h3 class="text-2xl font-bold mb-6 text-pink-300 group-hover:text-white transition font-display">Brand & Strategy</h3>
                     <ul class="space-y-4 text-sm uppercase tracking-wide text-gray-300">
                         <li><span class="text-pink-500 mr-2">01.</span> Brand Strategy & Identity</li>
                         <li><span class="text-pink-500 mr-2">02.</span> Audience Research & Persona Mapping</li>
@@ -389,10 +311,8 @@
                     </ul>
                 </div>
 
-                <div class="group border-l-2 border-pink-500 pl-6 hover:bg-gray-900 transition p-6 rounded-r-lg hover:border-l-8 duration-300"
-                    data-aos="fade-up" data-aos-delay="100">
-                    <h3 class="text-2xl font-bold mb-6 text-pink-300 group-hover:text-white transition font-display">
-                        Content</h3>
+                <div class="group border-l-2 border-pink-500 pl-6 hover:bg-gray-900 transition p-6 rounded-r-lg hover:border-l-8 duration-300" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-2xl font-bold mb-6 text-pink-300 group-hover:text-white transition font-display">Content</h3>
                     <ul class="space-y-4 text-sm uppercase tracking-wide text-gray-300">
                         <li><span class="text-pink-500 mr-2">01.</span> Videography & Production</li>
                         <li><span class="text-pink-500 mr-2">02.</span> AI-Driven Design</li>
@@ -401,10 +321,8 @@
                     </ul>
                 </div>
 
-                <div class="group border-l-2 border-pink-500 pl-6 hover:bg-gray-900 transition p-6 rounded-r-lg hover:border-l-8 duration-300"
-                    data-aos="fade-up" data-aos-delay="200">
-                    <h3 class="text-2xl font-bold mb-6 text-pink-300 group-hover:text-white transition font-display">
-                        Growth</h3>
+                <div class="group border-l-2 border-pink-500 pl-6 hover:bg-gray-900 transition p-6 rounded-r-lg hover:border-l-8 duration-300" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="text-2xl font-bold mb-6 text-pink-300 group-hover:text-white transition font-display">Growth</h3>
                     <ul class="space-y-4 text-sm uppercase tracking-wide text-gray-300">
                         <li><span class="text-pink-500 mr-2">01.</span> Google, Meta and LinkedIn Ads</li>
                         <li><span class="text-pink-500 mr-2">02.</span> Lead Generation</li>
@@ -435,35 +353,21 @@
         <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/noise-lines.png')]"></div>
 
         <div class="container mx-auto px-6 relative z-10 text-center">
-            <h2 class="text-5xl md:text-6xl font-black mb-8 inline-block font-display border-b-4 border-black pb-2"
-                data-aos="fade-down">OUR PERKS</h2>
+            <h2 class="text-5xl md:text-6xl font-black mb-8 inline-block font-display border-b-4 border-black pb-2" data-aos="fade-down">OUR PERKS</h2>
 
-            <p class="text-xl md:text-3xl font-bold mb-16 font-display uppercase tracking-tight max-w-3xl mx-auto"
-                data-aos="fade-up" data-aos-delay="200">
+            <p class="text-xl md:text-3xl font-bold mb-16 font-display uppercase tracking-tight max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">
                 Is your brand <span class="bg-black text-pink-500 px-3 py-1 transform -skew-x-12 inline-block shadow-lg">Introverted?</span>
-                <br> 
-                We help you <span class="underline decoration-black decoration-4 underline-offset-4">fix that.</span>
+                <br> We help you <span class="underline decoration-black decoration-4 underline-offset-4">fix that.</span>
             </p>
 
             <div class="flex flex-wrap justify-center gap-8 max-w-5xl mx-auto">
-                <div class="bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform rotate-2 hover:rotate-0 hover:scale-105 transition duration-300 text-center shadow-[8px_8px_0px_rgba(255,255,255,0.5)] float-anim w-full md:w-auto group">
-                    We Build Your Personal Brand
-                </div>
-                <div class="bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform -rotate-2 hover:rotate-0 hover:scale-105 transition duration-300 text-center shadow-[-8px_8px_0px_rgba(255,255,255,0.5)] float-anim-reverse w-full md:w-auto group">
-                    Led by the Internet Generation
-                </div>
-                <div class="bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform rotate-1 hover:rotate-0 hover:scale-105 transition duration-300 text-center shadow-[8px_8px_0px_rgba(255,255,255,0.5)] float-anim w-full md:w-auto group">
-                    Community First Approach
-                </div>
-                <div class="bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform -rotate-1 hover:rotate-0 hover:scale-105 transition duration-300 text-center shadow-[-8px_8px_0px_rgba(255,255,255,0.5)] float-anim-reverse w-full md:w-auto group">
-                    Cinematic Brand Campaigns
-                </div>
-                <div class="bg-black text-white p-6 font-bold text-2xl uppercase transform rotate-2 hover:rotate-0 hover:scale-105 transition duration-300 text-center border-2 border-white hover:bg-white hover:text-black float-anim w-full md:w-auto group">
-                    Creative Not Costly
-                </div>
+                <div class="bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform rotate-2 hover:rotate-0 hover:scale-105 transition duration-300 text-center shadow-[8px_8px_0px_rgba(255,255,255,0.5)] float-anim w-full md:w-auto group">We Build Your Personal Brand</div>
+                <div class="bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform -rotate-2 hover:rotate-0 hover:scale-105 transition duration-300 text-center shadow-[-8px_8px_0px_rgba(255,255,255,0.5)] float-anim-reverse w-full md:w-auto group">Led by the Internet Generation</div>
+                <div class="bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform rotate-1 hover:rotate-0 hover:scale-105 transition duration-300 text-center shadow-[8px_8px_0px_rgba(255,255,255,0.5)] float-anim w-full md:w-auto group">Community First Approach</div>
+                <div class="bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform -rotate-1 hover:rotate-0 hover:scale-105 transition duration-300 text-center shadow-[-8px_8px_0px_rgba(255,255,255,0.5)] float-anim-reverse w-full md:w-auto group">Cinematic Brand Campaigns</div>
+                <div class="bg-black text-white p-6 font-bold text-2xl uppercase transform rotate-2 hover:rotate-0 hover:scale-105 transition duration-300 text-center border-2 border-white hover:bg-white hover:text-black float-anim w-full md:w-auto group">Creative Not Costly</div>
             </div>
-            <div class="text-center mt-12 text-6xl font-black opacity-30 select-none scale-150 transform font-display">
-                XO</div>
+            <div class="text-center mt-12 text-6xl font-black opacity-30 select-none scale-150 transform font-display">XO</div>
         </div>
     </section>
 
@@ -473,48 +377,40 @@
 
             <div class="relative max-w-5xl mx-auto hidden md:block">
                 <div class="absolute top-1/2 left-0 w-full h-1 bg-gray-700 transform -translate-y-1/2 rounded"></div>
-                <div class="absolute top-1/2 left-0 h-1 bg-pink-500 transform -translate-y-1/2 rounded"
-                    style="width: 100%;" data-aos="slide-right" data-aos-duration="2000"></div>
+                <div class="absolute top-1/2 left-0 h-1 bg-pink-500 transform -translate-y-1/2 rounded" style="width: 100%;" data-aos="slide-right" data-aos-duration="2000"></div>
 
                 <div class="flex justify-between items-center relative z-10 w-full">
-                    <div class="flex flex-col items-center transform -translate-y-16 group cursor-pointer"
-                        data-aos="fade-up">
+                    <div class="flex flex-col items-center transform -translate-y-16 group cursor-pointer" data-aos="fade-up">
                         <div class="mb-4 text-center font-bold uppercase w-32 text-sm opacity-70 group-hover:opacity-100 transition">You've Seen The Deck</div>
                         <div class="w-12 h-12 rounded-full bg-pink-400 border-4 border-black flex items-center justify-center font-bold text-black text-xl mb-4 shadow-[0_0_20px_rgba(236,72,153,0.5)] transform group-hover:scale-125 transition duration-300">1</div>
                         <div class="h-16 w-1 bg-pink-400 group-hover:h-20 transition-all duration-300"></div>
                     </div>
-                    <div class="flex flex-col items-center transform translate-y-16 group pt-32 cursor-pointer"
-                        data-aos="fade-down" data-aos-delay="200">
+                    <div class="flex flex-col items-center transform translate-y-16 group pt-32 cursor-pointer" data-aos="fade-down" data-aos-delay="200">
                         <div class="h-16 w-1 bg-pink-400 group-hover:h-20 transition-all duration-300"></div>
                         <div class="w-12 h-12 rounded-full bg-pink-400 border-4 border-black flex items-center justify-center font-bold text-black text-xl mt-4 shadow-[0_0_20px_rgba(236,72,153,0.5)] transform group-hover:scale-125 transition duration-300">2</div>
                         <div class="mt-4 text-center font-bold uppercase w-32 text-sm opacity-70 group-hover:opacity-100 transition">You Felt The Fit</div>
                     </div>
-                    <div class="flex flex-col items-center transform -translate-y-16 group cursor-pointer"
-                        data-aos="fade-up" data-aos-delay="400">
+                    <div class="flex flex-col items-center transform -translate-y-16 group cursor-pointer" data-aos="fade-up" data-aos-delay="400">
                         <div class="mb-4 text-center font-bold uppercase w-32 text-sm opacity-70 group-hover:opacity-100 transition">You Know What's Coming</div>
                         <div class="w-12 h-12 rounded-full bg-pink-400 border-4 border-black flex items-center justify-center font-bold text-black text-xl mb-4 shadow-[0_0_20px_rgba(236,72,153,0.5)] transform group-hover:scale-125 transition duration-300">3</div>
                         <div class="h-16 w-1 bg-pink-400 group-hover:h-20 transition-all duration-300"></div>
                     </div>
-                    <div class="flex flex-col items-center transform translate-y-16 group pt-32 cursor-pointer"
-                        data-aos="zoom-in" data-aos-delay="600">
+                    <div class="flex flex-col items-center transform translate-y-16 group pt-32 cursor-pointer" data-aos="zoom-in" data-aos-delay="600">
                         <div class="h-16 w-1 bg-white animate-pulse group-hover:h-20 transition-all duration-300"></div>
                         <div class="w-16 h-16 rounded-full bg-white border-4 border-pink-500 flex items-center justify-center font-bold text-black text-2xl mt-4 shadow-[0_0_30px_rgba(255,255,255,0.8)] transform group-hover:scale-125 transition duration-300">4</div>
                         <div class="mt-4 text-center font-black text-white uppercase w-32 text-base group-hover:scale-110 transition">THE DECISION</div>
                     </div>
-                    <div class="flex flex-col items-center transform -translate-y-16 group cursor-pointer"
-                        data-aos="fade-up" data-aos-delay="800">
+                    <div class="flex flex-col items-center transform -translate-y-16 group cursor-pointer" data-aos="fade-up" data-aos-delay="800">
                         <div class="mb-4 text-center font-bold uppercase w-32 text-sm opacity-70 group-hover:opacity-100 transition">We Map It Out</div>
                         <div class="w-12 h-12 rounded-full bg-pink-400 border-4 border-black flex items-center justify-center font-bold text-black text-xl mb-4 shadow-[0_0_20px_rgba(236,72,153,0.5)] transform group-hover:scale-125 transition duration-300">5</div>
                         <div class="h-16 w-1 bg-pink-400 group-hover:h-20 transition-all duration-300"></div>
                     </div>
-                    <div class="flex flex-col items-center transform translate-y-16 group pt-32 cursor-pointer"
-                        data-aos="fade-down" data-aos-delay="1000">
+                    <div class="flex flex-col items-center transform translate-y-16 group pt-32 cursor-pointer" data-aos="fade-down" data-aos-delay="1000">
                         <div class="h-16 w-1 bg-pink-400 group-hover:h-20 transition-all duration-300"></div>
                         <div class="w-12 h-12 rounded-full bg-pink-400 border-4 border-black flex items-center justify-center font-bold text-black text-xl mt-4 shadow-[0_0_20px_rgba(236,72,153,0.5)] transform group-hover:scale-125 transition duration-300">6</div>
                         <div class="mt-4 text-center font-bold uppercase w-32 text-sm opacity-70 group-hover:opacity-100 transition">We Kick Off</div>
                     </div>
-                    <div class="flex flex-col items-center transform -translate-y-16 group cursor-pointer"
-                        data-aos="fade-up" data-aos-delay="1200">
+                    <div class="flex flex-col items-center transform -translate-y-16 group cursor-pointer" data-aos="fade-up" data-aos-delay="1200">
                         <div class="mb-4 text-center font-bold uppercase w-32 text-sm opacity-70 group-hover:opacity-100 transition">We Scale</div>
                         <div class="w-12 h-12 rounded-full bg-pink-400 border-4 border-black flex items-center justify-center font-bold text-black text-xl mb-4 shadow-[0_0_20px_rgba(236,72,153,0.5)] transform group-hover:scale-125 transition duration-300">7</div>
                         <div class="h-16 w-1 bg-pink-400 group-hover:h-20 transition-all duration-300"></div>
@@ -524,9 +420,7 @@
 
             <div class="md:hidden space-y-8 relative pl-8" id="mobile-roadmap">
                 <div class="absolute left-3 top-0 bottom-0 w-1 bg-gray-800"></div>
-                <div id="mobile-progress-line"
-                    class="absolute left-3 top-0 w-1 bg-pink-500 shadow-[0_0_25px_5px_rgba(236,72,153,0.9)] transition-all duration-500 ease-out"
-                    style="height: 0%;"></div>
+                <div id="mobile-progress-line" class="absolute left-3 top-0 w-1 bg-pink-500 shadow-[0_0_25px_5px_rgba(236,72,153,0.9)] transition-all duration-500 ease-out" style="height: 0%;"></div>
 
                 <div class="relative pl-6" data-step="1">
                     <div class="absolute left-[-1.3rem] w-8 h-8 rounded-full bg-pink-400 border-2 border-black flex items-center justify-center font-bold text-black wave-item">1</div>
@@ -565,15 +459,11 @@
         <div class="absolute bottom-0 right-0 w-32 h-32 bg-blue-500 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-pulse"></div>
         <div class="container mx-auto px-6 relative z-10">
             <h2 class="text-5xl md:text-8xl font-black mb-8" data-aos="zoom-out-up">
-                Your Fame, <br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-white">Our Formula.</span>
+                Your Fame, <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-white">Our Formula.</span>
             </h2>
-            <div class="flex justify-center items-center mt-12 text-xl md:text-2xl font-bold font-mono text-pink-300"
-                data-aos="fade-up" data-aos-delay="200">
-                <a href="mailto:team@extrovertdigital.com"
-                    class="hover:text-white transition flex items-center gap-2 px-8 py-4 border border-pink-900 rounded-full hover:bg-pink-900/30 group">
-                    <i class="fas fa-envelope text-sm group-hover:rotate-12 transition"></i>
-                    team@extrovertdigital.com
+            <div class="flex justify-center items-center mt-12 text-xl md:text-2xl font-bold font-mono text-pink-300" data-aos="fade-up" data-aos-delay="200">
+                <a href="mailto:team@extrovertdigital.com" class="hover:text-white transition flex items-center gap-2 px-8 py-4 border border-pink-900 rounded-full hover:bg-pink-900/30 group">
+                    <i class="fas fa-envelope text-sm group-hover:rotate-12 transition"></i> team@extrovertdigital.com
                 </a>
             </div>
             <div class="mt-20 text-sm text-gray-600">
@@ -584,24 +474,16 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Init AOS
         AOS.init({ once: true, offset: 50, duration: 800 });
 
-        // --- CUSTOM CURSOR LOGIC ---
+        /* Cursor Logic */
         const cursorIcon = document.getElementById('cursor-icon');
         const cursorGlow = document.getElementById('cursor-glow');
-        let mouseX = 0;
-        let mouseY = 0;
-        let isCursorMoving = false;
+        let mouseX = 0, mouseY = 0, isCursorMoving = false;
 
         document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-
-            if (!isCursorMoving) {
-                isCursorMoving = true;
-                requestAnimationFrame(updateCursor);
-            }
+            mouseX = e.clientX; mouseY = e.clientY;
+            if (!isCursorMoving) { isCursorMoving = true; requestAnimationFrame(updateCursor); }
         });
 
         function updateCursor() {
@@ -613,39 +495,30 @@
             isCursorMoving = false;
         }
 
-        // Hover Effects for Cursor
         document.querySelectorAll('a, button, .group, i, .marquee-content span, .founder-card, .float-anim').forEach(el => {
             el.addEventListener('mouseenter', () => {
                 cursorIcon.style.transform += ' scale(1.5)';
-                cursorGlow.style.width = '500px';
-                cursorGlow.style.height = '500px';
+                cursorGlow.style.width = '500px'; cursorGlow.style.height = '500px';
             });
             el.addEventListener('mouseleave', () => {
                 cursorIcon.style.transform = cursorIcon.style.transform.replace(' scale(1.5)', '');
-                cursorGlow.style.width = '400px';
-                cursorGlow.style.height = '400px';
+                cursorGlow.style.width = '400px'; cursorGlow.style.height = '400px';
             });
         });
 
-        // --- HEART PARTICLE EFFECT ---
+        /* Heart Particles */
         let lastHeartTime = 0;
-
         function createHeart(x, y) {
             const heart = document.createElement('div');
             heart.classList.add('heart-particle');
             heart.innerHTML = '<i class="fas fa-heart"></i>';
-            heart.style.left = x + 'px';
-            heart.style.top = y + 'px';
-
+            heart.style.left = x + 'px'; heart.style.top = y + 'px';
+            
             const angle = Math.random() * Math.PI * 2;
             const velocity = 50 + Math.random() * 60;
-            const tx = Math.cos(angle) * velocity;
-            const ty = Math.sin(angle) * velocity;
-            const rotation = (Math.random() - 0.5) * 90;
-
-            heart.style.setProperty('--tx', `${tx}px`);
-            heart.style.setProperty('--ty', `${ty}px`);
-            heart.style.setProperty('--r', `${rotation}deg`);
+            heart.style.setProperty('--tx', `${Math.cos(angle) * velocity}px`);
+            heart.style.setProperty('--ty', `${Math.sin(angle) * velocity}px`);
+            heart.style.setProperty('--r', `${(Math.random() - 0.5) * 90}deg`);
 
             document.body.appendChild(heart);
             setTimeout(() => heart.remove(), 800);
@@ -653,7 +526,7 @@
 
         document.addEventListener('touchmove', (e) => {
             const now = Date.now();
-            if (now - lastHeartTime < 40) return; 
+            if (now - lastHeartTime < 40) return;
             lastHeartTime = now;
             const touch = e.touches[0];
             createHeart(touch.clientX, touch.clientY);
@@ -663,49 +536,33 @@
             if (e.touches[0]) createHeart(e.touches[0].clientX, e.touches[0].clientY);
         }, { capture: true });
 
-        // --- INTERSECTION OBSERVER (Auto-Focus & Wave) ---
+        /* Mobile Scroll Observer */
         const focusObserverCallback = (entries, observer) => {
             if (window.innerWidth > 768) return;
-
             entries.forEach(entry => {
                 const target = entry.target;
                 if (entry.isIntersecting) {
-                    if (!target.classList.contains('wave-item')) {
-                        target.classList.add('active-focus');
-                    }
-                    if (target.classList.contains('wave-item')) {
-                        target.classList.add('wave-active');
-                    }
+                    target.classList.add(target.classList.contains('wave-item') ? 'wave-active' : 'active-focus');
                     const step = target.closest('[data-step]');
                     if (step) {
                         const stepNum = parseInt(step.getAttribute('data-step'));
                         const progressLine = document.getElementById('mobile-progress-line');
                         if (progressLine) {
-                            const percentage = Math.min((stepNum / 7) * 100 + 5, 100);
-                            progressLine.style.height = `${percentage}%`;
+                            progressLine.style.height = `${Math.min((stepNum / 7) * 100 + 5, 100)}%`;
                         }
                     }
                 } else {
-                    target.classList.remove('active-focus');
-                    target.classList.remove('wave-active');
+                    target.classList.remove('active-focus', 'wave-active');
                 }
             });
         };
 
-        const focusObserver = new IntersectionObserver(focusObserverCallback, {
-            root: null,
-            rootMargin: '-50% 0px -50% 0px',
-            threshold: 0
-        });
-
-        document.querySelectorAll('.founder-card, .group, .wave-item').forEach(target => {
-            focusObserver.observe(target);
-        });
+        const focusObserver = new IntersectionObserver(focusObserverCallback, { root: null, rootMargin: '-50% 0px -50% 0px', threshold: 0 });
+        document.querySelectorAll('.founder-card, .group, .wave-item').forEach(target => focusObserver.observe(target));
 
         window.addEventListener('resize', () => {
             if (window.innerWidth > 768) {
-                document.querySelectorAll('.active-focus').forEach(el => el.classList.remove('active-focus'));
-                document.querySelectorAll('.wave-active').forEach(el => el.classList.remove('wave-active'));
+                document.querySelectorAll('.active-focus, .wave-active').forEach(el => el.classList.remove('active-focus', 'wave-active'));
             }
         });
     </script>
