@@ -71,9 +71,9 @@
             filter: drop-shadow(0 0 30px rgba(236, 72, 153, 0.3));
         }
 
-        /* Marquee */
+        /* Marquee - Updated for seamless loop */
         .marquee-container { overflow: hidden; white-space: nowrap; position: relative; }
-        .marquee-content { display: inline-block; animation: scroll 20s linear infinite; }
+        .marquee-content { display: flex; width: fit-content; animation: scroll 30s linear infinite; }
         
         /* Floating Cards */
         .float-anim { animation: float 5s ease-in-out infinite; }
@@ -94,8 +94,8 @@
         .active-focus img { opacity: 1 !important; }
         .text-clip-fix { padding-right: 0.2em; display: inline-block; }
 
-        /* Keyframes */
-        @keyframes scroll { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
+        /* Keyframes - Updated scroll for seamless loop */
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         @keyframes float { 0%, 100% { transform: translateY(0px) rotate(1deg); } 50% { transform: translateY(-10px) rotate(-1deg); } }
         @keyframes floatWave { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
         @keyframes explodeFade { 0% { transform: translate(-50%, -50%) scale(0.4); opacity: 1; } 100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.2) rotate(var(--r)); opacity: 0; } }
@@ -147,9 +147,9 @@
     <section class="py-20 bg-gray-900 relative z-20">
         <div class="container mx-auto px-6">
             <h2 class="text-4xl font-bold mb-16 text-center uppercase tracking-widest text-pink-400 font-display" data-aos="fade-up">Meet The Founders</h2>
-            <div class="flex flex-col md:grid md:grid-cols-2 gap-12 max-w-5xl mx-auto items-center">
+            <div class="flex flex-col md:grid md:grid-cols-2 gap-12 max-w-5xl mx-auto items-stretch">
 
-                <div class="founder-card bg-black border-2 border-pink-300 p-6 rounded-lg relative transform transition duration-300 group w-full max-w-md mx-auto hover:scale-105 hover:shadow-2xl" data-aos="fade-right">
+                <div class="founder-card bg-black border-2 border-pink-300 p-6 rounded-lg relative transform transition duration-300 group w-full max-w-md mx-auto hover:scale-105 hover:shadow-2xl h-full" data-aos="fade-right">
                     <div class="w-full h-64 bg-gray-800 mb-6 overflow-hidden rounded border border-gray-700">
                         <img src="images/Mnvi.png" alt="Maanavi Singh" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500">
                     </div>
@@ -160,13 +160,13 @@
                         <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i> Founded 'For Goodness Sake' (NGO) and previously built 'The Well Worded'</li>
                         <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i> Previously worked at Howl Digital Agency</li>
                     </ul>
-                    <div class="flex gap-4">
+                    <div class="flex gap-4 mt-auto">
                         <i class="fab fa-instagram text-2xl hover:text-pink-500 transition"></i>
                         <i class="fab fa-linkedin text-2xl hover:text-blue-500 transition"></i>
                     </div>
                 </div>
 
-                <div class="founder-card bg-black border-2 border-pink-300 p-6 rounded-lg relative transform transition duration-300 group w-full max-w-md mx-auto hover:scale-105 hover:shadow-2xl" data-aos="fade-left">
+                <div class="founder-card bg-black border-2 border-pink-300 p-6 rounded-lg relative transform transition duration-300 group w-full max-w-md mx-auto hover:scale-105 hover:shadow-2xl h-full" data-aos="fade-left">
                     <div class="w-full h-64 bg-gray-800 mb-6 overflow-hidden rounded border border-gray-700">
                         <img src="images/Kabir.png" alt="Kabir Chaturvedy" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500">
                     </div>
@@ -177,7 +177,7 @@
                         <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i> Former Equity Derivative Analyst at KH Consulting</li>
                         <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i> Previously founded Apollo, a content writing company</li>
                     </ul>
-                    <div class="flex gap-4">
+                    <div class="flex gap-4 mt-auto">
                         <i class="fab fa-instagram text-2xl hover:text-pink-500 transition"></i>
                         <i class="fab fa-linkedin text-2xl hover:text-blue-500 transition"></i>
                     </div>
@@ -193,43 +193,54 @@
         
         <div class="marquee-container py-8 bg-gray-900/50 transform -rotate-1 scale-105 hidden md:block">
             <div class="marquee-content flex items-center">
-                <img src="images/Svamaan Logo.png" alt="Svamaan" class="mx-8 h-20 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
+                <img src="images/Svamaan Logo.png" alt="Svamaan" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
                 <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-                
-                <img src="images/FIMCA Logo (2).png" alt="FIMCA" class="mx-8 h-32 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded-full">
+                <img src="images/FIMCA Logo (2).png" alt="FIMCA" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded-full">
                 <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-                
-                <img src="images/Happy Plate Logo.png" alt="The Happy Plate" class="mx-8 h-32 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded-full">
+                <img src="images/Happy Plate Logo.png" alt="The Happy Plate" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded-full">
                 <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-                
-                <img src="images/Amazon Music Logo.png" alt="Amazon Music" class="mx-8 h-20 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
+                <img src="images/Amazon Music Logo.png" alt="Amazon Music" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
                 <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-                
-                <img src="images/Northwest Logo.png" alt="Northwest" class="mx-8 h-20 w-auto object-contain opacity-90 hover:opacity-100 transition duration-300 rounded px-2 py-1"> 
+                <img src="images/Northwest Logo.png" alt="Northwest" class="mx-8 h-24 w-auto object-contain opacity-90 hover:opacity-100 transition duration-300 rounded px-2 py-1"> 
                 <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-                
                 <img src="images/Benzer Logo.png" alt="Benzer" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
                 <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-                
-                <img src="images/BSE Logo.png" alt="BSE" class="mx-8 h-20 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded relative bottom-2">
+                <img src="images/BSE Logo.png" alt="BSE" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded">
                 <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-                
-                <img src="images/Vira Logo.png" alt="Vira" class="mx-8 h-20 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded">
+                <img src="images/Vira Logo.png" alt="Vira" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded">
                 <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
+                <img src="images/Svamaan Logo.png" alt="Svamaan" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
                 
-                <img src="images/Svamaan Logo.png" alt="Svamaan" class="mx-8 h-20 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
+                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
+                <img src="images/Svamaan Logo.png" alt="Svamaan" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
+                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
+                <img src="images/FIMCA Logo (2).png" alt="FIMCA" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded-full">
+                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
+                <img src="images/Happy Plate Logo.png" alt="The Happy Plate" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded-full">
+                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
+                <img src="images/Amazon Music Logo.png" alt="Amazon Music" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
+                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
+                <img src="images/Northwest Logo.png" alt="Northwest" class="mx-8 h-24 w-auto object-contain opacity-90 hover:opacity-100 transition duration-300 rounded px-2 py-1"> 
+                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
+                <img src="images/Benzer Logo.png" alt="Benzer" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
+                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
+                <img src="images/BSE Logo.png" alt="BSE" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded">
+                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
+                <img src="images/Vira Logo.png" alt="Vira" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded">
+                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
+                <img src="images/Svamaan Logo.png" alt="Svamaan" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
             </div>
         </div>
 
         <div class="md:hidden grid grid-cols-2 gap-10 px-8 mb-16 items-center justify-items-center">
-            <img src="images/Svamaan Logo.png" alt="Svamaan" class="h-14 w-auto object-contain opacity-90">
-            <img src="images/FIMCA Logo (2).png" alt="FIMCA" class="h-28 w-auto object-contain opacity-90 rounded-full">
-            <img src="images/Happy Plate Logo.png" alt="The Happy Plate" class="h-28 w-auto object-contain opacity-90 rounded-full">
-            <img src="images/Amazon Music Logo.png" alt="Amazon Music" class="h-14 w-auto object-contain opacity-90">
-            <img src="images/Northwest Logo.png" alt="Northwest" class="h-10 w-auto object-contain rounded px-2 py-1">
-            <img src="images/Benzer Logo.png" alt="Benzer" class="h-16 w-auto object-contain opacity-90">
-            <img src="images/BSE Logo.png" alt="BSE" class="h-14 w-auto object-contain opacity-90 rounded relative bottom-1">
-            <img src="images/Vira Logo.png" alt="Vira" class="h-14 w-auto object-contain opacity-90 rounded">
+            <img src="images/Svamaan Logo.png" alt="Svamaan" class="h-20 w-auto object-contain opacity-90">
+            <img src="images/FIMCA Logo (2).png" alt="FIMCA" class="h-20 w-auto object-contain opacity-90 rounded-full">
+            <img src="images/Happy Plate Logo.png" alt="The Happy Plate" class="h-20 w-auto object-contain opacity-90 rounded-full">
+            <img src="images/Amazon Music Logo.png" alt="Amazon Music" class="h-20 w-auto object-contain opacity-90">
+            <img src="images/Northwest Logo.png" alt="Northwest" class="h-20 w-auto object-contain rounded px-2 py-1">
+            <img src="images/Benzer Logo.png" alt="Benzer" class="h-20 w-auto object-contain opacity-90">
+            <img src="images/BSE Logo.png" alt="BSE" class="h-20 w-auto object-contain opacity-90 rounded">
+            <img src="images/Vira Logo.png" alt="Vira" class="h-20 w-auto object-contain opacity-90 rounded">
         </div>
         
         <div class="text-center mt-8 text-8xl font-black text-gray-900 select-none animate-pulse font-display overflow-hidden">XO</div>
@@ -252,7 +263,7 @@
 
                 <div class="group bg-black border border-gray-700 p-4 rounded-xl flex flex-col justify-center transform hover:-translate-y-2 transition duration-300 shadow-xl" data-aos="flip-left" data-aos-delay="100">
                     <div class="flex items-center gap-2 mb-4">
-                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center"><i class="fas fa-music text-white text-xs"></i></div>
+                        <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center"><i class="fas fa-music text-white text-sm"></i></div>
                         <div>
                             <p class="font-bold text-sm">Amazon Music India <i class="fas fa-check-circle text-blue-400 text-xs"></i></p>
                             <p class="text-xs text-gray-400">@amazonmusicin • POV: we are NOT falling asleep</p>
