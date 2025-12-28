@@ -20,7 +20,7 @@
             background-color: black;
             color: white;
             width: 100%;
-            overflow-x: hidden; /* Critical for Android stability */
+            overflow-x: hidden;
             position: relative;
         }
 
@@ -71,9 +71,30 @@
             filter: drop-shadow(0 0 30px rgba(236, 72, 153, 0.3));
         }
 
-        /* Marquee - Updated for seamless loop */
-        .marquee-container { overflow: hidden; white-space: nowrap; position: relative; }
-        .marquee-content { display: flex; width: fit-content; animation: scroll 30s linear infinite; }
+        /* Seamless Marquee Logic */
+        .marquee-wrapper {
+            display: flex;
+            overflow: hidden;
+            user-select: none;
+            gap: 2rem;
+            width: 100%;
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+        
+        .marquee-group {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            gap: 2rem;
+            min-width: 100%;
+            animation: scroll-left 25s linear infinite;
+        }
+
+        @keyframes scroll-left {
+            from { transform: translateX(0); }
+            to { transform: translateX(calc(-100% - 2rem)); }
+        }
         
         /* Floating Cards */
         .float-anim { animation: float 5s ease-in-out infinite; }
@@ -94,8 +115,7 @@
         .active-focus img { opacity: 1 !important; }
         .text-clip-fix { padding-right: 0.2em; display: inline-block; }
 
-        /* Keyframes - Updated scroll for seamless loop */
-        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        /* Keyframes */
         @keyframes float { 0%, 100% { transform: translateY(0px) rotate(1deg); } 50% { transform: translateY(-10px) rotate(-1deg); } }
         @keyframes floatWave { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
         @keyframes explodeFade { 0% { transform: translate(-50%, -50%) scale(0.4); opacity: 1; } 100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.2) rotate(var(--r)); opacity: 0; } }
@@ -149,34 +169,38 @@
             <h2 class="text-4xl font-bold mb-16 text-center uppercase tracking-widest text-pink-400 font-display" data-aos="fade-up">Meet The Founders</h2>
             <div class="flex flex-col md:grid md:grid-cols-2 gap-12 max-w-5xl mx-auto items-stretch">
 
-                <div class="founder-card bg-black border-2 border-pink-300 p-6 rounded-lg relative transform transition duration-300 group w-full max-w-md mx-auto hover:scale-105 hover:shadow-2xl h-full" data-aos="fade-right">
-                    <div class="w-full h-64 bg-gray-800 mb-6 overflow-hidden rounded border border-gray-700">
+                <div class="founder-card bg-black border-2 border-pink-300 p-6 rounded-lg relative transform transition duration-300 group w-full max-w-md mx-auto hover:scale-105 hover:shadow-2xl h-full flex flex-col" data-aos="fade-right">
+                    <div class="w-full h-64 bg-gray-800 mb-6 overflow-hidden rounded border border-gray-700 shrink-0">
                         <img src="images/Mnvi.png" alt="Maanavi Singh" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500">
                     </div>
-                    <h3 class="text-2xl md:text-3xl font-black uppercase mb-1 font-display text-white break-words">Maanavi Singh</h3>
-                    <p class="text-pink-400 font-bold text-sm tracking-wide mb-4">CO-FOUNDER</p>
-                    <ul class="text-gray-300 text-sm space-y-4 mb-6">
-                        <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i> Graduated with a Bachelor's in Management (Specialization in Marketing)</li>
-                        <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i> Founded 'For Goodness Sake' (NGO) and previously built 'The Well Worded'</li>
-                        <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i> Previously worked at Howl Digital Agency</li>
-                    </ul>
+                    <div class="flex-grow">
+                        <h3 class="text-2xl md:text-3xl font-black uppercase mb-1 font-display text-white break-words">Maanavi Singh</h3>
+                        <p class="text-pink-400 font-bold text-sm tracking-wide mb-4">CO-FOUNDER</p>
+                        <ul class="text-gray-300 text-sm space-y-4 mb-6">
+                            <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i> Graduated with a Bachelor's in Management (Specialization in Marketing)</li>
+                            <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i> Founded 'For Goodness Sake' (NGO) and previously built 'The Well Worded'</li>
+                            <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i> Previously worked at Howl Digital Agency</li>
+                        </ul>
+                    </div>
                     <div class="flex gap-4 mt-auto">
                         <i class="fab fa-instagram text-2xl hover:text-pink-500 transition"></i>
                         <i class="fab fa-linkedin text-2xl hover:text-blue-500 transition"></i>
                     </div>
                 </div>
 
-                <div class="founder-card bg-black border-2 border-pink-300 p-6 rounded-lg relative transform transition duration-300 group w-full max-w-md mx-auto hover:scale-105 hover:shadow-2xl h-full" data-aos="fade-left">
-                    <div class="w-full h-64 bg-gray-800 mb-6 overflow-hidden rounded border border-gray-700">
+                <div class="founder-card bg-black border-2 border-pink-300 p-6 rounded-lg relative transform transition duration-300 group w-full max-w-md mx-auto hover:scale-105 hover:shadow-2xl h-full flex flex-col" data-aos="fade-left">
+                    <div class="w-full h-64 bg-gray-800 mb-6 overflow-hidden rounded border border-gray-700 shrink-0">
                         <img src="images/Kabir.png" alt="Kabir Chaturvedy" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500">
                     </div>
-                    <h3 class="text-2xl md:text-3xl font-black uppercase mb-1 font-display text-white break-words">Kabir Chaturvedy</h3>
-                    <p class="text-pink-400 font-bold text-sm tracking-wide mb-4">CO-FOUNDER</p>
-                    <ul class="text-gray-300 text-sm space-y-4 mb-6">
-                        <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i> Graduated with a Bachelor's in Financial Markets</li>
-                        <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i> Former Equity Derivative Analyst at KH Consulting</li>
-                        <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i> Previously founded Apollo, a content writing company</li>
-                    </ul>
+                    <div class="flex-grow">
+                        <h3 class="text-2xl md:text-3xl font-black uppercase mb-1 font-display text-white break-words">Kabir Chaturvedy</h3>
+                        <p class="text-pink-400 font-bold text-sm tracking-wide mb-4">CO-FOUNDER</p>
+                        <ul class="text-gray-300 text-sm space-y-4 mb-6">
+                            <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i> Graduated with a Bachelor's in Financial Markets</li>
+                            <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i> Former Equity Derivative Analyst at KH Consulting</li>
+                            <li class="flex items-start gap-2"><i class="fas fa-check text-pink-500 text-xs mt-1"></i> Previously founded Apollo, a content writing company</li>
+                        </ul>
+                    </div>
                     <div class="flex gap-4 mt-auto">
                         <i class="fab fa-instagram text-2xl hover:text-pink-500 transition"></i>
                         <i class="fab fa-linkedin text-2xl hover:text-blue-500 transition"></i>
@@ -191,44 +215,48 @@
             <h2 class="text-3xl md:text-5xl font-black uppercase font-display" data-aos="fade-up">Our Team's <span class="text-pink-400">Track Record</span></h2>
         </div>
         
-        <div class="marquee-container py-8 bg-gray-900/50 transform -rotate-1 scale-105 hidden md:block">
-            <div class="marquee-content flex items-center">
-                <img src="images/Svamaan Logo.png" alt="Svamaan" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
-                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-                <img src="images/FIMCA Logo (2).png" alt="FIMCA" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded-full">
-                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-                <img src="images/Happy Plate Logo.png" alt="The Happy Plate" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded-full">
-                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-                <img src="images/Amazon Music Logo.png" alt="Amazon Music" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
-                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-                <img src="images/Northwest Logo.png" alt="Northwest" class="mx-8 h-24 w-auto object-contain opacity-90 hover:opacity-100 transition duration-300 rounded px-2 py-1"> 
-                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-                <img src="images/Benzer Logo.png" alt="Benzer" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
-                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-                <img src="images/BSE Logo.png" alt="BSE" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded">
-                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-                <img src="images/Vira Logo.png" alt="Vira" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded">
-                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-                <img src="images/Svamaan Logo.png" alt="Svamaan" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
+        <div class="marquee-wrapper py-8 bg-gray-900/50 transform -rotate-1 scale-105 hidden md:flex">
+            <div class="marquee-group">
+                <img src="images/Svamaan Logo.png" alt="Svamaan" class="h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
+                <span class="text-pink-500 text-4xl leading-none">•</span>
                 
-                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-                <img src="images/Svamaan Logo.png" alt="Svamaan" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
-                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-                <img src="images/FIMCA Logo (2).png" alt="FIMCA" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded-full">
-                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-                <img src="images/Happy Plate Logo.png" alt="The Happy Plate" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded-full">
-                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-                <img src="images/Amazon Music Logo.png" alt="Amazon Music" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
-                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-                <img src="images/Northwest Logo.png" alt="Northwest" class="mx-8 h-24 w-auto object-contain opacity-90 hover:opacity-100 transition duration-300 rounded px-2 py-1"> 
-                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-                <img src="images/Benzer Logo.png" alt="Benzer" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
-                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-                <img src="images/BSE Logo.png" alt="BSE" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded">
-                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-                <img src="images/Vira Logo.png" alt="Vira" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded">
-                <span class="mx-2 text-pink-500 text-4xl leading-none align-middle">•</span>
-                <img src="images/Svamaan Logo.png" alt="Svamaan" class="mx-8 h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
+                <img src="images/FIMCA Logo (2).png" alt="FIMCA" class="h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded-full">
+                <span class="text-pink-500 text-4xl leading-none">•</span>
+                
+                <img src="images/Happy Plate Logo.png" alt="The Happy Plate" class="h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded-full">
+                <span class="text-pink-500 text-4xl leading-none">•</span>
+                
+                <img src="images/Amazon Music Logo.png" alt="Amazon Music" class="h-28 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
+                <span class="text-pink-500 text-4xl leading-none">•</span>
+                
+                <img src="images/Northwest Logo.png" alt="Northwest" class="h-12 w-auto object-contain opacity-90 hover:opacity-100 transition duration-300 rounded px-2 py-1 bg-white/5"> 
+                <span class="text-pink-500 text-4xl leading-none">•</span>
+                
+                <img src="images/Benzer Logo.png" alt="Benzer" class="h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
+                <span class="text-pink-500 text-4xl leading-none">•</span>
+                
+                <img src="images/BSE Logo.png" alt="BSE" class="h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded relative -top-3">
+                <span class="text-pink-500 text-4xl leading-none">•</span>
+                
+                <img src="images/Vira Logo.png" alt="Vira" class="h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded">
+            </div>
+
+            <div class="marquee-group">
+                <img src="images/Svamaan Logo.png" alt="Svamaan" class="h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
+                <span class="text-pink-500 text-4xl leading-none">•</span>
+                <img src="images/FIMCA Logo (2).png" alt="FIMCA" class="h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded-full">
+                <span class="text-pink-500 text-4xl leading-none">•</span>
+                <img src="images/Happy Plate Logo.png" alt="The Happy Plate" class="h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded-full">
+                <span class="text-pink-500 text-4xl leading-none">•</span>
+                <img src="images/Amazon Music Logo.png" alt="Amazon Music" class="h-28 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
+                <span class="text-pink-500 text-4xl leading-none">•</span>
+                <img src="images/Northwest Logo.png" alt="Northwest" class="h-12 w-auto object-contain opacity-90 hover:opacity-100 transition duration-300 rounded px-2 py-1 bg-white/5"> 
+                <span class="text-pink-500 text-4xl leading-none">•</span>
+                <img src="images/Benzer Logo.png" alt="Benzer" class="h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
+                <span class="text-pink-500 text-4xl leading-none">•</span>
+                <img src="images/BSE Logo.png" alt="BSE" class="h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded relative -top-3">
+                <span class="text-pink-500 text-4xl leading-none">•</span>
+                <img src="images/Vira Logo.png" alt="Vira" class="h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded">
             </div>
         </div>
 
@@ -236,10 +264,9 @@
             <img src="images/Svamaan Logo.png" alt="Svamaan" class="h-20 w-auto object-contain opacity-90">
             <img src="images/FIMCA Logo (2).png" alt="FIMCA" class="h-20 w-auto object-contain opacity-90 rounded-full">
             <img src="images/Happy Plate Logo.png" alt="The Happy Plate" class="h-20 w-auto object-contain opacity-90 rounded-full">
-            <img src="images/Amazon Music Logo.png" alt="Amazon Music" class="h-20 w-auto object-contain opacity-90">
-            <img src="images/Northwest Logo.png" alt="Northwest" class="h-20 w-auto object-contain rounded px-2 py-1">
-            <img src="images/Benzer Logo.png" alt="Benzer" class="h-20 w-auto object-contain opacity-90">
-            <img src="images/BSE Logo.png" alt="BSE" class="h-20 w-auto object-contain opacity-90 rounded">
+            <img src="images/Amazon Music Logo.png" alt="Amazon Music" class="h-24 w-auto object-contain opacity-90">
+            <img src="images/Northwest Logo.png" alt="Northwest" class="h-8 w-auto object-contain rounded px-2 py-1"> <img src="images/Benzer Logo.png" alt="Benzer" class="h-20 w-auto object-contain opacity-90">
+            <img src="images/BSE Logo.png" alt="BSE" class="h-20 w-auto object-contain opacity-90 rounded relative bottom-2">
             <img src="images/Vira Logo.png" alt="Vira" class="h-20 w-auto object-contain opacity-90 rounded">
         </div>
         
