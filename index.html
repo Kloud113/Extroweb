@@ -13,6 +13,7 @@
 
     <style>
         /* --- CORE LAYOUT & RESETS --- */
+        /* Only hide cursor on body/content, allow it on scrollbar if possible via JS logic */
         body, a, button, input, textarea { cursor: none !important; }
         
         html, body {
@@ -27,9 +28,9 @@
         .font-display { font-family: 'Syne', sans-serif; }
         
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #111; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 5px; border: 2px solid #111; }
         ::-webkit-scrollbar-thumb:hover { background: #ec4899; }
 
         /* --- NEW CURSOR SYSTEM --- */
@@ -38,45 +39,45 @@
         #cursor-glow {
             position: fixed;
             top: 0; left: 0;
-            /* Increased Size */
             width: 80px; height: 80px;
-            background: rgba(236, 72, 153, 0.5); /* Slightly more transparent for the chase */
-            filter: blur(25px); /* softer blur */
+            background: rgba(236, 72, 153, 0.5); 
+            filter: blur(25px); 
             border-radius: 50%;
             transform: translate(-50%, -50%);
             pointer-events: none;
-            z-index: 9998; /* Behind the X-ray ball */
+            z-index: 9998; 
             transition: opacity 0.3s;
-            /* Removed width/height transitions for smoother JS chasing */
         }
 
         /* The X-Ray Ball (Front layer - Snappy Leader) */
         #cursor-ball {
             position: fixed;
             top: 0; left: 0;
-            /* Increased Base Size */
-            width: 24px; height: 24px;
+            /* REDUCED SIZE (Tad bit small) */
+            width: 18px; height: 18px;
             background-color: white;
             border-radius: 50%;
-            /* Center the pivot point */
             transform: translate(-50%, -50%);
             pointer-events: none;
             z-index: 9999;
-            /* This creates the X-ray/Invert effect */
             mix-blend-mode: difference; 
-            /* Only animate the transform (scale) on hover, position is handled by JS */
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
         }
 
-        /* HOVER STATE: When over interactable elements */
+        /* HOVER STATE: Reduced scale so it's not "Way too big" */
         body.hover-active #cursor-ball {
-            /* Increased Scale */
-            transform: translate(-50%, -50%) scale(6.5); 
+            transform: translate(-50%, -50%) scale(3.5); 
             background-color: white; 
         }
 
         body.hover-active #cursor-glow {
-            opacity: 0; /* Hide glow so X-ray is clearer */
+            opacity: 0; 
+        }
+
+        /* Hide custom cursor when interacting with UI/Scrollbar via JS class */
+        body.hide-cursor #cursor-ball,
+        body.hide-cursor #cursor-glow {
+            opacity: 0 !important;
         }
 
         /* Disable Custom Cursor on Touch Devices */
@@ -467,46 +468,46 @@
                 <div class="absolute top-1/2 left-0 h-1 bg-pink-500 transform -translate-y-1/2 rounded" style="width: 100%;" data-aos="slide-right" data-aos-duration="2000"></div>
 
                 <div class="flex justify-between items-center relative z-10 w-full">
-                    <div class="flex flex-col items-center transform -translate-y-16 group cursor-pointer" data-aos="fade-up">
+                    <div class="flex flex-col items-center transform -translate-y-24 group cursor-pointer" data-aos="fade-up">
                         <div class="mb-4 text-center font-bold uppercase w-32 text-sm opacity-70 group-hover:opacity-100 transition">You've Seen The Deck</div>
                         <div class="w-12 h-12 rounded-full bg-pink-400 border-4 border-black flex items-center justify-center font-bold text-black text-xl mb-4 shadow-[0_0_20px_rgba(236,72,153,0.5)] transform group-hover:scale-125 transition duration-300">1</div>
-                        <div class="h-16 w-1 bg-pink-400 group-hover:h-20 transition-all duration-300"></div>
+                        <div class="h-24 w-1 bg-pink-400 group-hover:h-28 transition-all duration-300"></div>
                     </div>
                     
-                    <div class="flex flex-col items-center transform translate-y-16 group cursor-pointer" data-aos="fade-down" data-aos-delay="200">
-                        <div class="h-16 w-1 bg-pink-400 group-hover:h-20 transition-all duration-300"></div>
+                    <div class="flex flex-col items-center transform translate-y-24 group cursor-pointer" data-aos="fade-down" data-aos-delay="200">
+                        <div class="h-24 w-1 bg-pink-400 group-hover:h-28 transition-all duration-300"></div>
                         <div class="w-12 h-12 rounded-full bg-pink-400 border-4 border-black flex items-center justify-center font-bold text-black text-xl mt-4 shadow-[0_0_20px_rgba(236,72,153,0.5)] transform group-hover:scale-125 transition duration-300">2</div>
                         <div class="mt-4 text-center font-bold uppercase w-32 text-sm opacity-70 group-hover:opacity-100 transition">You Felt The Fit</div>
                     </div>
 
-                    <div class="flex flex-col items-center transform -translate-y-16 group cursor-pointer" data-aos="fade-up" data-aos-delay="400">
+                    <div class="flex flex-col items-center transform -translate-y-24 group cursor-pointer" data-aos="fade-up" data-aos-delay="400">
                         <div class="mb-4 text-center font-bold uppercase w-32 text-sm opacity-70 group-hover:opacity-100 transition">You Know What's Coming</div>
                         <div class="w-12 h-12 rounded-full bg-pink-400 border-4 border-black flex items-center justify-center font-bold text-black text-xl mb-4 shadow-[0_0_20px_rgba(236,72,153,0.5)] transform group-hover:scale-125 transition duration-300">3</div>
-                        <div class="h-16 w-1 bg-pink-400 group-hover:h-20 transition-all duration-300"></div>
+                        <div class="h-24 w-1 bg-pink-400 group-hover:h-28 transition-all duration-300"></div>
                     </div>
 
-                    <div class="flex flex-col items-center transform translate-y-16 group cursor-pointer" data-aos="zoom-in" data-aos-delay="600">
-                        <div class="h-16 w-1 bg-white animate-pulse group-hover:h-20 transition-all duration-300"></div>
+                    <div class="flex flex-col items-center transform translate-y-24 group cursor-pointer" data-aos="zoom-in" data-aos-delay="600">
+                        <div class="h-24 w-1 bg-white animate-pulse group-hover:h-28 transition-all duration-300"></div>
                         <div class="w-16 h-16 rounded-full bg-white border-4 border-pink-500 flex items-center justify-center font-bold text-black text-2xl mt-4 shadow-[0_0_30px_rgba(255,255,255,0.8)] transform group-hover:scale-125 transition duration-300">4</div>
                         <div class="mt-4 text-center font-black text-white uppercase w-32 text-base group-hover:scale-110 transition">THE DECISION</div>
                     </div>
 
-                    <div class="flex flex-col items-center transform -translate-y-16 group cursor-pointer" data-aos="fade-up" data-aos-delay="800">
+                    <div class="flex flex-col items-center transform -translate-y-24 group cursor-pointer" data-aos="fade-up" data-aos-delay="800">
                         <div class="mb-4 text-center font-bold uppercase w-32 text-sm opacity-70 group-hover:opacity-100 transition">We Map It Out</div>
                         <div class="w-12 h-12 rounded-full bg-pink-400 border-4 border-black flex items-center justify-center font-bold text-black text-xl mb-4 shadow-[0_0_20px_rgba(236,72,153,0.5)] transform group-hover:scale-125 transition duration-300">5</div>
-                        <div class="h-16 w-1 bg-pink-400 group-hover:h-20 transition-all duration-300"></div>
+                        <div class="h-24 w-1 bg-pink-400 group-hover:h-28 transition-all duration-300"></div>
                     </div>
 
-                    <div class="flex flex-col items-center transform translate-y-16 group cursor-pointer" data-aos="fade-down" data-aos-delay="1000">
-                        <div class="h-16 w-1 bg-pink-400 group-hover:h-20 transition-all duration-300"></div>
+                    <div class="flex flex-col items-center transform translate-y-24 group cursor-pointer" data-aos="fade-down" data-aos-delay="1000">
+                        <div class="h-24 w-1 bg-pink-400 group-hover:h-28 transition-all duration-300"></div>
                         <div class="w-12 h-12 rounded-full bg-pink-400 border-4 border-black flex items-center justify-center font-bold text-black text-xl mt-4 shadow-[0_0_20px_rgba(236,72,153,0.5)] transform group-hover:scale-125 transition duration-300">6</div>
                         <div class="mt-4 text-center font-bold uppercase w-32 text-sm opacity-70 group-hover:opacity-100 transition">We Kick Off</div>
                     </div>
 
-                    <div class="flex flex-col items-center transform -translate-y-16 group cursor-pointer" data-aos="fade-up" data-aos-delay="1200">
+                    <div class="flex flex-col items-center transform -translate-y-24 group cursor-pointer" data-aos="fade-up" data-aos-delay="1200">
                         <div class="mb-4 text-center font-bold uppercase w-32 text-sm opacity-70 group-hover:opacity-100 transition">We Scale</div>
                         <div class="w-12 h-12 rounded-full bg-pink-400 border-4 border-black flex items-center justify-center font-bold text-black text-xl mb-4 shadow-[0_0_20px_rgba(236,72,153,0.5)] transform group-hover:scale-125 transition duration-300">7</div>
-                        <div class="h-16 w-1 bg-pink-400 group-hover:h-20 transition-all duration-300"></div>
+                        <div class="h-24 w-1 bg-pink-400 group-hover:h-28 transition-all duration-300"></div>
                     </div>
                 </div>
             </div>
@@ -578,6 +579,14 @@
 
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX; mouseY = e.clientY;
+            
+            // Scrollbar Detection: If mouse is near right edge (scrollbar area), hide custom cursor
+            if (mouseX > window.innerWidth - 20) {
+                document.body.classList.add('hide-cursor');
+            } else {
+                document.body.classList.remove('hide-cursor');
+            }
+
             if (!isRendering) { isRendering = true; requestAnimationFrame(renderCursor); }
         });
 
@@ -600,7 +609,8 @@
         }
 
         /* Hover Interaction - X-RAY EFFECT */
-        const hoverTargets = document.querySelectorAll('a, button, .group, i, .marquee-content span, .founder-card, .float-anim, .swish-hover, input, textarea');
+        // Excluded 'i' tags to prevent social icons from triggering X-ray
+        const hoverTargets = document.querySelectorAll('a, button, .group, .marquee-content span, .founder-card, .float-anim, .swish-hover, input, textarea');
         
         hoverTargets.forEach(el => {
             el.addEventListener('mouseenter', () => {
