@@ -34,15 +34,27 @@
 
         /* --- CURSOR EFFECTS --- */
         #cursor-icon {
-            position: fixed; top: 0; left: 0; pointer-events: none; z-index: 10000;
-            font-size: 24px; color: #ec4899;
-            transform: translate(-50%, -50%); transition: transform 0.1s ease-out;
-            text-shadow: 0 0 10px rgba(236, 72, 153, 0.8);
+            position: fixed; 
+            top: 0; left: 0; 
+            pointer-events: none; 
+            z-index: 10000;
+            width: 60px; /* Adjusted size for the star */
+            height: 60px;
+            transform: translate(-50%, -50%); 
+            transition: transform 0.1s ease-out;
+            /* This blend mode hides the black background of the star image */
+            mix-blend-mode: screen; 
+        }
+
+        #cursor-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         #cursor-glow {
             position: fixed; top: 0; left: 0; width: 400px; height: 400px;
-            background: radial-gradient(circle, rgba(236, 72, 153, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.15) 0%, rgba(0, 0, 0, 0) 60%);
             transform: translate(-50%, -50%); pointer-events: none; z-index: 9999;
             transition: width 0.3s, height 0.3s;
         }
@@ -64,13 +76,15 @@
             body, a, button, input { cursor: auto !important; }
         }
 
-        /* Heart Particles */
-        .heart-particle {
+        /* Star Particles (Click Effect) */
+        .star-particle {
             position: fixed; pointer-events: none; z-index: 9999;
             --tx: 0px; --ty: 0px; --r: 0deg;
-            animation: explodeFade 0.8s ease-out forwards;
-            font-size: 20px; color: #ec4899;
-            text-shadow: 0 0 8px rgba(236, 72, 153, 0.6);
+            animation: explodeFade 0.6s ease-out forwards;
+            font-size: 16px; 
+            /* Default color, JS can override */
+            color: #ec4899; 
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
             will-change: transform, opacity;
         }
 
@@ -172,7 +186,10 @@
 
     <canvas id="trail-canvas"></canvas>
     <div id="cursor-glow"></div>
-    <div id="cursor-icon"><i class="fas fa-heart"></i></div>
+    
+    <div id="cursor-icon">
+        <img src="image_c6d0e1.jpg" alt="Cursor Star">
+    </div>
 
     <nav class="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-md border-b border-gray-800">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
@@ -433,7 +450,7 @@
         </div>
     </section>
 
-    <section class="py-24 bg-pink-600 text-black overflow-hidden relative z-20">
+    <section id="perks-section" class="py-24 bg-pink-600 text-black overflow-hidden relative z-20">
         <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/noise-lines.png')]"></div>
 
         <div class="container mx-auto px-6 relative z-10 text-center">
@@ -597,7 +614,7 @@
             });
         });
 
-        /* --- SUBTLE CURSOR TRAIL --- */
+        /* --- UPGRADED CURSOR TRAIL --- */
         (function() {
             const canvas = document.getElementById('trail-canvas');
             if (!canvas) return;
@@ -612,6 +629,7 @@
             let width = window.innerWidth;
             let height = window.innerHeight;
             let trailDisable = false;
+            let onPinkSection = false;
 
             // Resize handling
             function resize() {
@@ -630,30 +648,49 @@
                 points.push({ x: e.clientX, y: e.clientY, time: Date.now() });
             });
 
-            // Disable trail on specific elements (Inputs, textareas)
+            // Disable trail on specific elements
             document.querySelectorAll('input, textarea, select, [contenteditable]').forEach(el => {
                 el.addEventListener('mouseenter', () => trailDisable = true);
                 el.addEventListener('mouseleave', () => trailDisable = false);
             });
 
+            // Detect Pink Section for Color Change
+            const perksSection = document.getElementById('perks-section');
+            if (perksSection) {
+                perksSection.addEventListener('mouseenter', () => onPinkSection = true);
+                perksSection.addEventListener('mouseleave', () => onPinkSection = false);
+            }
+
             // Animation Loop
             function animate() {
                 ctx.clearRect(0, 0, width, height);
                 
-                // Filter out old points (lifespan ~ 1000ms)
+                // 1. FILTER: Shorten lifespan to 400ms for "snap" (no lingering)
                 const now = Date.now();
-                points = points.filter(p => now - p.time < 1000);
+                points = points.filter(p => now - p.time < 400);
 
-                // Limit max points for performance
-                if (points.length > 20) points.shift();
+                // 2. LIMIT: Keep array small to prevent "ribbon" look
+                if (points.length > 15) points.shift();
 
                 if (points.length > 1) {
                     ctx.beginPath();
                     ctx.lineCap = 'round';
                     ctx.lineJoin = 'round';
-                    ctx.lineWidth = 1.5; // Thin stroke
-                    // Primary Accent Color: #ec4899 with very low opacity
-                    ctx.strokeStyle = 'rgba(236, 72, 153, 0.15)'; 
+                    
+                    // 3. THICKNESS & STYLE
+                    ctx.lineWidth = 4; // Thicker
+                    
+                    if (onPinkSection) {
+                        // "Glowing Black" (Black stroke with white rim)
+                        ctx.strokeStyle = '#000000';
+                        ctx.shadowBlur = 10;
+                        ctx.shadowColor = 'rgba(255, 255, 255, 0.5)';
+                    } else {
+                        // "Neon Pink"
+                        ctx.strokeStyle = '#ec4899';
+                        ctx.shadowBlur = 15;
+                        ctx.shadowColor = '#ec4899';
+                    }
 
                     // Move to first point
                     ctx.moveTo(points[0].x, points[0].y);
@@ -676,35 +713,38 @@
             animate();
         })();
 
-        /* Heart Particles */
-        let lastHeartTime = 0;
-        function createHeart(x, y) {
-            const heart = document.createElement('div');
-            heart.classList.add('heart-particle');
-            heart.innerHTML = '<i class="fas fa-heart"></i>';
-            heart.style.left = x + 'px'; heart.style.top = y + 'px';
+        /* Star Particles (Click Effect) */
+        let lastParticleTime = 0;
+        function createStar(x, y) {
+            const star = document.createElement('div');
+            star.classList.add('star-particle');
+            // Replaced Heart with Star Icon
+            star.innerHTML = '<i class="fas fa-star"></i>'; 
+            star.style.left = x + 'px'; star.style.top = y + 'px';
             
             const angle = Math.random() * Math.PI * 2;
             const velocity = 50 + Math.random() * 60;
-            heart.style.setProperty('--tx', `${Math.cos(angle) * velocity}px`);
-            heart.style.setProperty('--ty', `${Math.sin(angle) * velocity}px`);
-            heart.style.setProperty('--r', `${(Math.random() - 0.5) * 90}deg`);
+            star.style.setProperty('--tx', `${Math.cos(angle) * velocity}px`);
+            star.style.setProperty('--ty', `${Math.sin(angle) * velocity}px`);
+            star.style.setProperty('--r', `${(Math.random() - 0.5) * 90}deg`);
 
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 800);
+            document.body.appendChild(star);
+            setTimeout(() => star.remove(), 600); // Faster cleanup
         }
+
+        document.addEventListener('click', (e) => {
+             createStar(e.clientX, e.clientY);
+             createStar(e.clientX, e.clientY);
+             createStar(e.clientX, e.clientY);
+        });
 
         document.addEventListener('touchmove', (e) => {
             const now = Date.now();
-            if (now - lastHeartTime < 40) return;
-            lastHeartTime = now;
+            if (now - lastParticleTime < 40) return;
+            lastParticleTime = now;
             const touch = e.touches[0];
-            createHeart(touch.clientX, touch.clientY);
+            createStar(touch.clientX, touch.clientY);
         }, { passive: true });
-
-        document.addEventListener('touchstart', (e) => {
-            if (e.touches[0]) createHeart(e.touches[0].clientX, e.touches[0].clientY);
-        }, { capture: true });
 
         /* Mobile Scroll Observer */
         const focusObserverCallback = (entries, observer) => {
