@@ -13,7 +13,6 @@
 
     <style>
         /* --- CORE LAYOUT & RESETS --- */
-        /* Only hide cursor on body/content, allow it on scrollbar if possible via JS logic */
         body, a, button, input, textarea { cursor: none !important; }
         
         html, body {
@@ -53,7 +52,6 @@
         #cursor-ball {
             position: fixed;
             top: 0; left: 0;
-            /* REDUCED SIZE (Tad bit small) */
             width: 18px; height: 18px;
             background-color: white;
             border-radius: 50%;
@@ -64,9 +62,9 @@
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
         }
 
-        /* HOVER STATE: Reduced scale so it's not "Way too big" */
+        /* HOVER STATE: Significantly reduced scale based on feedback */
         body.hover-active #cursor-ball {
-            transform: translate(-50%, -50%) scale(3.5); 
+            transform: translate(-50%, -50%) scale(2.5); /* Reduced from 3.5 to 2.5 */
             background-color: white; 
         }
 
