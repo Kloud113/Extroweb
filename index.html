@@ -38,28 +38,37 @@
             top: 0; left: 0; 
             pointer-events: none; 
             z-index: 10000;
-            width: 60px; /* Adjusted size for the star */
-            height: 60px;
+            width: 64px; 
+            height: 64px;
             transform: translate(-50%, -50%); 
-            transition: transform 0.1s ease-out;
-            /* This blend mode hides the black background of the star image */
-            mix-blend-mode: screen; 
+            transition: transform 0.05s ease-out; /* Super snappy follow */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         #cursor-icon img {
             width: 100%;
             height: 100%;
             object-fit: contain;
+            /* This glow makes it blend nicely */
+            filter: drop-shadow(0 0 8px rgba(236, 72, 153, 0.6));
+            animation: pulse-star 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse-star {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(236, 72, 153, 0.6)); }
+            50% { transform: scale(1.1); filter: drop-shadow(0 0 15px rgba(236, 72, 153, 0.9)); }
         }
 
         #cursor-glow {
-            position: fixed; top: 0; left: 0; width: 400px; height: 400px;
-            background: radial-gradient(circle, rgba(236, 72, 153, 0.15) 0%, rgba(0, 0, 0, 0) 60%);
+            position: fixed; top: 0; left: 0; width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.1) 0%, rgba(0, 0, 0, 0) 60%);
             transform: translate(-50%, -50%); pointer-events: none; z-index: 9999;
-            transition: width 0.3s, height 0.3s;
+            transition: opacity 0.3s;
         }
 
-        /* Canvas for the Trail */
+        /* Canvas for the Particle Trail */
         #trail-canvas {
             position: fixed;
             top: 0;
@@ -67,7 +76,7 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 9990; /* Below glow, above content */
+            z-index: 9990; 
         }
 
         /* Disable Custom Cursor on Touch Devices */
@@ -76,15 +85,13 @@
             body, a, button, input { cursor: auto !important; }
         }
 
-        /* Star Particles (Click Effect) */
-        .star-particle {
+        /* Click Burst Particles */
+        .burst-particle {
             position: fixed; pointer-events: none; z-index: 9999;
             --tx: 0px; --ty: 0px; --r: 0deg;
             animation: explodeFade 0.6s ease-out forwards;
-            font-size: 16px; 
-            /* Default color, JS can override */
+            font-size: 14px; 
             color: #ec4899; 
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
             will-change: transform, opacity;
         }
 
@@ -185,10 +192,11 @@
 <body class="antialiased">
 
     <canvas id="trail-canvas"></canvas>
+    
     <div id="cursor-glow"></div>
     
     <div id="cursor-icon">
-        <img src="image_c6d0e1.jpg" alt="Cursor Star">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZWM0ODk5IiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0iZmVhdGhlciBmZWF0aGVyLXN0YXIiIHN0eWxlPSJmaWxsOiByZ2JhKDIzNiwgNzIsIDE1MywgMC4yKTsiPjxwb2x5Z29uIHBvaW50cz0iMTIgMiAxNS4wOSA4LjI2IDIyIDkuMjcgMTcgMTQuMTQgMTguMTggMjEuMDIgMTIgMTcuNzcgNS44MiAyMS4wMiA3IDE0LjE0IDIgOS4yNyA4LjkxIDguMjYgMTIgMiI+PC9wb2x5Z29uPjwvc3ZnPg==" alt="Star Cursor">
     </div>
 
     <nav class="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-md border-b border-gray-800">
@@ -595,6 +603,7 @@
 
         function updateCursor() {
             if (cursorIcon && cursorGlow) {
+                // Fixed the center point calculation for exact centering
                 const transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
                 cursorIcon.style.transform = transform;
                 cursorGlow.style.transform = transform;
@@ -606,32 +615,32 @@
         document.querySelectorAll('a, button, .group, i, .marquee-content span, .founder-card, .float-anim, .swish-hover').forEach(el => {
             el.addEventListener('mouseenter', () => {
                 cursorIcon.style.transform += ' scale(1.5)';
-                cursorGlow.style.width = '500px'; cursorGlow.style.height = '500px';
+                cursorGlow.style.opacity = '1';
+                cursorGlow.style.width = '600px'; cursorGlow.style.height = '600px';
             });
             el.addEventListener('mouseleave', () => {
                 cursorIcon.style.transform = cursorIcon.style.transform.replace(' scale(1.5)', '');
-                cursorGlow.style.width = '400px'; cursorGlow.style.height = '400px';
+                cursorGlow.style.opacity = '0.5';
+                cursorGlow.style.width = '500px'; cursorGlow.style.height = '500px';
             });
         });
 
-        /* --- UPGRADED CURSOR TRAIL --- */
+        /* --- COMET TRAIL PARTICLE SYSTEM --- */
         (function() {
             const canvas = document.getElementById('trail-canvas');
             if (!canvas) return;
 
-            // Safeguards: Disable on mobile, reduce motion, or small screens
             const isTouch = window.matchMedia("(pointer: coarse)").matches;
             const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
             if (isTouch || prefersReducedMotion || window.innerWidth < 768) return;
 
             const ctx = canvas.getContext('2d');
-            let points = [];
+            let particles = [];
             let width = window.innerWidth;
             let height = window.innerHeight;
             let trailDisable = false;
             let onPinkSection = false;
 
-            // Resize handling
             function resize() {
                 width = window.innerWidth;
                 height = window.innerHeight;
@@ -641,101 +650,116 @@
             window.addEventListener('resize', resize);
             resize();
 
-            // Track mouse interaction
-            document.addEventListener('mousemove', (e) => {
-                if (trailDisable) return;
-                // Add new point with coordinates and creation time
-                points.push({ x: e.clientX, y: e.clientY, time: Date.now() });
-            });
-
-            // Disable trail on specific elements
-            document.querySelectorAll('input, textarea, select, [contenteditable]').forEach(el => {
-                el.addEventListener('mouseenter', () => trailDisable = true);
-                el.addEventListener('mouseleave', () => trailDisable = false);
-            });
-
-            // Detect Pink Section for Color Change
+            // Detect Pink Section
             const perksSection = document.getElementById('perks-section');
             if (perksSection) {
                 perksSection.addEventListener('mouseenter', () => onPinkSection = true);
                 perksSection.addEventListener('mouseleave', () => onPinkSection = false);
             }
 
+            // Spawn Particles
+            document.addEventListener('mousemove', (e) => {
+                if (trailDisable) return;
+                
+                // Spawn "Dust" - fast fade, various sizes
+                const dustCount = 3;
+                for(let i=0; i < dustCount; i++) {
+                    particles.push({
+                        x: e.clientX + (Math.random() - 0.5) * 10,
+                        y: e.clientY + (Math.random() - 0.5) * 10,
+                        size: Math.random() * 4 + 1, // 1px to 5px
+                        alpha: 0.9,
+                        decay: Math.random() * 0.05 + 0.03, // Fast decay
+                        color: onPinkSection ? '#000000' : '#ec4899',
+                        type: 'dust'
+                    });
+                }
+
+                // Spawn "Sparkles" - rare
+                if(Math.random() > 0.8) {
+                    particles.push({
+                        x: e.clientX + (Math.random() - 0.5) * 20,
+                        y: e.clientY + (Math.random() - 0.5) * 20,
+                        size: Math.random() * 6 + 2,
+                        alpha: 1,
+                        decay: 0.04,
+                        color: onPinkSection ? '#333' : '#ffffff',
+                        type: 'sparkle',
+                        rotation: Math.random() * Math.PI
+                    });
+                }
+            });
+
+            // Disable areas
+            document.querySelectorAll('input, textarea, select, [contenteditable]').forEach(el => {
+                el.addEventListener('mouseenter', () => trailDisable = true);
+                el.addEventListener('mouseleave', () => trailDisable = false);
+            });
+
             // Animation Loop
             function animate() {
                 ctx.clearRect(0, 0, width, height);
-                
-                // 1. FILTER: Shorten lifespan to 400ms for "snap" (no lingering)
-                const now = Date.now();
-                points = points.filter(p => now - p.time < 400);
 
-                // 2. LIMIT: Keep array small to prevent "ribbon" look
-                if (points.length > 15) points.shift();
+                for (let i = 0; i < particles.length; i++) {
+                    let p = particles[i];
+                    p.alpha -= p.decay;
 
-                if (points.length > 1) {
-                    ctx.beginPath();
-                    ctx.lineCap = 'round';
-                    ctx.lineJoin = 'round';
-                    
-                    // 3. THICKNESS & STYLE
-                    ctx.lineWidth = 4; // Thicker
-                    
-                    if (onPinkSection) {
-                        // "Glowing Black" (Black stroke with white rim)
-                        ctx.strokeStyle = '#000000';
-                        ctx.shadowBlur = 10;
-                        ctx.shadowColor = 'rgba(255, 255, 255, 0.5)';
-                    } else {
-                        // "Neon Pink"
-                        ctx.strokeStyle = '#ec4899';
-                        ctx.shadowBlur = 15;
-                        ctx.shadowColor = '#ec4899';
+                    if (p.alpha <= 0) {
+                        particles.splice(i, 1);
+                        i--;
+                        continue;
                     }
 
-                    // Move to first point
-                    ctx.moveTo(points[0].x, points[0].y);
-
-                    // Smooth curve through points
-                    for (let i = 1; i < points.length; i++) {
-                        const p1 = points[i - 1];
-                        const p2 = points[i];
-                        const midX = (p1.x + p2.x) / 2;
-                        const midY = (p1.y + p2.y) / 2;
-                        ctx.quadraticCurveTo(p1.x, p1.y, midX, midY);
+                    ctx.globalAlpha = p.alpha;
+                    
+                    if (p.type === 'dust') {
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        ctx.fillStyle = p.color;
+                        ctx.fill();
+                    } else if (p.type === 'sparkle') {
+                        // Draw 4-point star
+                        ctx.save();
+                        ctx.translate(p.x, p.y);
+                        ctx.rotate(p.rotation);
+                        ctx.beginPath();
+                        ctx.moveTo(0, -p.size);
+                        ctx.quadraticCurveTo(1, 1, p.size, 0);
+                        ctx.quadraticCurveTo(1, -1, 0, p.size);
+                        ctx.quadraticCurveTo(-1, -1, -p.size, 0);
+                        ctx.quadraticCurveTo(-1, 1, 0, -p.size);
+                        ctx.fillStyle = p.color;
+                        ctx.shadowBlur = 5;
+                        ctx.shadowColor = p.color;
+                        ctx.fill();
+                        ctx.restore();
                     }
-                    // Draw to last point
-                    ctx.lineTo(points[points.length - 1].x, points[points.length - 1].y);
-                    ctx.stroke();
                 }
-
+                
                 requestAnimationFrame(animate);
             }
             animate();
         })();
 
-        /* Star Particles (Click Effect) */
-        let lastParticleTime = 0;
-        function createStar(x, y) {
+        /* Click Burst */
+        function createBurstStar(x, y) {
             const star = document.createElement('div');
-            star.classList.add('star-particle');
-            // Replaced Heart with Star Icon
+            star.classList.add('burst-particle');
             star.innerHTML = '<i class="fas fa-star"></i>'; 
             star.style.left = x + 'px'; star.style.top = y + 'px';
             
             const angle = Math.random() * Math.PI * 2;
-            const velocity = 50 + Math.random() * 60;
+            const velocity = 50 + Math.random() * 80;
             star.style.setProperty('--tx', `${Math.cos(angle) * velocity}px`);
             star.style.setProperty('--ty', `${Math.sin(angle) * velocity}px`);
-            star.style.setProperty('--r', `${(Math.random() - 0.5) * 90}deg`);
+            star.style.setProperty('--r', `${(Math.random() - 0.5) * 120}deg`);
 
             document.body.appendChild(star);
-            setTimeout(() => star.remove(), 600); // Faster cleanup
+            setTimeout(() => star.remove(), 600);
         }
 
         document.addEventListener('click', (e) => {
-             createStar(e.clientX, e.clientY);
-             createStar(e.clientX, e.clientY);
-             createStar(e.clientX, e.clientY);
+             for(let i=0; i<6; i++) createBurstStar(e.clientX, e.clientY);
         });
 
         document.addEventListener('touchmove', (e) => {
@@ -743,7 +767,7 @@
             if (now - lastParticleTime < 40) return;
             lastParticleTime = now;
             const touch = e.touches[0];
-            createStar(touch.clientX, touch.clientY);
+            createBurstStar(touch.clientX, touch.clientY);
         }, { passive: true });
 
         /* Mobile Scroll Observer */
