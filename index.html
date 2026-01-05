@@ -47,9 +47,20 @@
             transition: width 0.3s, height 0.3s;
         }
 
+        /* Canvas for the Trail */
+        #trail-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9990; /* Below glow, above content */
+        }
+
         /* Disable Custom Cursor on Touch Devices */
         @media (hover: none) and (pointer: coarse) {
-            #cursor-icon, #cursor-glow { display: none !important; }
+            #cursor-icon, #cursor-glow, #trail-canvas { display: none !important; }
             body, a, button, input { cursor: auto !important; }
         }
 
@@ -159,6 +170,7 @@
 
 <body class="antialiased">
 
+    <canvas id="trail-canvas"></canvas>
     <div id="cursor-glow"></div>
     <div id="cursor-icon"><i class="fas fa-heart"></i></div>
 
@@ -573,6 +585,7 @@
             isCursorMoving = false;
         }
 
+        /* Hover Effects */
         document.querySelectorAll('a, button, .group, i, .marquee-content span, .founder-card, .float-anim, .swish-hover').forEach(el => {
             el.addEventListener('mouseenter', () => {
                 cursorIcon.style.transform += ' scale(1.5)';
@@ -583,6 +596,85 @@
                 cursorGlow.style.width = '400px'; cursorGlow.style.height = '400px';
             });
         });
+
+        /* --- SUBTLE CURSOR TRAIL --- */
+        (function() {
+            const canvas = document.getElementById('trail-canvas');
+            if (!canvas) return;
+
+            // Safeguards: Disable on mobile, reduce motion, or small screens
+            const isTouch = window.matchMedia("(pointer: coarse)").matches;
+            const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            if (isTouch || prefersReducedMotion || window.innerWidth < 768) return;
+
+            const ctx = canvas.getContext('2d');
+            let points = [];
+            let width = window.innerWidth;
+            let height = window.innerHeight;
+            let trailDisable = false;
+
+            // Resize handling
+            function resize() {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = width;
+                canvas.height = height;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            // Track mouse interaction
+            document.addEventListener('mousemove', (e) => {
+                if (trailDisable) return;
+                // Add new point with coordinates and creation time
+                points.push({ x: e.clientX, y: e.clientY, time: Date.now() });
+            });
+
+            // Disable trail on specific elements (Inputs, textareas)
+            document.querySelectorAll('input, textarea, select, [contenteditable]').forEach(el => {
+                el.addEventListener('mouseenter', () => trailDisable = true);
+                el.addEventListener('mouseleave', () => trailDisable = false);
+            });
+
+            // Animation Loop
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                
+                // Filter out old points (lifespan ~ 1000ms)
+                const now = Date.now();
+                points = points.filter(p => now - p.time < 1000);
+
+                // Limit max points for performance
+                if (points.length > 20) points.shift();
+
+                if (points.length > 1) {
+                    ctx.beginPath();
+                    ctx.lineCap = 'round';
+                    ctx.lineJoin = 'round';
+                    ctx.lineWidth = 1.5; // Thin stroke
+                    // Primary Accent Color: #ec4899 with very low opacity
+                    ctx.strokeStyle = 'rgba(236, 72, 153, 0.15)'; 
+
+                    // Move to first point
+                    ctx.moveTo(points[0].x, points[0].y);
+
+                    // Smooth curve through points
+                    for (let i = 1; i < points.length; i++) {
+                        const p1 = points[i - 1];
+                        const p2 = points[i];
+                        const midX = (p1.x + p2.x) / 2;
+                        const midY = (p1.y + p2.y) / 2;
+                        ctx.quadraticCurveTo(p1.x, p1.y, midX, midY);
+                    }
+                    // Draw to last point
+                    ctx.lineTo(points[points.length - 1].x, points[points.length - 1].y);
+                    ctx.stroke();
+                }
+
+                requestAnimationFrame(animate);
+            }
+            animate();
+        })();
 
         /* Heart Particles */
         let lastHeartTime = 0;
