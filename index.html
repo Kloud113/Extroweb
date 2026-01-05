@@ -34,38 +34,44 @@
 
         /* --- NEW CURSOR SYSTEM --- */
         
-        /* The Pink Glow (Back layer) */
+        /* The Pink Glow (Back layer - Chaser) */
         #cursor-glow {
             position: fixed;
             top: 0; left: 0;
-            width: 60px; height: 60px;
-            background: rgba(236, 72, 153, 0.6); /* Extrovert Pink */
-            filter: blur(20px);
+            /* Increased Size */
+            width: 80px; height: 80px;
+            background: rgba(236, 72, 153, 0.5); /* Slightly more transparent for the chase */
+            filter: blur(25px); /* softer blur */
             border-radius: 50%;
             transform: translate(-50%, -50%);
             pointer-events: none;
             z-index: 9998; /* Behind the X-ray ball */
-            transition: width 0.2s, height 0.2s, opacity 0.2s;
+            transition: opacity 0.3s;
+            /* Removed width/height transitions for smoother JS chasing */
         }
 
-        /* The X-Ray Ball (Front layer) */
+        /* The X-Ray Ball (Front layer - Snappy Leader) */
         #cursor-ball {
             position: fixed;
             top: 0; left: 0;
-            width: 16px; height: 16px;
+            /* Increased Base Size */
+            width: 24px; height: 24px;
             background-color: white;
             border-radius: 50%;
+            /* Center the pivot point */
             transform: translate(-50%, -50%);
             pointer-events: none;
             z-index: 9999;
             /* This creates the X-ray/Invert effect */
             mix-blend-mode: difference; 
-            transition: transform 0.2s ease-out, width 0.2s, height 0.2s;
+            /* Only animate the transform (scale) on hover, position is handled by JS */
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         /* HOVER STATE: When over interactable elements */
         body.hover-active #cursor-ball {
-            transform: translate(-50%, -50%) scale(5); /* Make it Big */
+            /* Increased Scale */
+            transform: translate(-50%, -50%) scale(6.5); 
             background-color: white; 
         }
 
@@ -566,29 +572,31 @@
         /* Cursor Logic */
         const cursorBall = document.getElementById('cursor-ball');
         const cursorGlow = document.getElementById('cursor-glow');
-        let mouseX = 0, mouseY = 0, isCursorMoving = false;
+        let mouseX = 0, mouseY = 0;
+        let glowX = 0, glowY = 0; // Positions for the chaser
+        const glowSpeed = 0.15; // Lower = slower chase
 
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX; mouseY = e.clientY;
-            if (!isCursorMoving) { isCursorMoving = true; requestAnimationFrame(updateCursor); }
+            if (!isRendering) { isRendering = true; requestAnimationFrame(renderCursor); }
         });
 
-        function updateCursor() {
-            if (cursorBall && cursorGlow) {
-                const transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
-                cursorBall.style.transform = cursorBall.style.transform.includes('scale') ? cursorBall.style.transform : transform;
-                // If scaled (hovering), only translate the position part, preserving scale is handled by CSS class usually, 
-                // but direct style transform overrides CSS class transform.
-                // To fix this, we only apply translate here, and let CSS handle scale.
-                
-                cursorBall.style.left = `${mouseX}px`;
-                cursorBall.style.top = `${mouseY}px`;
-                cursorBall.style.transform = 'translate(-50%, -50%)'; // Reset to just center
-                
-                cursorGlow.style.left = `${mouseX}px`;
-                cursorGlow.style.top = `${mouseY}px`;
-            }
-            isCursorMoving = false;
+        let isRendering = false;
+
+        function renderCursor() {
+            if (!cursorBall || !cursorGlow) return;
+
+            // 1. Ball snaps instantly to mouse position
+            cursorBall.style.left = `${mouseX}px`;
+            cursorBall.style.top = `${mouseY}px`;
+
+            // 2. Glow chases using Linear Interpolation (Lerp)
+            glowX += (mouseX - glowX) * glowSpeed;
+            glowY += (mouseY - glowY) * glowSpeed;
+            cursorGlow.style.left = `${glowX}px`;
+            cursorGlow.style.top = `${glowY}px`;
+            
+            requestAnimationFrame(renderCursor);
         }
 
         /* Hover Interaction - X-RAY EFFECT */
