@@ -71,7 +71,36 @@
             filter: drop-shadow(0 0 30px rgba(236, 72, 153, 0.3));
         }
 
-        /* Seamless Marquee Logic */
+        /* --- NEW SWISH/SHINE ANIMATION --- */
+        .swish-hover {
+            position: relative;
+            overflow: hidden !important; /* Ensures the sheen doesn't spill out */
+        }
+        
+        .swish-hover::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: skewX(-25deg);
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        .swish-hover:hover::after {
+            animation: shine 0.75s;
+        }
+
+        @keyframes shine {
+            100% {
+                left: 200%;
+            }
+        }
+
+        /* --- MODIFIED MARQUEE LOGIC (Left to Right) --- */
         .marquee-wrapper {
             display: flex;
             overflow: hidden;
@@ -88,12 +117,14 @@
             justify-content: space-around;
             gap: 2rem;
             min-width: 100%;
-            animation: scroll-left 25s linear infinite;
+            /* Changed animation name to scroll-right */
+            animation: scroll-right 25s linear infinite;
         }
 
-        @keyframes scroll-left {
-            from { transform: translateX(0); }
-            to { transform: translateX(calc(-100% - 2rem)); }
+        @keyframes scroll-right {
+            /* Logic reversed: Start from outside left, move to 0 */
+            from { transform: translateX(calc(-100% - 2rem)); }
+            to { transform: translateX(0); }
         }
         
         /* Floating Cards */
@@ -138,7 +169,7 @@
             <div class="text-2xl font-black font-display tracking-tighter text-pink-500 hover:scale-110 transition duration-300 cursor-none">
                 XO
             </div>
-            <a href="#contact" class="px-6 py-2 border border-pink-400 rounded-full hover:bg-pink-400 hover:text-black transition uppercase text-xs font-bold tracking-widest cursor-none">
+            <a href="mailto:team@extrovertdigital.com" class="px-6 py-2 border border-pink-400 rounded-full hover:bg-pink-400 hover:text-black transition uppercase text-xs font-bold tracking-widest cursor-none">
                 Get In Touch
             </a>
         </div>
@@ -169,7 +200,7 @@
             <h2 class="text-4xl font-bold mb-16 text-center uppercase tracking-widest text-pink-400 font-display" data-aos="fade-up">Meet The Founders</h2>
             <div class="flex flex-col md:grid md:grid-cols-2 gap-12 max-w-5xl mx-auto items-stretch">
 
-                <div class="founder-card bg-black border-2 border-pink-300 p-6 rounded-lg relative transform transition duration-300 group w-full max-w-md mx-auto hover:scale-105 hover:shadow-2xl h-full flex flex-col" data-aos="fade-right">
+                <div class="founder-card swish-hover bg-black border-2 border-pink-300 p-6 rounded-lg relative transform transition duration-300 group w-full max-w-md mx-auto hover:scale-105 hover:shadow-2xl h-full flex flex-col" data-aos="fade-right">
                     <div class="w-full h-64 bg-gray-800 mb-6 overflow-hidden rounded border border-gray-700 shrink-0">
                         <img src="images/Mnvi.png" alt="Maanavi Singh" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500">
                     </div>
@@ -188,7 +219,7 @@
                     </div>
                 </div>
 
-                <div class="founder-card bg-black border-2 border-pink-300 p-6 rounded-lg relative transform transition duration-300 group w-full max-w-md mx-auto hover:scale-105 hover:shadow-2xl h-full flex flex-col" data-aos="fade-left">
+                <div class="founder-card swish-hover bg-black border-2 border-pink-300 p-6 rounded-lg relative transform transition duration-300 group w-full max-w-md mx-auto hover:scale-105 hover:shadow-2xl h-full flex flex-col" data-aos="fade-left">
                     <div class="w-full h-64 bg-gray-800 mb-6 overflow-hidden rounded border border-gray-700 shrink-0">
                         <img src="images/Kabir.png" alt="Kabir Chaturvedy" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500">
                     </div>
@@ -293,7 +324,7 @@
             </h2>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="group relative bg-black border border-gray-700 overflow-hidden rounded-xl" data-aos="flip-left">
+                <div class="group swish-hover relative bg-black border border-gray-700 overflow-hidden rounded-xl" data-aos="flip-left">
                     <div class="absolute top-4 left-4 z-10 bg-green-600 text-white text-xs px-2 py-1 uppercase font-bold shadow-lg">Watch Now</div>
                     <img src="https://placehold.co/400x600/1a1a1a/FFF?text=Tailoring+To+Cosmetics" alt="Tailoring Case Study" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition duration-700">
                     <div class="absolute bottom-0 p-6 bg-gradient-to-t from-black via-black/80 to-transparent w-full">
@@ -301,7 +332,7 @@
                     </div>
                 </div>
 
-                <div class="group bg-black border border-gray-700 p-4 rounded-xl flex flex-col justify-center transform hover:-translate-y-2 transition duration-300 shadow-xl" data-aos="flip-left" data-aos-delay="100">
+                <div class="group swish-hover bg-black border border-gray-700 p-4 rounded-xl flex flex-col justify-center transform hover:-translate-y-2 transition duration-300 shadow-xl" data-aos="flip-left" data-aos-delay="100">
                     <div class="flex items-center gap-2 mb-4">
                         <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center"><i class="fas fa-music text-white text-sm"></i></div>
                         <div>
@@ -334,7 +365,7 @@
                     </div>
                 </div>
 
-                <div class="group relative bg-black border border-gray-700 overflow-hidden rounded-xl" data-aos="flip-left" data-aos-delay="200">
+                <div class="group swish-hover relative bg-black border border-gray-700 overflow-hidden rounded-xl" data-aos="flip-left" data-aos-delay="200">
                     <img src="https://placehold.co/400x600/333/FFF?text=Chefs+%26+Hospitality" alt="Vira Case Study" class="w-full h-full object-cover opacity-80 group-hover:opacity-40 transition duration-500">
                     <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 bg-black/40 group-hover:bg-black/10 transition">
                         <h3 class="text-2xl font-serif text-white mb-2 translate-y-4 group-hover:translate-y-0 transition duration-500">Vira</h3>
@@ -351,7 +382,7 @@
             <h2 class="text-5xl font-black mb-20 text-center uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white to-pink-500 font-display text-clip-fix" data-aos="zoom-in">Our Services</h2>
 
             <div class="grid md:grid-cols-3 gap-8 mb-16">
-                <div class="group border-l-2 border-pink-500 pl-6 hover:bg-gray-900 transition p-6 rounded-r-lg hover:border-l-8 duration-300" data-aos="fade-up">
+                <div class="group swish-hover border-l-2 border-pink-500 pl-6 hover:bg-gray-900 transition p-6 rounded-r-lg hover:border-l-8 duration-300" data-aos="fade-up">
                     <h3 class="text-2xl font-bold mb-6 text-pink-300 group-hover:text-white transition font-display">Brand & Strategy</h3>
                     <ul class="space-y-4 text-sm uppercase tracking-wide text-gray-300">
                         <li><span class="text-pink-500 mr-2">01.</span> Brand Strategy & Identity</li>
@@ -362,7 +393,7 @@
                     </ul>
                 </div>
 
-                <div class="group border-l-2 border-pink-500 pl-6 hover:bg-gray-900 transition p-6 rounded-r-lg hover:border-l-8 duration-300" data-aos="fade-up" data-aos-delay="100">
+                <div class="group swish-hover border-l-2 border-pink-500 pl-6 hover:bg-gray-900 transition p-6 rounded-r-lg hover:border-l-8 duration-300" data-aos="fade-up" data-aos-delay="100">
                     <h3 class="text-2xl font-bold mb-6 text-pink-300 group-hover:text-white transition font-display">Content</h3>
                     <ul class="space-y-4 text-sm uppercase tracking-wide text-gray-300">
                         <li><span class="text-pink-500 mr-2">01.</span> Videography & Production</li>
@@ -372,7 +403,7 @@
                     </ul>
                 </div>
 
-                <div class="group border-l-2 border-pink-500 pl-6 hover:bg-gray-900 transition p-6 rounded-r-lg hover:border-l-8 duration-300" data-aos="fade-up" data-aos-delay="200">
+                <div class="group swish-hover border-l-2 border-pink-500 pl-6 hover:bg-gray-900 transition p-6 rounded-r-lg hover:border-l-8 duration-300" data-aos="fade-up" data-aos-delay="200">
                     <h3 class="text-2xl font-bold mb-6 text-pink-300 group-hover:text-white transition font-display">Growth</h3>
                     <ul class="space-y-4 text-sm uppercase tracking-wide text-gray-300">
                         <li><span class="text-pink-500 mr-2">01.</span> Google, Meta and LinkedIn Ads</li>
@@ -412,11 +443,11 @@
             </p>
 
             <div class="flex flex-wrap justify-center gap-8 max-w-5xl mx-auto">
-                <div class="bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform rotate-2 hover:rotate-0 hover:scale-105 transition duration-300 text-center shadow-[8px_8px_0px_rgba(255,255,255,0.5)] float-anim w-full md:w-auto group">We Build Your Personal Brand</div>
-                <div class="bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform -rotate-2 hover:rotate-0 hover:scale-105 transition duration-300 text-center shadow-[-8px_8px_0px_rgba(255,255,255,0.5)] float-anim-reverse w-full md:w-auto group">Led by the Internet Generation</div>
-                <div class="bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform rotate-1 hover:rotate-0 hover:scale-105 transition duration-300 text-center shadow-[8px_8px_0px_rgba(255,255,255,0.5)] float-anim w-full md:w-auto group">Community First Approach</div>
-                <div class="bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform -rotate-1 hover:rotate-0 hover:scale-105 transition duration-300 text-center shadow-[-8px_8px_0px_rgba(255,255,255,0.5)] float-anim-reverse w-full md:w-auto group">Cinematic Brand Campaigns</div>
-                <div class="bg-black text-white p-6 font-bold text-2xl uppercase transform rotate-2 hover:rotate-0 hover:scale-105 transition duration-300 text-center border-2 border-white hover:bg-white hover:text-black float-anim w-full md:w-auto group">Creative Not Costly</div>
+                <div class="swish-hover bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform rotate-2 hover:rotate-0 hover:scale-105 transition duration-300 text-center shadow-[8px_8px_0px_rgba(255,255,255,0.5)] float-anim w-full md:w-auto group">We Build Your Personal Brand</div>
+                <div class="swish-hover bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform -rotate-2 hover:rotate-0 hover:scale-105 transition duration-300 text-center shadow-[-8px_8px_0px_rgba(255,255,255,0.5)] float-anim-reverse w-full md:w-auto group">Led by the Internet Generation</div>
+                <div class="swish-hover bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform rotate-1 hover:rotate-0 hover:scale-105 transition duration-300 text-center shadow-[8px_8px_0px_rgba(255,255,255,0.5)] float-anim w-full md:w-auto group">Community First Approach</div>
+                <div class="swish-hover bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform -rotate-1 hover:rotate-0 hover:scale-105 transition duration-300 text-center shadow-[-8px_8px_0px_rgba(255,255,255,0.5)] float-anim-reverse w-full md:w-auto group">Cinematic Brand Campaigns</div>
+                <div class="swish-hover bg-black text-white p-6 font-bold text-2xl uppercase transform rotate-2 hover:rotate-0 hover:scale-105 transition duration-300 text-center border-2 border-white hover:bg-white hover:text-black float-anim w-full md:w-auto group">Creative Not Costly</div>
             </div>
             <div class="text-center mt-12 text-6xl font-black opacity-30 select-none scale-150 transform font-display">XO</div>
         </div>
@@ -546,7 +577,7 @@
             isCursorMoving = false;
         }
 
-        document.querySelectorAll('a, button, .group, i, .marquee-content span, .founder-card, .float-anim').forEach(el => {
+        document.querySelectorAll('a, button, .group, i, .marquee-content span, .founder-card, .float-anim, .swish-hover').forEach(el => {
             el.addEventListener('mouseenter', () => {
                 cursorIcon.style.transform += ' scale(1.5)';
                 cursorGlow.style.width = '500px'; cursorGlow.style.height = '500px';
