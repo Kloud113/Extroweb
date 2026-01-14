@@ -35,10 +35,9 @@
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 5px; border: 2px solid #111; }
         ::-webkit-scrollbar-thumb:hover { background: #ec4899; }
 
-        /* --- NEW CURSOR SYSTEM --- */
+        /* --- CURSOR SYSTEM (BALL & GLOW) --- */
         #cursor-glow {
-            position: fixed;
-            top: 0; left: 0;
+            position: fixed; top: 0; left: 0;
             width: 80px; height: 80px;
             background: rgba(236, 72, 153, 0.5); 
             filter: blur(25px); 
@@ -50,8 +49,7 @@
         }
 
         #cursor-ball {
-            position: fixed;
-            top: 0; left: 0;
+            position: fixed; top: 0; left: 0;
             width: 18px; height: 18px;
             background-color: white;
             border-radius: 50%;
@@ -59,9 +57,10 @@
             pointer-events: none;
             z-index: 9999;
             mix-blend-mode: difference; 
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
+            transition: transform 0.1s ease-out; /* Faster snappy response */
         }
 
+        /* Hover State */
         body.hover-active #cursor-ball {
             transform: translate(-50%, -50%) scale(2.5);
             background-color: white; 
@@ -69,9 +68,11 @@
 
         body.hover-active #cursor-glow { opacity: 0; }
 
+        /* Hide on Scrollbar interaction */
         body.hide-cursor #cursor-ball,
         body.hide-cursor #cursor-glow { opacity: 0 !important; }
 
+        /* Mobile Disable */
         @media (hover: none) and (pointer: coarse) {
             #cursor-ball, #cursor-glow { display: none !important; }
             body, a, button, input { cursor: auto !important; }
@@ -85,51 +86,25 @@
             filter: drop-shadow(0 0 30px rgba(236, 72, 153, 0.3));
         }
 
-        .swish-hover {
-            position: relative;
-            overflow: hidden !important; 
-        }
-        
+        .swish-hover { position: relative; overflow: hidden !important; }
         .swish-hover::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
             background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transform: skewX(-25deg);
-            z-index: 20;
-            pointer-events: none;
+            transform: skewX(-25deg); z-index: 20; pointer-events: none;
         }
-
         .swish-hover:hover::after { animation: shine 0.75s; }
-
         @keyframes shine { 100% { left: 200%; } }
 
+        /* Marquee */
         .marquee-wrapper {
-            display: flex;
-            overflow: hidden;
-            user-select: none;
-            gap: 2rem;
-            width: 100%;
+            display: flex; overflow: hidden; user-select: none; gap: 2rem; width: 100%;
             mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
         }
-        
         .marquee-group {
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            gap: 2rem;
-            min-width: 100%;
-            animation: scroll-right 25s linear infinite;
+            flex-shrink: 0; display: flex; align-items: center; justify-content: space-around;
+            gap: 2rem; min-width: 100%; animation: scroll-right 25s linear infinite;
         }
-
-        @keyframes scroll-right {
-            from { transform: translateX(calc(-100% - 2rem)); }
-            to { transform: translateX(0); }
-        }
+        @keyframes scroll-right { from { transform: translateX(calc(-100% - 2rem)); } to { transform: translateX(0); } }
         
         .float-anim { animation: float 5s ease-in-out infinite; }
         .float-anim-reverse { animation: float 6s ease-in-out infinite reverse; }
