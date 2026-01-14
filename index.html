@@ -36,8 +36,6 @@
         ::-webkit-scrollbar-thumb:hover { background: #ec4899; }
 
         /* --- NEW CURSOR SYSTEM --- */
-        
-        /* The Pink Glow (Back layer - Chaser) */
         #cursor-glow {
             position: fixed;
             top: 0; left: 0;
@@ -51,7 +49,6 @@
             transition: opacity 0.3s;
         }
 
-        /* The X-Ray Ball (Front layer - Snappy Leader) */
         #cursor-ball {
             position: fixed;
             top: 0; left: 0;
@@ -65,29 +62,22 @@
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
         }
 
-        /* HOVER STATE: Significantly reduced scale based on feedback */
         body.hover-active #cursor-ball {
-            transform: translate(-50%, -50%) scale(2.5); /* Reduced from 3.5 to 2.5 */
+            transform: translate(-50%, -50%) scale(2.5);
             background-color: white; 
         }
 
-        body.hover-active #cursor-glow {
-            opacity: 0; 
-        }
+        body.hover-active #cursor-glow { opacity: 0; }
 
-        /* Hide custom cursor when interacting with UI/Scrollbar via JS class */
         body.hide-cursor #cursor-ball,
-        body.hide-cursor #cursor-glow {
-            opacity: 0 !important;
-        }
+        body.hide-cursor #cursor-glow { opacity: 0 !important; }
 
-        /* Disable Custom Cursor on Touch Devices */
         @media (hover: none) and (pointer: coarse) {
             #cursor-ball, #cursor-glow { display: none !important; }
             body, a, button, input { cursor: auto !important; }
         }
 
-        /* --- ANIMATIONS & UTILITIES --- */
+        /* --- ANIMATIONS --- */
         .gradient-title {
             background: linear-gradient(to bottom, #ffffff, #f472b6);
             -webkit-background-clip: text; background-clip: text;
@@ -95,7 +85,6 @@
             filter: drop-shadow(0 0 30px rgba(236, 72, 153, 0.3));
         }
 
-        /* --- SWISH/SHINE ANIMATION --- */
         .swish-hover {
             position: relative;
             overflow: hidden !important; 
@@ -114,17 +103,10 @@
             pointer-events: none;
         }
 
-        .swish-hover:hover::after {
-            animation: shine 0.75s;
-        }
+        .swish-hover:hover::after { animation: shine 0.75s; }
 
-        @keyframes shine {
-            100% {
-                left: 200%;
-            }
-        }
+        @keyframes shine { 100% { left: 200%; } }
 
-        /* --- MARQUEE LOGIC (Left to Right) --- */
         .marquee-wrapper {
             display: flex;
             overflow: hidden;
@@ -149,14 +131,10 @@
             to { transform: translateX(0); }
         }
         
-        /* Floating Cards */
         .float-anim { animation: float 5s ease-in-out infinite; }
         .float-anim-reverse { animation: float 6s ease-in-out infinite reverse; }
-
-        /* Mobile Roadmap Wave */
         .wave-active { animation: floatWave 2.5s ease-in-out infinite; }
         
-        /* Auto-Focus Logic (Mobile Only) */
         .active-focus {
             transform: scale(1.02);
             box-shadow: 0 20px 25px -5px rgba(236, 72, 153, 0.3), 0 10px 10px -5px rgba(236, 72, 153, 0.2);
@@ -168,7 +146,6 @@
         .active-focus img { opacity: 1 !important; }
         .text-clip-fix { padding-right: 0.2em; display: inline-block; }
 
-        /* Keyframes */
         @keyframes float { 0%, 100% { transform: translateY(0px) rotate(1deg); } 50% { transform: translateY(-10px) rotate(-1deg); } }
         @keyframes floatWave { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
     </style>
@@ -181,8 +158,8 @@
 
     <nav class="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-md border-b border-gray-800">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-black font-display tracking-tighter text-pink-500 hover:scale-110 transition duration-300 cursor-none">
-                XO
+            <div class="hover:scale-110 transition duration-300 cursor-none">
+                <img src="images/XO Logo.png" alt="XO Logo" class="h-12 w-auto object-contain">
             </div>
             <a href="mailto:team@extrovertdigital.com" class="px-6 py-2 border border-pink-400 rounded-full hover:bg-pink-400 hover:text-black transition uppercase text-xs font-bold tracking-widest cursor-none">
                 Get In Touch
@@ -312,29 +289,29 @@
                 Our Past, <span class="italic text-pink-400">Your Future.</span>
             </h2>
 
-            <div class="grid md:grid-cols-3 gap-6 h-[500px] md:h-[600px]">
+            <div class="grid md:grid-cols-3 gap-8">
                 
-                <div class="group swish-hover relative bg-black border border-gray-700 overflow-hidden rounded-xl flex items-center justify-center" data-aos="flip-left">
-                    <img src="images/Happy plate post.jpeg" alt="The Happy Plate" class="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition duration-700">
-                    <div class="absolute bottom-0 p-6 bg-gradient-to-t from-black via-black/80 to-transparent w-full">
-                        <h4 class="font-bold text-lg leading-tight group-hover:text-pink-300 transition">The Happy Plate</h4>
+                <div class="group swish-hover relative bg-black border border-gray-700 overflow-hidden rounded-2xl aspect-[9/16]" data-aos="flip-left">
+                    <img src="images/Happy plate post.jpeg" alt="The Happy Plate" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                    <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black via-black/60 to-transparent">
+                        <h4 class="font-bold text-lg leading-tight text-white group-hover:text-pink-300 transition">The Happy Plate</h4>
                     </div>
                 </div>
 
-                <div class="group swish-hover relative bg-black border border-gray-700 overflow-hidden rounded-xl flex items-center justify-center" data-aos="flip-left" data-aos-delay="100">
-                    <video autoplay loop muted playsinline class="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition duration-700">
+                <div class="group swish-hover relative bg-black border border-gray-700 overflow-hidden rounded-2xl aspect-[9/16]" data-aos="flip-left" data-aos-delay="100">
+                    <video autoplay loop muted playsinline class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
                         <source src="images/Setup vid.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
-                    <div class="absolute bottom-0 p-6 bg-gradient-to-t from-black via-black/80 to-transparent w-full">
-                        <h4 class="font-bold text-lg leading-tight group-hover:text-pink-300 transition">Behind The Scenes</h4>
+                    <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black via-black/60 to-transparent">
+                        <h4 class="font-bold text-lg leading-tight text-white group-hover:text-pink-300 transition">Behind The Scenes</h4>
                     </div>
                 </div>
 
-                <div class="group swish-hover relative bg-black border border-gray-700 overflow-hidden rounded-xl flex items-center justify-center" data-aos="flip-left" data-aos-delay="200">
-                    <img src="images/Vira post.jpg" alt="Vira International" class="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition duration-700">
-                    <div class="absolute bottom-0 p-6 bg-gradient-to-t from-black via-black/80 to-transparent w-full">
-                        <h4 class="font-bold text-lg leading-tight group-hover:text-pink-300 transition">Vira International</h4>
+                <div class="group swish-hover relative bg-black border border-gray-700 overflow-hidden rounded-2xl aspect-[9/16]" data-aos="flip-left" data-aos-delay="200">
+                    <img src="images/Vira post.jpg" alt="Vira International" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                    <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black via-black/60 to-transparent">
+                        <h4 class="font-bold text-lg leading-tight text-white group-hover:text-pink-300 transition">Vira International</h4>
                     </div>
                 </div>
 
