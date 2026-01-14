@@ -35,9 +35,12 @@
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 5px; border: 2px solid #111; }
         ::-webkit-scrollbar-thumb:hover { background: #ec4899; }
 
-        /* --- RESTORED BALL/GLOW CURSOR (No Hearts) --- */
+        /* --- NEW CURSOR SYSTEM --- */
+        
+        /* The Pink Glow (Back layer - Chaser) */
         #cursor-glow {
-            position: fixed; top: 0; left: 0;
+            position: fixed;
+            top: 0; left: 0;
             width: 80px; height: 80px;
             background: rgba(236, 72, 153, 0.5); 
             filter: blur(25px); 
@@ -48,8 +51,10 @@
             transition: opacity 0.3s;
         }
 
+        /* The X-Ray Ball (Front layer - Snappy Leader) */
         #cursor-ball {
-            position: fixed; top: 0; left: 0;
+            position: fixed;
+            top: 0; left: 0;
             width: 18px; height: 18px;
             background-color: white;
             border-radius: 50%;
@@ -57,17 +62,26 @@
             pointer-events: none;
             z-index: 9999;
             mix-blend-mode: difference; 
-            transition: transform 0.1s ease-out;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
         }
 
+        /* HOVER STATE: Significantly reduced scale based on feedback */
         body.hover-active #cursor-ball {
-            transform: translate(-50%, -50%) scale(2.5);
+            transform: translate(-50%, -50%) scale(2.5); /* Reduced from 3.5 to 2.5 */
             background-color: white; 
         }
 
-        body.hover-active #cursor-glow { opacity: 0; }
-        body.hide-cursor #cursor-ball, body.hide-cursor #cursor-glow { opacity: 0 !important; }
+        body.hover-active #cursor-glow {
+            opacity: 0; 
+        }
 
+        /* Hide custom cursor when interacting with UI/Scrollbar via JS class */
+        body.hide-cursor #cursor-ball,
+        body.hide-cursor #cursor-glow {
+            opacity: 0 !important;
+        }
+
+        /* Disable Custom Cursor on Touch Devices */
         @media (hover: none) and (pointer: coarse) {
             #cursor-ball, #cursor-glow { display: none !important; }
             body, a, button, input { cursor: auto !important; }
@@ -100,26 +114,49 @@
             pointer-events: none;
         }
 
-        .swish-hover:hover::after { animation: shine 0.75s; }
-        @keyframes shine { 100% { left: 200%; } }
+        .swish-hover:hover::after {
+            animation: shine 0.75s;
+        }
 
-        /* --- MARQUEE LOGIC --- */
+        @keyframes shine {
+            100% {
+                left: 200%;
+            }
+        }
+
+        /* --- MARQUEE LOGIC (Left to Right) --- */
         .marquee-wrapper {
-            display: flex; overflow: hidden; user-select: none; gap: 2rem; width: 100%;
+            display: flex;
+            overflow: hidden;
+            user-select: none;
+            gap: 2rem;
+            width: 100%;
             mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
         }
+        
         .marquee-group {
-            flex-shrink: 0; display: flex; align-items: center; justify-content: space-around;
-            gap: 2rem; min-width: 100%; animation: scroll-right 25s linear infinite;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            gap: 2rem;
+            min-width: 100%;
+            animation: scroll-right 25s linear infinite;
         }
-        @keyframes scroll-right { from { transform: translateX(calc(-100% - 2rem)); } to { transform: translateX(0); } }
+
+        @keyframes scroll-right {
+            from { transform: translateX(calc(-100% - 2rem)); }
+            to { transform: translateX(0); }
+        }
         
         /* Floating Cards */
         .float-anim { animation: float 5s ease-in-out infinite; }
         .float-anim-reverse { animation: float 6s ease-in-out infinite reverse; }
+
+        /* Mobile Roadmap Wave */
         .wave-active { animation: floatWave 2.5s ease-in-out infinite; }
         
-        /* Auto-Focus Logic */
+        /* Auto-Focus Logic (Mobile Only) */
         .active-focus {
             transform: scale(1.02);
             box-shadow: 0 20px 25px -5px rgba(236, 72, 153, 0.3), 0 10px 10px -5px rgba(236, 72, 153, 0.2);
@@ -131,6 +168,7 @@
         .active-focus img { opacity: 1 !important; }
         .text-clip-fix { padding-right: 0.2em; display: inline-block; }
 
+        /* Keyframes */
         @keyframes float { 0%, 100% { transform: translateY(0px) rotate(1deg); } 50% { transform: translateY(-10px) rotate(-1deg); } }
         @keyframes floatWave { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
     </style>
@@ -143,8 +181,8 @@
 
     <nav class="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-md border-b border-gray-800">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="hover:scale-110 transition duration-300 cursor-none">
-                <img src="images/XO logo.png" alt="XO Logo" class="h-12 w-auto object-contain">
+            <div class="text-2xl font-black font-display tracking-tighter text-pink-500 hover:scale-110 transition duration-300 cursor-none">
+                XO
             </div>
             <a href="mailto:team@extrovertdigital.com" class="px-6 py-2 border border-pink-400 rounded-full hover:bg-pink-400 hover:text-black transition uppercase text-xs font-bold tracking-widest cursor-none">
                 Get In Touch
@@ -216,40 +254,58 @@
         </div>
         
         <div class="marquee-wrapper py-8 bg-gray-900/50 hidden md:flex border-y border-gray-800">
+            
             <div class="marquee-group">
                 <img src="images/Svamaan Logo.png" alt="Svamaan" class="h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
                 <span class="text-pink-500 text-4xl leading-none">•</span>
+                
                 <img src="images/FIMCA Logo (2).png" alt="FIMCA" class="h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded-full">
                 <span class="text-pink-500 text-4xl leading-none">•</span>
+                
                 <img src="images/Happy Plate Logo.png" alt="The Happy Plate" class="h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded-full">
                 <span class="text-pink-500 text-4xl leading-none">•</span>
+                
                 <img src="images/Amazon Music Logo.png" alt="Amazon Music" class="h-28 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
                 <span class="text-pink-500 text-4xl leading-none">•</span>
+                
                 <img src="images/Northwest Logo.png" alt="Northwest" class="h-16 w-auto object-contain opacity-90 hover:opacity-100 transition duration-300 rounded px-2 py-1 bg-white/5"> 
                 <span class="text-pink-500 text-4xl leading-none">•</span>
+                
                 <img src="images/Benzer Logo.png" alt="Benzer" class="h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
                 <span class="text-pink-500 text-4xl leading-none">•</span>
+                
                 <img src="images/BSE Logo.png" alt="BSE" class="h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded relative -top-3">
                 <span class="text-pink-500 text-4xl leading-none">•</span>
+                
                 <img src="images/Vira Logo.png" alt="Vira" class="h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded">
+                
                 <span class="text-pink-500 text-4xl leading-none">•</span>
             </div>
+
             <div class="marquee-group">
                 <img src="images/Svamaan Logo.png" alt="Svamaan" class="h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
                 <span class="text-pink-500 text-4xl leading-none">•</span>
+                
                 <img src="images/FIMCA Logo (2).png" alt="FIMCA" class="h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded-full">
                 <span class="text-pink-500 text-4xl leading-none">•</span>
+                
                 <img src="images/Happy Plate Logo.png" alt="The Happy Plate" class="h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded-full">
                 <span class="text-pink-500 text-4xl leading-none">•</span>
+                
                 <img src="images/Amazon Music Logo.png" alt="Amazon Music" class="h-28 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
                 <span class="text-pink-500 text-4xl leading-none">•</span>
+                
                 <img src="images/Northwest Logo.png" alt="Northwest" class="h-16 w-auto object-contain opacity-90 hover:opacity-100 transition duration-300 rounded px-2 py-1 bg-white/5"> 
                 <span class="text-pink-500 text-4xl leading-none">•</span>
+                
                 <img src="images/Benzer Logo.png" alt="Benzer" class="h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300">
                 <span class="text-pink-500 text-4xl leading-none">•</span>
+                
                 <img src="images/BSE Logo.png" alt="BSE" class="h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded relative -top-3">
                 <span class="text-pink-500 text-4xl leading-none">•</span>
+                
                 <img src="images/Vira Logo.png" alt="Vira" class="h-24 w-auto object-contain opacity-80 hover:opacity-100 transition duration-300 rounded">
+                
                 <span class="text-pink-500 text-4xl leading-none">•</span>
             </div>
         </div>
@@ -274,16 +330,18 @@
                 Our Past, <span class="italic text-pink-400">Your Future.</span>
             </h2>
 
-            <div class="grid md:grid-cols-3 gap-8">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 
-                <div class="group swish-hover relative bg-black border border-gray-700 overflow-hidden rounded-xl h-[600px]" data-aos="flip-left">
-                    <img src="images/Happy plate post.jpeg" alt="The Happy Plate" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-700">
+                <div class="group swish-hover relative bg-black border border-gray-700 overflow-hidden rounded-xl" data-aos="flip-left">
+                    <div class="absolute top-4 left-4 z-10 bg-pink-600 text-white text-xs px-2 py-1 uppercase font-bold shadow-lg">Social Media</div>
+                    <img src="images/Happy plate post.png" alt="The Happy Plate" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition duration-700">
                     <div class="absolute bottom-0 p-6 bg-gradient-to-t from-black via-black/80 to-transparent w-full">
                         <h4 class="font-bold text-lg leading-tight group-hover:text-pink-300 transition">The Happy Plate</h4>
                     </div>
                 </div>
 
-                <div class="group swish-hover relative bg-black border border-gray-700 overflow-hidden rounded-xl h-[600px]" data-aos="flip-left" data-aos-delay="100">
+                <div class="group swish-hover relative bg-black border border-gray-700 overflow-hidden rounded-xl" data-aos="flip-left" data-aos-delay="100">
+                    <div class="absolute top-4 left-4 z-10 bg-red-600 text-white text-xs px-2 py-1 uppercase font-bold shadow-lg flex items-center gap-2"><i class="fas fa-play"></i> Watch</div>
                     <video autoplay loop muted playsinline class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-700">
                         <source src="images/Setup vid.mp4" type="video/mp4">
                         Your browser does not support the video tag.
@@ -293,8 +351,9 @@
                     </div>
                 </div>
 
-                <div class="group swish-hover relative bg-black border border-gray-700 overflow-hidden rounded-xl h-[600px]" data-aos="flip-left" data-aos-delay="200">
-                    <img src="images/Vira post.jpg" alt="Vira International" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-700">
+                <div class="group swish-hover relative bg-black border border-gray-700 overflow-hidden rounded-xl" data-aos="flip-left" data-aos-delay="200">
+                    <div class="absolute top-4 left-4 z-10 bg-blue-600 text-white text-xs px-2 py-1 uppercase font-bold shadow-lg">Recruitment</div>
+                    <img src="images/Vira post.png" alt="Vira International" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition duration-700">
                     <div class="absolute bottom-0 p-6 bg-gradient-to-t from-black via-black/80 to-transparent w-full">
                         <h4 class="font-bold text-lg leading-tight group-hover:text-pink-300 transition">Vira International</h4>
                     </div>
@@ -374,7 +433,6 @@
                 <div class="swish-hover bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform -rotate-2 hover:rotate-0 hover:scale-105 transition duration-300 text-center shadow-[-8px_8px_0px_rgba(255,255,255,0.5)] float-anim-reverse w-full md:w-auto group">Led by the Internet Generation</div>
                 <div class="swish-hover bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform rotate-1 hover:rotate-0 hover:scale-105 transition duration-300 text-center shadow-[8px_8px_0px_rgba(255,255,255,0.5)] float-anim w-full md:w-auto group">Community First Approach</div>
                 <div class="swish-hover bg-black text-pink-500 p-6 font-bold text-2xl uppercase transform -rotate-1 hover:rotate-0 hover:scale-105 transition duration-300 text-center shadow-[-8px_8px_0px_rgba(255,255,255,0.5)] float-anim-reverse w-full md:w-auto group">Cinematic Brand Campaigns</div>
-                <div class="swish-hover bg-black text-white p-6 font-bold text-2xl uppercase transform rotate-2 hover:rotate-0 hover:scale-105 transition duration-300 text-center border-2 border-white hover:bg-white hover:text-black float-anim w-full md:w-auto group">Creative Not Costly</div>
             </div>
             <div class="text-center mt-12 text-6xl font-black opacity-30 select-none scale-150 transform font-display">XO</div>
         </div>
@@ -384,7 +442,7 @@
         <div class="container mx-auto px-6">
             <h2 class="text-center text-3xl font-bold mb-32 text-pink-400 font-display" data-aos="fade-down">WHAT'S NEXT?</h2>
 
-            <div class="relative max-w-5xl mx-auto hidden md:block my-20">
+            <div class="relative max-w-6xl mx-auto hidden md:block my-20">
                 <div class="absolute top-1/2 left-0 w-full h-1 bg-gray-700 transform -translate-y-1/2 rounded"></div>
                 <div class="absolute top-1/2 left-0 h-1 bg-pink-500 transform -translate-y-1/2 rounded" style="width: 100%;" data-aos="slide-right" data-aos-duration="2000"></div>
 
