@@ -35,7 +35,7 @@
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 5px; border: 2px solid #111; }
         ::-webkit-scrollbar-thumb:hover { background: #ec4899; }
 
-        /* --- CURSOR SYSTEM (BALL & GLOW) --- */
+        /* --- CURSOR SYSTEM --- */
         #cursor-glow {
             position: fixed; top: 0; left: 0;
             width: 80px; height: 80px;
@@ -60,11 +60,7 @@
             transition: transform 0.1s ease-out;
         }
 
-        body.hover-active #cursor-ball {
-            transform: translate(-50%, -50%) scale(2.5);
-            background-color: white; 
-        }
-
+        body.hover-active #cursor-ball { transform: translate(-50%, -50%) scale(2.5); background-color: white; }
         body.hover-active #cursor-glow { opacity: 0; }
         body.hide-cursor #cursor-ball, body.hide-cursor #cursor-glow { opacity: 0 !important; }
 
@@ -73,7 +69,7 @@
             body, a, button, input { cursor: auto !important; }
         }
 
-        /* --- ANIMATIONS & UTILITIES --- */
+        /* --- ANIMATIONS --- */
         .gradient-title {
             background: linear-gradient(to bottom, #ffffff, #f472b6);
             -webkit-background-clip: text; background-clip: text;
@@ -81,29 +77,16 @@
             filter: drop-shadow(0 0 30px rgba(236, 72, 153, 0.3));
         }
 
-        /* --- SWISH/SHINE ANIMATION --- */
-        .swish-hover {
-            position: relative;
-            overflow: hidden !important; 
-        }
-        
+        .swish-hover { position: relative; overflow: hidden !important; }
         .swish-hover::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
             background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transform: skewX(-25deg);
-            z-index: 20;
-            pointer-events: none;
+            transform: skewX(-25deg); z-index: 20; pointer-events: none;
         }
-
         .swish-hover:hover::after { animation: shine 0.75s; }
         @keyframes shine { 100% { left: 200%; } }
 
-        /* --- MARQUEE LOGIC --- */
+        /* Marquee */
         .marquee-wrapper {
             display: flex; overflow: hidden; user-select: none; gap: 2rem; width: 100%;
             mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
@@ -114,12 +97,10 @@
         }
         @keyframes scroll-right { from { transform: translateX(calc(-100% - 2rem)); } to { transform: translateX(0); } }
         
-        /* Floating Cards */
         .float-anim { animation: float 5s ease-in-out infinite; }
         .float-anim-reverse { animation: float 6s ease-in-out infinite reverse; }
         .wave-active { animation: floatWave 2.5s ease-in-out infinite; }
         
-        /* Auto-Focus Logic */
         .active-focus {
             transform: scale(1.02);
             box-shadow: 0 20px 25px -5px rgba(236, 72, 153, 0.3), 0 10px 10px -5px rgba(236, 72, 153, 0.2);
@@ -133,6 +114,80 @@
 
         @keyframes float { 0%, 100% { transform: translateY(0px) rotate(1deg); } 50% { transform: translateY(-10px) rotate(-1deg); } }
         @keyframes floatWave { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+        /* --- NEW TIMELINE CSS --- */
+        .timeline { position: relative; width: 100%; margin: 0 auto; padding: 20px 0; height: 300px; }
+        .timeline-line {
+            position: absolute; top: 50%; left: 0; width: 100%; height: 4px;
+            background-color: #ff69b4; transform: translateY(-50%); border-radius: 4px;
+        }
+        .timeline-point {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .point-circle {
+            width: 50px; height: 50px; background-color: #ff69b4;
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            font-weight: bold; color: #fff; position: relative; z-index: 2; border: 3px solid black;
+        }
+        .point-label {
+            font-size: 14px; font-weight: bold; text-transform: uppercase;
+            white-space: nowrap; position: absolute; color: white; opacity: 0.7; transition: opacity 0.3s;
+        }
+        .timeline-point:hover .point-label { opacity: 1; color: #ff69b4; }
+
+        /* Pulsing #4 */
+        .pulse-container { position: relative; width: 80px; height: 80px; }
+        .pulse-circle {
+            width: 80px; height: 80px; background-color: #ff69b4;
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            font-weight: 900; color: #fff; font-size: 24px; position: relative; z-index: 3;
+            border: 4px solid white;
+        }
+        .pulse-ring {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 100%; height: 100%; border-radius: 50%;
+            background-color: rgba(255, 105, 180, 0.6);
+            animation: pulse-animation 2s infinite; z-index: 1;
+        }
+        @keyframes pulse-animation {
+            0% { width: 80px; height: 80px; opacity: 1; }
+            100% { width: 150px; height: 150px; opacity: 0; }
+        }
+
+        /* Specific Positions & Lines */
+        .point-1 { left: 5%; }
+        .point-1 .point-circle { margin-bottom: 40px; }
+        .point-1 .point-label { bottom: 60px; margin-bottom: 40px; }
+        .point-1::after { content: ''; position: absolute; bottom: 50%; left: 50%; width: 4px; height: 40px; background-color: #ff69b4; transform: translateX(-50%); }
+
+        .point-2 { left: 20%; }
+        .point-2 .point-circle { margin-top: 40px; }
+        .point-2 .point-label { top: 60px; margin-top: 40px; }
+        .point-2::after { content: ''; position: absolute; top: 50%; left: 50%; width: 4px; height: 40px; background-color: #ff69b4; transform: translateX(-50%); }
+
+        .point-3 { left: 35%; }
+        .point-3 .point-circle { margin-bottom: 40px; }
+        .point-3 .point-label { bottom: 60px; margin-bottom: 40px; }
+        .point-3::after { content: ''; position: absolute; bottom: 50%; left: 50%; width: 4px; height: 40px; background-color: #ff69b4; transform: translateX(-50%); }
+
+        .point-4 { left: 50%; transform: translate(-50%, -50%); }
+        .point-4 .point-label { top: 100%; margin-top: 50px; font-weight: 900; font-size: 18px; color: white; opacity: 1; }
+
+        .point-5 { left: 65%; }
+        .point-5 .point-circle { margin-bottom: 40px; }
+        .point-5 .point-label { bottom: 60px; margin-bottom: 40px; }
+        .point-5::after { content: ''; position: absolute; bottom: 50%; left: 50%; width: 4px; height: 40px; background-color: #ff69b4; transform: translateX(-50%); }
+
+        .point-6 { left: 80%; }
+        .point-6 .point-circle { margin-top: 40px; }
+        .point-6 .point-label { top: 60px; margin-top: 40px; }
+        .point-6::after { content: ''; position: absolute; top: 50%; left: 50%; width: 4px; height: 40px; background-color: #ff69b4; transform: translateX(-50%); }
+
+        .point-7 { left: 95%; }
+        .point-7 .point-circle { margin-bottom: 40px; }
+        .point-7 .point-label { bottom: 60px; margin-bottom: 40px; }
+        .point-7::after { content: ''; position: absolute; bottom: 50%; left: 50%; width: 4px; height: 40px; background-color: #ff69b4; transform: translateX(-50%); }
     </style>
 </head>
 
@@ -383,53 +438,45 @@
         <div class="container mx-auto px-6">
             <h2 class="text-center text-3xl font-bold mb-32 text-pink-400 font-display" data-aos="fade-down">WHAT'S NEXT?</h2>
 
-            <div class="relative max-w-6xl mx-auto hidden md:block my-20">
-                <div class="absolute top-1/2 left-0 w-full h-1 bg-gray-700 transform -translate-y-1/2 rounded"></div>
-                <div class="absolute top-1/2 left-0 h-1 bg-pink-500 transform -translate-y-1/2 rounded" style="width: 100%;" data-aos="slide-right" data-aos-duration="2000"></div>
+            <div class="timeline hidden md:block">
+                <div class="timeline-line"></div>
 
-                <div class="flex justify-between items-center relative z-10 w-full h-full">
-                    
-                    <div class="flex flex-col items-center transform -translate-y-1/2 group cursor-pointer" data-aos="fade-up">
-                        <div class="mb-4 text-center font-bold uppercase w-32 text-sm opacity-70 group-hover:opacity-100 transition">You've Seen The Deck</div>
-                        <div class="w-12 h-12 rounded-full bg-pink-400 border-4 border-black flex items-center justify-center font-bold text-black text-xl mb-4 shadow-[0_0_20px_rgba(236,72,153,0.5)] transform group-hover:scale-125 transition duration-300">1</div>
-                        <div class="h-24 w-1 bg-pink-400 group-hover:h-28 transition-all duration-300"></div>
-                    </div>
-                    
-                    <div class="flex flex-col items-center transform translate-y-1/2 group cursor-pointer" data-aos="fade-down" data-aos-delay="200">
-                        <div class="h-24 w-1 bg-pink-400 group-hover:h-28 transition-all duration-300"></div>
-                        <div class="w-12 h-12 rounded-full bg-pink-400 border-4 border-black flex items-center justify-center font-bold text-black text-xl mt-4 shadow-[0_0_20px_rgba(236,72,153,0.5)] transform group-hover:scale-125 transition duration-300">2</div>
-                        <div class="mt-4 text-center font-bold uppercase w-32 text-sm opacity-70 group-hover:opacity-100 transition">You Felt The Fit</div>
-                    </div>
+                <div class="timeline-point point-1">
+                    <div class="point-label">YOU'VE SEEN THE DECK</div>
+                    <div class="point-circle">1</div>
+                </div>
 
-                    <div class="flex flex-col items-center transform -translate-y-1/2 group cursor-pointer" data-aos="fade-up" data-aos-delay="400">
-                        <div class="mb-4 text-center font-bold uppercase w-32 text-sm opacity-70 group-hover:opacity-100 transition">You Know What's Coming</div>
-                        <div class="w-12 h-12 rounded-full bg-pink-400 border-4 border-black flex items-center justify-center font-bold text-black text-xl mb-4 shadow-[0_0_20px_rgba(236,72,153,0.5)] transform group-hover:scale-125 transition duration-300">3</div>
-                        <div class="h-24 w-1 bg-pink-400 group-hover:h-28 transition-all duration-300"></div>
-                    </div>
+                <div class="timeline-point point-2">
+                    <div class="point-circle">2</div>
+                    <div class="point-label">YOU FELT THE FIT</div>
+                </div>
 
-                    <div class="flex flex-col items-center group cursor-pointer relative" data-aos="zoom-in" data-aos-delay="600">
-                        <div class="w-20 h-20 rounded-full bg-white border-8 border-pink-500 flex items-center justify-center font-bold text-black text-3xl shadow-[0_0_50px_rgba(255,255,255,0.6)] transform group-hover:scale-110 transition duration-300 relative z-20">4</div>
-                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-pink-500/30 rounded-full animate-ping"></div>
-                        <div class="absolute top-full mt-6 text-center font-black text-white uppercase w-40 text-lg tracking-widest group-hover:text-pink-400 transition">THE DECISION</div>
-                    </div>
+                <div class="timeline-point point-3">
+                    <div class="point-label">YOU KNOW WHAT'S COMING</div>
+                    <div class="point-circle">3</div>
+                </div>
 
-                    <div class="flex flex-col items-center transform -translate-y-1/2 group cursor-pointer" data-aos="fade-up" data-aos-delay="800">
-                        <div class="mb-4 text-center font-bold uppercase w-32 text-sm opacity-70 group-hover:opacity-100 transition">We Map It Out</div>
-                        <div class="w-12 h-12 rounded-full bg-pink-400 border-4 border-black flex items-center justify-center font-bold text-black text-xl mb-4 shadow-[0_0_20px_rgba(236,72,153,0.5)] transform group-hover:scale-125 transition duration-300">5</div>
-                        <div class="h-24 w-1 bg-pink-400 group-hover:h-28 transition-all duration-300"></div>
+                <div class="timeline-point point-4">
+                    <div class="pulse-container">
+                        <div class="pulse-ring"></div>
+                        <div class="pulse-circle">4</div>
                     </div>
+                    <div class="point-label">THE DECISION</div>
+                </div>
 
-                    <div class="flex flex-col items-center transform translate-y-1/2 group cursor-pointer" data-aos="fade-down" data-aos-delay="1000">
-                        <div class="h-24 w-1 bg-pink-400 group-hover:h-28 transition-all duration-300"></div>
-                        <div class="w-12 h-12 rounded-full bg-pink-400 border-4 border-black flex items-center justify-center font-bold text-black text-xl mt-4 shadow-[0_0_20px_rgba(236,72,153,0.5)] transform group-hover:scale-125 transition duration-300">6</div>
-                        <div class="mt-4 text-center font-bold uppercase w-32 text-sm opacity-70 group-hover:opacity-100 transition">We Kick Off</div>
-                    </div>
+                <div class="timeline-point point-5">
+                    <div class="point-label">WE MAP IT OUT</div>
+                    <div class="point-circle">5</div>
+                </div>
 
-                    <div class="flex flex-col items-center transform -translate-y-1/2 group cursor-pointer" data-aos="fade-up" data-aos-delay="1200">
-                        <div class="mb-4 text-center font-bold uppercase w-32 text-sm opacity-70 group-hover:opacity-100 transition">We Scale</div>
-                        <div class="w-12 h-12 rounded-full bg-pink-400 border-4 border-black flex items-center justify-center font-bold text-black text-xl mb-4 shadow-[0_0_20px_rgba(236,72,153,0.5)] transform group-hover:scale-125 transition duration-300">7</div>
-                        <div class="h-24 w-1 bg-pink-400 group-hover:h-28 transition-all duration-300"></div>
-                    </div>
+                <div class="timeline-point point-6">
+                    <div class="point-circle">6</div>
+                    <div class="point-label">WE KICK OFF</div>
+                </div>
+
+                <div class="timeline-point point-7">
+                    <div class="point-label">WE SCALE</div>
+                    <div class="point-circle">7</div>
                 </div>
             </div>
 
